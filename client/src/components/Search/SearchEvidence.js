@@ -21,13 +21,13 @@ const SearchEvidence = ({ caseId, onNewSearch }) => {
 
   const handleSearch = async () => {
     if (!query.trim()) return;
-    
+
     setLoading(true);
     setError(null);
-    
+
+    let response;
     try {
-      // Query the FastAPI endpoint
-      const searchResponse = await fetch('http://localhost:8000/cases/query', {
+      response = await fetch('http://localhost:8000/cases/query', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -35,34 +35,16 @@ const SearchEvidence = ({ caseId, onNewSearch }) => {
         body: JSON.stringify({
           caseId,
           query: query.trim(),
-        }),
-      });
-
-      if (!searchResponse.ok) {
-        throw new Error('Search failed');
-      }
-
-      const searchResult = await searchResponse.json();
-      // Save the query and result to MongoDB
-      const saveResponse = await fetch('http://localhost:8000/cases/saveQuery', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          caseId,
-          query: query.trim(),
-          result: searchResult.result,
-          traceId: searchResult.trace_id,
           timestamp: new Date().toISOString()
         }),
       });
 
-      if (!saveResponse.ok) {
-        throw new Error('Failed to save search result');
+      if (!response.ok) {
+        throw new Error('Search failed');
       }
 
-      // Notify parent component to refresh queries
+      await response.json();
+
       if (onNewSearch) {
         onNewSearch();
       }
