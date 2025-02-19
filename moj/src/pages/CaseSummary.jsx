@@ -1,21 +1,18 @@
 import * as React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
-import Home from './pages/Home';
-import FileUpload from './pages/FileUpload';
-import CheckFile from './pages/CheckFile';
-import CaseSummary from './pages/CaseSummary';
-import NoPage from './pages/NoPage';
 
 import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid2';
 
+
+import SummaryCard from '../components/SummaryCard';
+
+import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import GDSTransport from './fonts/GDSTransportWebsite.woff2';
-import './App.css';
+import GDSTransport from '../fonts/GDSTransportWebsite.woff2';
+import '../App.css';
 
-
-export default function App() {
+export default function CaseSummary() {
   
   const theme = createTheme({
     typography: {
@@ -56,22 +53,27 @@ export default function App() {
 
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Box sx={{ flexGrow: 1 }} className="main">
-          <BrowserRouter>
-            <Routes>
-              <Route index element={<Home />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="/file-upload" element={<FileUpload />} />
-              <Route path="/check-file" element={<CheckFile />} />
-              <Route path="/case-summary" element={<CaseSummary />} />
-              <Route path="*" element={<NoPage />} />
-            </Routes>
-          </BrowserRouter>
-        </Box>
-      </ThemeProvider>
-      
+    <Grid size={{ xs: 12, md: 12, lg: 12 }}>
+      <div className="mb-3">
+        <a href="/file-upload" >&lt; Back</a>
+      </div>
+    </Grid>
+
+    <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <Box sx={{ flexGrow: 1 }} className="main">
+      <Typography variant="h2">Case Summary Page</Typography>
+      <Grid container spacing={4}>
+        <Grid container spacing={4} size={{ xs: 12, md: 12, lg: 12 }}>
+          <Grid container spacing={4} size={{ xs: 12, md: 12, lg: 12 }}>
+              <Grid size={{ xs: 12, lg: 12 }}>
+                <SummaryCard />
+              </Grid>
+            </Grid>
+        </Grid>
+      </Grid>
+    </Box>
+    </ThemeProvider>
     </>
   );
 }
