@@ -1,0 +1,18 @@
+header {
+  background: var(--purple);
+  margin: 0 0 50px;
+  padding: 0;
+
+  .logo {
+    height: 50px;
+    margin: 10px 0;
+    padding: 0;
+
+    &:hover {
+      filter: none;
+    }
+
+    button {
+      color: #fff !important;
+    }
+  }

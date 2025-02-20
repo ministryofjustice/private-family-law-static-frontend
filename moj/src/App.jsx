@@ -1,9 +1,12 @@
 import * as React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+import Header from './components/Header'
+import Footer from './components/Footer'
 import Home from './pages/Home';
 import FileUpload from './pages/FileUpload';
 import CheckFile from './pages/CheckFile';
+import FileList from './pages/FileList';
 import CaseSummary from './pages/CaseSummary';
 import NoPage from './pages/NoPage';
 
@@ -56,6 +59,7 @@ export default function App() {
 
   return (
     <>
+      <Header />
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Box sx={{ flexGrow: 1 }} className="main">
@@ -65,13 +69,14 @@ export default function App() {
               <Route path="/home" element={<Home />} />
               <Route path="/file-upload" element={<FileUpload />} />
               <Route path="/check-file" element={<CheckFile />} />
+              <Route path="/file-list" element={<FileList />} />
               <Route path="/case-summary" element={<CaseSummary />} />
               <Route path="*" element={<NoPage />} />
             </Routes>
           </BrowserRouter>
         </Box>
       </ThemeProvider>
-      
+      <Footer />
     </>
   );
 }

@@ -21,7 +21,7 @@ export default function CheckFile() {
 
   const handleButtonClick = () => {
     // Navigate to Case summary page
-    navigate('/case-summary');
+    navigate('/file-list');
   };
 
   return (

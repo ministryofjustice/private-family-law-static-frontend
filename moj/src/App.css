@@ -9,12 +9,10 @@ body{
   margin: 0;
   padding: 0;
 }
-
-#root {
+.main,
+.container {
   max-width: 1100px;
   margin: 0 auto;
-  /* padding: 2rem; */
-  /* text-align: center; */
 }
 
 .mt-1 {
@@ -99,4 +97,20 @@ p{
     font-family: GDSTransportBold;
     font-size: 30px;
   }
+}
+
+ul.fileList {
+  margin: 0 0 60px;
+  padding: 0;
+}
+ul.fileList li{
+  margin: 0 0 10px;
+  padding: 0 0 10px 0;
+  display: flex;
+  border-bottom: 1px solid #B1B4B6;
+}
+ul.fileList li div{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
 }
