@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import Header from './components/Header'
-import Footer from './components/Footer'
+import Header from './components/Header';
+import Footer from './components/Footer';
+import CaseSummary from './components/CaseSummary';
+
 import Home from './pages/Home';
 import FileUpload from './pages/FileUpload';
-import CheckFile from './pages/CheckFile';
-import FileList from './pages/FileList';
-import CaseSummary from './pages/CaseSummary';
+import TabPanel from './pages/Dashboard';
 import NoPage from './pages/NoPage';
 
 import Box from '@mui/material/Box';
@@ -31,6 +31,11 @@ export default function App() {
         fontWeight: 500
       },
       h3: {
+        fontFamily: 'GDSTransportBold, Arial',
+        fontSize: 36,
+        fontWeight: 500
+      },
+      h4: {
         fontFamily: 'GDSTransportBold, Arial',
         fontSize: 24,
         fontWeight: 500
@@ -65,11 +70,12 @@ export default function App() {
         <Box sx={{ flexGrow: 1 }} className="main">
           <BrowserRouter>
             <Routes>
-              <Route index element={<Home />} />
+              <Route index element={<FileUpload />} />
               <Route path="/home" element={<Home />} />
               <Route path="/file-upload" element={<FileUpload />} />
-              <Route path="/check-file" element={<CheckFile />} />
-              <Route path="/file-list" element={<FileList />} />
+              {/* <Route path="/check-file" element={<CheckFile />} />
+              <Route path="/file-list" element={<FileList />} /> */}
+              <Route path="/dashboard" element={<TabPanel />} />
               <Route path="/case-summary" element={<CaseSummary />} />
               <Route path="*" element={<NoPage />} />
             </Routes>

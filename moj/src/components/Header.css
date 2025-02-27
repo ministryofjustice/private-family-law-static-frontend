@@ -1,11 +1,12 @@
 header {
-  background: var(--purple);
-  margin: 0 0 50px;
+  background: var(--dark-grey);
+  margin: 0;
   padding: 0;
+  height: 80px;
 
   .logo {
     height: 50px;
-    margin: 10px 0;
+    margin: 15px 20px;
     padding: 0;
 
     &:hover {

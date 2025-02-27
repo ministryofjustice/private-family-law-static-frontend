@@ -1,0 +1,10 @@
+.caseSummary {
+  /* max-height: 400px;
+  overflow:auto !important; */
+  background-color: var(--black) !important;
+  box-shadow: none !important;
+  color: var(--white) !important;
+  border-bottom: 1px solid var(--white);
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+}

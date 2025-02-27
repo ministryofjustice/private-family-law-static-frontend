@@ -1,18 +1,40 @@
 :root {
   --black: #000000;
+  --dark-grey: #0B0E0F;
   --white: #ffffff;
   --grey: #f3f2f1;
   --purple: #1e054e;
 }
 
 body{
-  margin: 0;
-  padding: 0;
+  background-color: var(--grey) !important;
 }
+
+#root {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.displayFlex {
+  display: flex;
+}
+
 .main,
 .container {
-  max-width: 1100px;
+  width: 100% !important;
+  max-width: 1400px;
   margin: 0 auto;
+  min-height: calc(100vh - 160px);
+  padding: 0 20px;
+}
+
+.containerInner {
+  padding: 30px;
+}
+
+.main {
+  background-color: var(--black) !important;
+  text-color: var(--white);
 }
 
 .mt-1 {
@@ -41,76 +63,71 @@ body{
 }
 
 p{
-  margin: 0;
+  margin: 0 0 15px;
   padding: 0;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  color: var(--white) !important;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.smallText {
+  font-size: 19px;
+}
+.mediumText {
+  font-size: 24px;
+}
+.largeText {
+  font-size: 36px;
+}
+.xlargeText {
+  font-size: 48px;
+}
+
+.title {
+  display: block;
+  font-family: GDSTransportBold;
+  font-weight: 900;
+}
+
+.backLink {
+  background-color: var(--black);
+  color: var(--white);
+  margin: 0 0 25px 15px;
+  
+  a{
+    color: var(--white);
+
+    &:hover {
+      color: var(--white);
+      font-weight: 800;
+    }
   }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
-.cta-button {
-  text-transform: unset !important;
 }
 
 .btn-upload {
-  border-color: #ccc !important;
-  background-color: var(--grey) !important;
-  color: var(--black) !important;
+  color: var(--white) !important;
+  border: 2px solid var(--white) !important;
+  text-transform: none !important;
 }
 
-.checkFileWrapper {
-  label {
-    color: var(--black);
-    font-family: GDSTransportBold;
-    font-size: 30px;
+/* Support Tools */
+.supportTools{
+
+  button {
+    background-color: #cccccc;
+    margin: 0 0 5px;
+    width: 100%;
   }
 }
 
-ul.fileList {
-  margin: 0 0 60px;
-  padding: 0;
-}
-ul.fileList li{
-  margin: 0 0 10px;
-  padding: 0 0 10px 0;
-  display: flex;
-  border-bottom: 1px solid #B1B4B6;
-}
-ul.fileList li div{
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
+.tabPanel {
+  color: var(--white);
+  padding: 0 60px 60px;
 }

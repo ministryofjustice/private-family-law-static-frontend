@@ -1,0 +1,12 @@
+.backBtn {
+  background-color: transparent;
+  color: var(--white);
+  border: 0;
+  font-size: 19px;
+  margin: 30px 0 30px 20px;
+
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
