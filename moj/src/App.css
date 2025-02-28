@@ -4,15 +4,11 @@
   --white: #ffffff;
   --grey: #f3f2f1;
   --purple: #1e054e;
+  --blue: #1d70b8
 }
 
 body{
-  background-color: var(--grey) !important;
-}
-
-#root {
-  max-width: 1400px;
-  margin: 0 auto;
+  background-color: var(--black) !important;
 }
 
 .displayFlex {
@@ -25,8 +21,14 @@ body{
   max-width: 1400px;
   margin: 0 auto;
   min-height: calc(100vh - 160px);
-  padding: 0 20px;
+  padding: 0;
 }
+
+.inner-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
 
 .containerInner {
   padding: 30px;
@@ -34,7 +36,7 @@ body{
 
 .main {
   background-color: var(--black) !important;
-  text-color: var(--white);
+  color: var(--white);
 }
 
 .mt-1 {
@@ -129,5 +131,69 @@ p {
 
 .tabPanel {
   color: var(--white);
-  padding: 0 60px 60px;
+  padding: 0 0 60px 60px;
+}
+
+
+/* LIGHT THEME */
+.light-theme {
+
+  background-color: var(--white) !important;
+
+  /* Theme Switch */
+  .themeSwitch {
+    background: var(--white);
+
+    label {
+      background: var(--white) !important;
+
+      .MuiFormControlLabel-label {
+        color: var(--black);
+      }
+  
+      .MuiSwitch-thumb {
+        background-color: var(--white) ;
+      }
+      .MuiSwitch-track {
+        background-color: #00db33 !important;
+        opacity: 1;
+      }
+    }
+  }
+
+  /* Back Link */
+  .backBtn {
+    color: var(--black);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  a {
+    color: var(--black) !important;
+  }
+
+  .main {
+    background-color: var(--white) !important;
+  }
+  
+  .btn-upload {
+    color: var(--black) !important;
+    border-color: var(--black) !important;
+  }
+
+  .caseSummary {
+      background-color: var(--white) !important;
+      color: var(--black) !important;
+      border-bottom: 1px solid var(--black) !important;
+  }
+  .successfulCases {
+    background-color: var(--white) !important;
+    color: var(--black) !important;
+    border-bottom: 1px solid var(--black);
+  }
 }
