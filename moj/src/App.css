@@ -4,7 +4,22 @@
   --white: #ffffff;
   --grey: #f3f2f1;
   --purple: #1e054e;
-  --blue: #1d70b8
+  --blue: #1d70b8;
+  --green: #20C65E;
+  --lightOrange: #ffead7;
+  --greenButton: #00703c;
+
+  --btnBlue: #1D70B8;
+  --btnGreen: #3F873A;
+  --btnYellow: #BD8F05;
+  --btnOrange: #CF6300;
+  --btnMaroon: #961801;
+  --btnPink: #B40377;
+  --btnPurple: #7928A9;
+  --btnCobalt: #2E4390;
+
+  --bgLightCobalt: #DFE2EC;
+  --bgLightGreen: #EEF7F3;
 }
 
 body{
@@ -20,8 +35,7 @@ body{
   width: 100% !important;
   max-width: 1400px;
   margin: 0 auto;
-  min-height: calc(100vh - 160px);
-  padding: 0;
+  padding: 0 0 50px;
 }
 
 .inner-container {

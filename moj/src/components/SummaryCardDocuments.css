@@ -1,0 +1,46 @@
+.summaryCardDocuments {
+  background-color: var(--black) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  height: 100%;
+
+  div.MuiCardContent-root{
+    background-color: var(--bgLightGreen);
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+
+  h3 {
+    background-color: var(--btnGreen);
+    color: var(--white) !important;
+    font-size: 24px;
+    padding: 5px 20px
+  }
+
+  ul {
+    margin: 0;
+    padding: 25px 20px;
+
+    li {
+      margin: 0 0 15px 0;
+      padding: 0;
+
+      .pdfDocument {
+        background: url(../assets/icon-pdf.png) no-repeat 0 0 / 25px auto;
+        padding-left: 30px;
+      }
+      .wordDocument {
+        background: url(../assets/icon-doc.png) no-repeat 0 0 / 25px auto;
+        padding-left: 30px;
+      }
+      .xlsDocument {
+        background: url(../assets/icon-xls.png) no-repeat 0 0 / 25px auto;
+        padding-left: 30px;
+      }
+      a {
+        color: var(--black);
+      }
+    }
+  }
+}
