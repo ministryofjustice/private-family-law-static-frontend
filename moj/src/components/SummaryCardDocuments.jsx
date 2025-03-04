@@ -18,7 +18,7 @@ export default function SummaryCardDocuments() {
             </div>
           </li>
           <li>
-            <div className="wordDocument">
+            <div className="docDocument">
               <a href="">Evidence of Communication with Partner</a>
             </div>
           </li>
