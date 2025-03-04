@@ -10,6 +10,7 @@ import SummaryCardActions from '../components/SummaryCardActions';
 import SummaryCardDocuments from '../components/SummaryCardDocuments';
 import CaseSummary from '../components/CaseSummary';
 import SuccessfulCases from '../components/SuccessfulCases';
+import RelevantVideos from '../components/RelevantVideos';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -97,6 +98,7 @@ export default function VerticalTabs() {
                 <Grid size={{ xs: 12, lg: 8 }}>
                   <CaseSummary />
                   <SuccessfulCases />
+                  <RelevantVideos />
                 </Grid>
                 <Grid size={{ xs: 12, lg: 4 }}>
                   <h2 className='largeText mt-4'>Pathway</h2>

@@ -1,0 +1,24 @@
+.relevantVideos {
+  background-color: var(--black) !important;
+  box-shadow: none !important;
+  color: var(--white) !important;
+  border-bottom: 1px solid var(--white);
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+
+  ul {
+    margin: 0;
+    padding: 0;
+
+    li {
+      list-style: none;
+      margin: 0 0 8px 0;
+      padding: 0;
+
+      iframe {
+        width: 100%;
+        height: 350px;
+      }
+    }
+  }
+}
