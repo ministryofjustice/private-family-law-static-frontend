@@ -28,15 +28,15 @@
 
       .pdfDocument {
         background: url(../assets/icon-pdf.png) no-repeat 0 0 / 25px auto;
-        padding-left: 30px;
+        padding-left: 35px;
       }
       .wordDocument {
         background: url(../assets/icon-doc.png) no-repeat 0 0 / 25px auto;
-        padding-left: 30px;
+        padding-left: 35px;
       }
       .xlsDocument {
         background: url(../assets/icon-xls.png) no-repeat 0 0 / 25px auto;
-        padding-left: 30px;
+        padding-left: 35px;
       }
       a {
         color: var(--black);
