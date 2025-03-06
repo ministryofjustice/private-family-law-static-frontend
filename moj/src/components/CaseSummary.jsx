@@ -1,24 +1,89 @@
 import * as React from 'react';
 import './CaseSummary.css';
 
-export default function CaseSummary() {
+export default function CaseSummary({ caseSummary }) {
+  const renderObjectAsKeyValue = (obj) => {
+    if (!obj) return null;
+    
+    const renderValue = (value) => {
+      // Skip if value is "Unknown"
+      if (value === "Unknown") return null;
+  
+      // Handle arrays
+      if (Array.isArray(value)) {
+        // Filter out "Unknown" values from arrays
+        const filteredArray = value.filter(item => item !== "Unknown");
+        if (filteredArray.length === 0) return null;
+  
+        // If array contains objects, render each object
+        if (typeof filteredArray[0] === 'object' && filteredArray[0] !== null) {
+          const renderedItems = filteredArray.map((item, index) => {
+            const rendered = renderObjectAsKeyValue(item);
+            return rendered ? (
+              <div key={index} style={{ marginLeft: '20px' }}>
+                {rendered}
+              </div>
+            ) : null;
+          }).filter(Boolean);
+          
+          return renderedItems.length > 0 ? renderedItems : null;
+        }
+        // If array contains strings/numbers
+        return filteredArray.join(', ');
+      }
+      
+      // Handle nested objects
+      if (typeof value === 'object' && value !== null) {
+        const rendered = renderObjectAsKeyValue(value);
+        return rendered ? (
+          <div style={{ marginLeft: '20px' }}>
+            {rendered}
+          </div>
+        ) : null;
+      }
+      
+      // Return simple values as is
+      return value;
+    };
+  
+    const entries = Object.entries(obj)
+      .map(([key, value]) => {
+        const renderedValue = renderValue(value);
+        if (!renderedValue) return null;
+  
+        // Convert key from snake_case to Title Case
+        const formattedKey = key
+          .split('_')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ');
+  
+        return (
+          <div key={key} className="key-value-pair">
+            <span className="key">{formattedKey}:</span> {renderedValue}
+          </div>
+        );
+      })
+      .filter(Boolean); // Remove null entries
+  
+    return entries.length > 0 ? entries : null;
+  };
+
   return (
     <div className="caseSummary">
       <h3 className="mt-4">Your case summary</h3>
-
       <div className="caseTitle">
         <h4 className='mt-3 mb-1'>Title</h4>
         <ul>
           <li>
             <p>
               <span className="title">Case Name:</span>
-              <span>Include the full name of the case (e.g., Brown v. Board of Education).</span>
+              <span>{caseSummary?.title.case_name || "No case name available"}</span>
             </p>
           </li>
           <li>
             <p>
               <span className="title">Citation:</span>
-              <span>Provide the legal citation (e.g., 347 U.S. 483 (1954)).</span>
+              <span>{caseSummary?.title.citation || "No citation available"}</span>
             </p>
           </li>
         </ul>
@@ -29,13 +94,13 @@ export default function CaseSummary() {
           <li>
             <p>
               <span className="title">Background:</span>
-              <span>Briefly introduce the context and background of the case.</span>
+              <span>{renderObjectAsKeyValue(caseSummary?.introduction.background) || "No background available"}</span>
             </p>
           </li>
           <li>
             <p>
               <span className="title">Parties Involved: </span>
-              <span>Name the parties involved in the case (plaintiff vs. defendant).</span>
+              <span>{renderObjectAsKeyValue(caseSummary?.introduction.parties_involved) || "No parties information available"}</span>
             </p>
           </li>
         </ul>
@@ -46,13 +111,13 @@ export default function CaseSummary() {
           <li>
             <p>
               <span className="title">Situation Overview:</span>
-              <span>Outline the key facts and events leading up to the legal dispute.</span>
+              <span>{renderObjectAsKeyValue(caseSummary?.key_facts.situation_overview) || "No situation overview available"}</span>
             </p>
           </li>
           <li>
             <p>
               <span className="title">Relevant Details:</span>
-              <span>Highlight any specific details that are crucial to understanding the case's context.</span>
+              <span>{renderObjectAsKeyValue(caseSummary?.key_facts.relevant_details) || "No relevant details available"}</span>
             </p>
           </li>
         </ul>
@@ -63,7 +128,7 @@ export default function CaseSummary() {
           <li>
             <p>
               <span className="title">Questions at Hand:</span>
-              <span>Identify the main legal questions or issues that the court needed to resolve.</span>
+              <span>{renderObjectAsKeyValue(caseSummary?.legal_issues.questions_at_hand) || "No legal issues available"}</span>
             </p>
           </li>
         </ul>
@@ -74,13 +139,13 @@ export default function CaseSummary() {
           <li>
             <p>
               <span className="title">Plaintiff's Arguments:</span>
-              <span> Summarize the main arguments or claims made by the plaintiff.</span>
+              <span>{renderObjectAsKeyValue(caseSummary?.arguments_presented.plaintiff_arguments) || "No plaintiff arguments available"}</span>
             </p>
           </li>
           <li>
             <p>
               <span className="title">Defendant's Arguments:</span>
-              <span> Summarize the main arguments or claims made by the defendant.</span>
+              <span>{renderObjectAsKeyValue(caseSummary?.arguments_presented.defendant_arguments) || "No defendant arguments available"}</span>
             </p>
           </li>
         </ul>
@@ -91,13 +156,13 @@ export default function CaseSummary() {
           <li>
             <p>
               <span className="title">Court's Decision:</span>
-              <span>State the outcome of the case (who won and the verdict).</span>
+              <span>{renderObjectAsKeyValue(caseSummary?.decision_and_rationale.court_decision) || "No court decision available"}</span>
             </p>
           </li>
           <li>
             <p>
               <span className="title">Legal Reasoning:</span>
-              <span>Explain the court's reasoning and the legal principles applied in reaching its decision.</span>
+              <span>{renderObjectAsKeyValue(caseSummary?.decision_and_rationale.legal_reasoning) || "No legal reasoning available"}</span>
             </p>
           </li>
         </ul>
@@ -108,13 +173,13 @@ export default function CaseSummary() {
           <li>
             <p>
               <span className="title">Implications:</span>
-              <span>Discuss the case's implications for future legal interpretations, law, or society.</span>
+              <span>{renderObjectAsKeyValue(caseSummary?.significance.implications) || "No implications available"}</span>
             </p>
           </li>
           <li>
             <p>
               <span className="title">Precedents Set:</span>
-              <span> If applicable, mention any legal precedents the case established.</span>
+              <span>{renderObjectAsKeyValue(caseSummary?.significance.precedent_set) || "No precedents available"}</span>
             </p>
           </li>
         </ul>
@@ -125,7 +190,7 @@ export default function CaseSummary() {
         <li>
             <p>
               <span className="title">Summary:</span>
-              <span>Conclude with a brief recap of the case's importance and its impact on the legal landscape.</span>
+              <span>{renderObjectAsKeyValue(caseSummary?.conclusion.summary) || "No summary available"}</span>
             </p>
           </li>
         </ul>
@@ -136,7 +201,7 @@ export default function CaseSummary() {
           <li>
             <p>
               <span className="title">Sources:</span>
-              <span> List any additional sources or references used in preparing the case summary.</span>
+              <span>{renderObjectAsKeyValue(caseSummary?.references) || "No references available"}</span>
             </p>
           </li>
         </ul>

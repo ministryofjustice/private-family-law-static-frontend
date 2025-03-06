@@ -1,5 +1,5 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
@@ -10,6 +10,7 @@ import SummaryCardActions from '../components/SummaryCardActions';
 import SummaryCardDocuments from '../components/SummaryCardDocuments';
 import CaseSummary from '../components/CaseSummary';
 import SuccessfulCases from '../components/SuccessfulCases';
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -45,11 +46,27 @@ function tabsProps(index) {
 }
 
 export default function VerticalTabs() {
-  const [value, setValue] = React.useState(0);
+  const { caseId } = useParams();
+  const [value, setValue] = useState(0);
+  const [caseData, setCaseData] = useState(null);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    const fetchCaseData = async () => {
+      try {
+        const response = await fetch(`/api/cases/${caseId}`);
+        const data = await response.json();
+        setCaseData(data?.case);
+      } catch (error) {
+        console.error('Error fetching case data:', error);
+      }
+    };
+
+    fetchCaseData();
+  }, [caseId]);
 
   return (
     <>
@@ -95,7 +112,7 @@ export default function VerticalTabs() {
               </Grid>
               <Grid container spacing={12}>
                 <Grid size={{ xs: 12, lg: 8 }}>
-                  <CaseSummary />
+                  <CaseSummary caseSummary={caseData?.case_summary}/>
                   <SuccessfulCases />
                 </Grid>
                 <Grid size={{ xs: 12, lg: 4 }}>
