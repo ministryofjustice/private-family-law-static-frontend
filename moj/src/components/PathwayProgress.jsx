@@ -45,7 +45,7 @@ export default function PathwayProgress() {
   };
 
   return (
-    <Box sx={{ maxWidth: 400 }}>
+    <Box className="verticalStepper" sx={{ maxWidth: 400 }}>
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((step, index) => (
           <Step key={step.label}>
