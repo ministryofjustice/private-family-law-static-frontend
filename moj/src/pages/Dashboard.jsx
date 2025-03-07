@@ -59,7 +59,6 @@ export default function VerticalTabs() {
       try {
         const response = await fetch(`/api/cases/${caseId}`);
         const data = await response.json();
-        console.log(data?.case);
         setCaseData(data?.case);
       } catch (error) {
         console.error('Error fetching case data:', error);

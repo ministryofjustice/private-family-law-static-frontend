@@ -5,6 +5,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useNavigate } from 'react-router-dom';
 import GoBackButton from '../components/GoBackButton';
 import { useState } from 'react';
+import CircularProgress from '@mui/material/CircularProgress';
 import '../App.css';
 
 const VisuallyHiddenInput = styled('input')({
@@ -181,9 +182,18 @@ export default function FileUpload() {
               />
             </Button>
             <div>
-              <Button onClick={handleButtonClick} variant="contained" color="success" className='mt-4 cta-button'>
-                Continue
-              </Button>
+              {isLoading ? (
+                <CircularProgress />
+              ) : (
+                <Button 
+                  onClick={handleButtonClick} 
+                  variant="contained" 
+                  color="success" 
+                  className='mt-4 cta-button'
+                >
+                  Continue
+                </Button>
+              )}
             </div>
           </div>
         </Grid>

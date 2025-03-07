@@ -21,7 +21,6 @@ export default function SuccessfulCases({ caseId, caseSummary }) {
           })
         });
         const data = await response.json();
-        console.log(data);
         setSimilarCase(data?.result);
       } catch (error) {
         console.error('Error fetching case data:', error);
@@ -37,7 +36,7 @@ export default function SuccessfulCases({ caseId, caseSummary }) {
 
       <h4 className="mt-3 mb-2">Key Steps in Emma's Case:​</h4>
       <ul>
-        {similarCase?.key_steps.map((fact, index) => (<li key={index}>{fact}</li>)) || (<li>No key facts available</li>)}
+        {similarCase?.key_steps.map((fact, index) => (<li key={index}>{fact}</li>)) || (<li>No key steps available</li>)}
       </ul>
 
       <h4 className='mt-3 mb-2'>Outcome:​</h4>
