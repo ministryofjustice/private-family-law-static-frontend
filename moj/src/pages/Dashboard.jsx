@@ -107,7 +107,7 @@ export default function VerticalTabs() {
                   <SummaryCardActions />
                 </Grid>
                 <Grid size={{ xs: 12, lg: 6 }}>
-                  <SummaryCardDocuments />
+                  <SummaryCardDocuments caseFiles={caseData?.files}/>
                 </Grid>
               </Grid>
               <Grid container spacing={12}>
