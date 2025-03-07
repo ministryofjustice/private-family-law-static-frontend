@@ -7,6 +7,8 @@ import StepContent from '@mui/material/StepContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
+import { useNavigate } from 'react-router-dom';
+
 import './VerticalStepper.css';
 
 const steps = [
@@ -52,6 +54,13 @@ const steps = [
 export default function VerticalStepper() {
   const [activeStep, setActiveStep] = React.useState(3)
 
+  const navigate = useNavigate(); // hook to navigate programmatically
+
+  const handleButtonClick = () => {
+    // Navigate to Check file page
+    navigate('/pathway');
+  };
+
   return (
     <Box className="verticalStepper mt-4 pb-4 sticky">
       <h3 className="mb-2">You next steps</h3>
@@ -64,10 +73,7 @@ export default function VerticalStepper() {
             <StepContent>
               <Typography>{step.description}</Typography>
               <Box sx={{ mb: 2 }}>
-                <Button
-                  variant="contained"
-                  sx={{ mt: 1, mr: 1 }}
-                >
+                <Button onClick={handleButtonClick} variant="contained" className='mt-4 cta-button'>
                   Go to next step
                 </Button>
               </Box>
