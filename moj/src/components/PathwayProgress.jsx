@@ -43,7 +43,7 @@ export default function PathwayProgress() {
 
   return (
     <Box className="verticalStepper mt-4 pb-4 sticky">
-      <h3 className="mb-2">You next steps</h3>
+      <h3 className="mb-2">Your next steps</h3>
       <Stepper className="verticalStepperSteps" activeStep={activeStep} orientation="vertical">
         {steps.map((step, index) => (
           <Step key={step.label}>
