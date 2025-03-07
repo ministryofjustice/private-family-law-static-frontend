@@ -1,22 +1,47 @@
 import * as React from 'react';
 import './SuccessfulCases.css';
+import { useEffect, useState } from 'react';
 
-export default function SuccessfulCases() {
+export default function SuccessfulCases({ caseId, caseSummary }) {
+  const [similarCase, setSimilarCase] = useState(null);
+  
+
+  useEffect(() => {
+    const fetchSimilarCaseData = async () => {
+      console.log(caseId);
+      try {
+        const response = await fetch('/api/cases/get_similar_summaries', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            caseId: caseId,
+            summary: caseSummary
+          })
+        });
+        const data = await response.json();
+        console.log(data);
+        setSimilarCase(data?.result);
+      } catch (error) {
+        console.error('Error fetching case data:', error);
+      }
+    };
+    fetchSimilarCaseData();
+  }, [caseId, caseSummary]);
+
   return (
     <div className="successfulCases">
       <h3>Successful cases like yours</h3>
-      <p>Emma, a 38-year-old mother of one child (aged 7), recently navigated a similar family law case involving separation from her partner. Initially, Emma was concerned about achieving fair custody arrangements and ensuring financial stability for her child.​</p>
+      <p>{similarCase?.brief_overview || "No overview available"}​</p>
 
       <h4 className="mt-3 mb-2">Key Steps in Emma's Case:​</h4>
       <ul>
-        <li>Attended mediation sessions where a mutually agreeable parenting plan was established, granting Emma primary custody with regular weekend visits for the father.​</li>
-        <li>Successfully negotiated child maintenance payments based on her ex-partner's financial disclosures.​</li>
-        <li>Submitted all required financial and personal documents promptly, which helped expedite negotiations.​</li>
-        <li>Worked closely with her legal team to prepare for the mediation, focusing on the child's best interests.​</li>
+        {similarCase?.key_steps.map((fact, index) => (<li key={index}>{fact}</li>)) || (<li>No key facts available</li>)}
       </ul>
 
       <h4 className='mt-3 mb-2'>Outcome:​</h4>
-      <p>Emma achieved a child arrangement that prioritised the child's needs, stability, and routine. She now feels confident in managing co-parenting responsibilities and maintaining a positive environment for her child.​</p>
+      <p>{similarCase?.outcome || "No outcome available"}</p>
     </div>
   );
 }

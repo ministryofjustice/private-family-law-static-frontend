@@ -59,6 +59,7 @@ export default function VerticalTabs() {
       try {
         const response = await fetch(`/api/cases/${caseId}`);
         const data = await response.json();
+        console.log(data?.case);
         setCaseData(data?.case);
       } catch (error) {
         console.error('Error fetching case data:', error);
@@ -113,7 +114,7 @@ export default function VerticalTabs() {
               <Grid container spacing={12}>
                 <Grid size={{ xs: 12, lg: 8 }}>
                   <CaseSummary caseSummary={caseData?.case_summary}/>
-                  <SuccessfulCases />
+                  <SuccessfulCases caseSummary={caseData?.case_summary} caseId={caseId}/>
                 </Grid>
                 <Grid size={{ xs: 12, lg: 4 }}>
                   <h2 className='largeText mt-4'>Pathway</h2>
