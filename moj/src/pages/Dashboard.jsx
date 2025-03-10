@@ -265,11 +265,9 @@ export default function VerticalTabs() {
               </Grid>
               <Grid container spacing={12}>
                 <Grid size={{ xs: 12, lg: 8 }}>
-                  <CaseSummary />
-                  <SuccessfulCases />
-                  <VideoGallery stepId={pathwayData?.currentStep?.id || 'mediationProcess_mediation_preparation'} />
                   <CaseSummary caseSummary={caseData?.case_summary}/>
                   <SuccessfulCases caseSummary={caseData?.case_summary} caseId={caseId}/>
+                  <VideoGallery stepId={pathwayData?.currentStep?.id || 'mediationProcess_mediation_preparation'} />
                 </Grid>
                 <Grid size={{ xs: 12, lg: 4 }}>
                   <VerticalStepper 
