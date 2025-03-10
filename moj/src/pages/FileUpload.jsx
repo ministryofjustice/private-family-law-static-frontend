@@ -1,3 +1,7 @@
+import React, { useState } from "react";
+import { List, ListItem, ListItemText, IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 import Grid from '@mui/material/Grid2';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
@@ -6,28 +10,33 @@ import { useNavigate } from 'react-router-dom';
 import GoBackButton from '../components/GoBackButton';
 import '../App.css';
 
-const VisuallyHiddenInput = styled('input')({
-  clip: 'rect(0 0 0 0)',
-  clipPath: 'inset(50%)',
-  height: 1,
-  overflow: 'hidden',
-  position: 'absolute',
-  bottom: 0,
-  left: 0,
-  whiteSpace: 'nowrap',
-  width: 1,
-});
-
 export default function FileUpload() {
-  const navigate = useNavigate(); // hook to navigate programmatically
 
-  const handleButtonClick = () => {
-    // Navigate to Check file page
-    navigate('/dashboard');
+  const [files, setFiles] = useState([]);
+
+  // Handle file selection
+  const handleFileChange = (event) => {
+    const uploadedFiles = Array.from(event.target.files);
+    setFiles((prevFiles) => [...prevFiles, ...uploadedFiles]);
+  };
+
+  // Handle file deletion
+  const handleDeleteFile = (fileName) => {
+    setFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName));
+  };
+
+  const navigate = useNavigate(); // hook to navigate programmatically
+  const [loading, setLoading] = useState(false);
+
+  const handleContinue = () => {
+    setLoading(true);  // Start the loading state
+    setTimeout(() => {
+      navigate("/loading-page");  // Navigate to page two after a delay
+    }, 100);  // Simulate a 2 second delay before navigation
   };
 
   return (
-    <>
+    <div>
       <GoBackButton />
       
       <Grid container spacing={4}>
@@ -40,28 +49,108 @@ export default function FileUpload() {
             <h3 className='mt-3'>Upload your file</h3>
             <p>You can upload your file here</p>
 
-            <Button className="btn-upload cta-button"
-              component="label"
-              role={undefined}
-              variant="outlined"
-              tabIndex={-1}
-              startIcon={<CloudUploadIcon />}
-            >
-              Choose file
-              <VisuallyHiddenInput
-                type="file"
-                onChange={(event) => console.log(event.target.files)}
-                multiple
-              />
-            </Button>
             <div>
-              <Button onClick={handleButtonClick} variant="contained" color="success" className='mt-4 cta-button'>
+              <Button className="btn-upload cta-button"
+                variant="outlined"
+                component="label"
+                color="primary"
+                startIcon={<CloudUploadIcon />}
+                sx={{ marginBottom: 2 }}
+              >
+                Upload Files
+                <input
+                  type="file"
+                  hidden
+                  multiple
+                  onChange={handleFileChange}
+                />
+              </Button>
+
+              <h3 className="mediumText mt-3">Uploaded files:</h3>
+              <List className="fileList">
+                {files.length > 0 ? (
+                  files.map((file, index) => {
+                    const fileSizeInKB = (file.size / 1024).toFixed(0); // Rounding file size to 2 decimal places
+                    return (
+                      <ListItem key={index} secondaryAction={
+                        <IconButton edge="end" onClick={() => handleDeleteFile(file.name)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      }>
+                        <ListItemText className="fileDetails"
+                          primary={file.name} 
+                          secondary={`Size: ${fileSizeInKB} KB`} 
+                        />
+                      </ListItem>
+                    );
+                  })
+                ) : (
+                  <p>No files uploaded yet.</p>
+                )}
+              </List>
+            </div>
+
+            {loading ? (
+              <div></div> // Display "Loading..." while waiting to navigate
+            ) : (
+              <div>
+              <Button onClick={handleContinue} variant="contained" color="success" className='mt-4 cta-button'>
                 Continue
               </Button>
-            </div>
+              </div>
+            )}
           </div>
         </Grid>
       </Grid>
-    </>
+      
+    </div>
   );
 }
+
+
+// import React, { useState } from 'react';
+// import { Button, List, ListItem, ListItemText, Typography } from '@mui/material';
+
+// const FileUpload = () => {
+//   const [files, setFiles] = useState([]);
+
+//   // Handle file selection
+//   const handleFileChange = (event) => {
+//     const uploadedFiles = Array.from(event.target.files);
+//     setFiles((prevFiles) => [...prevFiles, ...uploadedFiles]);
+//   };
+
+//   return (
+//     <div>
+//       <Button
+//         variant="contained"
+//         component="label"
+//         color="primary"
+//         sx={{ marginBottom: 2 }}
+//       >
+//         Upload Files
+//         <input
+//           type="file"
+//           hidden
+//           multiple
+//           onChange={handleFileChange}
+//         />
+//       </Button>
+
+//       <Typography variant="h6">Uploaded Files:</Typography>
+//       <List>
+//         {files.length > 0 ? (
+//           files.map((file, index) => (
+//             <ListItem key={index}>
+//               <ListItemText primary={file.name} secondary={`Size: ${file.size / 1024} KB`} />
+//             </ListItem>
+//           ))
+//         ) : (
+//           <Typography variant="body2" color="textSecondary">No files uploaded yet.</Typography>
+//         )}
+//       </List>
+//     </div>
+//   );
+// };
+
+// export default FileUpload;

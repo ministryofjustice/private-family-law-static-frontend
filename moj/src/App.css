@@ -78,6 +78,20 @@ body{
   margin-bottom: 40px !important;
 }
 
+.loadingPage {
+  min-height: 500px;
+  position: relative;
+
+  div{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+}
+
 p{
   margin: 0 0 15px;
   padding: 0;
@@ -131,6 +145,25 @@ p {
   color: var(--white) !important;
   border: 2px solid var(--white) !important;
   text-transform: none !important;
+}
+
+/* Uploaded file list */
+.fileList li {
+  border-bottom: 1px solid var(--white);
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 400px;
+
+  svg {
+    color: var(--white);
+  }
+
+  .fileDetails {
+    .MuiListItemText-primary {
+      font-family: GDSTransportBold;
+    }
+  }
 }
 
 /* Support Tools */
