@@ -76,14 +76,22 @@ export default function CaseSummary({ caseSummary }) {
         <ul>
           <li>
             <p>
-              <span className="title">Case Name:</span>
-              <span>{caseSummary?.title.case_name || "No case name available"}</span>
+              {caseSummary?.title.case_name !== 'Unknown' && (
+                <>
+                  <span className="title">Case Name:</span>
+                  <span>{caseSummary?.title.case_name}</span>
+                </>
+              )}
             </p>
           </li>
           <li>
             <p>
-              <span className="title">Citation:</span>
-              <span>{caseSummary?.title.citation || "No citation available"}</span>
+            {caseSummary?.title.citation !== 'Unknown' && (
+              <>
+                <span className="title">Citation:</span>
+                <span>{caseSummary?.title.citation}</span>
+              </>
+            )}
             </p>
           </li>
         </ul>
@@ -178,8 +186,12 @@ export default function CaseSummary({ caseSummary }) {
           </li>
           <li>
             <p>
-              <span className="title">Precedents Set:</span>
-              <span>{renderObjectAsKeyValue(caseSummary?.significance.precedent_set) || "No precedents available"}</span>
+            {renderObjectAsKeyValue(caseSummary?.significance.precedent_set) && (
+              <>
+                <span className="title">Precedents Set:</span>
+                <span>{renderObjectAsKeyValue(caseSummary?.significance.precedent_set)}</span>
+              </>
+            )}
             </p>
           </li>
         </ul>
@@ -195,17 +207,19 @@ export default function CaseSummary({ caseSummary }) {
           </li>
         </ul>
       </div>
-      <div className="caseReferences">
-        <h4 className='mt-3 mb-1'>References</h4>
-        <ul>
-          <li>
-            <p>
-              <span className="title">Sources:</span>
-              <span>{renderObjectAsKeyValue(caseSummary?.references) || "No references available"}</span>
-            </p>
-          </li>
-        </ul>
-      </div>
+      {renderObjectAsKeyValue(caseSummary?.references) && (
+        <div className="caseReferences">
+          <h4 className='mt-3 mb-1'>References</h4>
+          <ul>
+            <li>
+              <p>
+                <span className="title">Sources:</span>
+                <span>{renderObjectAsKeyValue(caseSummary?.references)}</span>
+              </p>
+            </li>
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
