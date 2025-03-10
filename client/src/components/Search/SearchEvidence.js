@@ -27,7 +27,7 @@ const SearchEvidence = ({ caseId, onNewSearch }) => {
 
     let response;
     try {
-      response = await fetch('http://localhost:8000/cases/query', {
+      response = await fetch('/api/cases/query', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

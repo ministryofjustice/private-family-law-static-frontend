@@ -81,7 +81,7 @@ const QueryItem = ({ query, index, isLast }) => {
     const voteValue = isUpvote ? 1 : 0;
     console.log('Query object:', query); // Debug log
     try {
-      const response = await fetch(`http://localhost:8000/cases/updateQueryVote`, {
+      const response = await fetch(`/api/cases/updateQueryVote`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

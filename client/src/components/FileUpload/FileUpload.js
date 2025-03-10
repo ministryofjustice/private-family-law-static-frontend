@@ -27,7 +27,7 @@ const FileUpload = ({ onSuccess }) => {
   const handleGenerateReport = async (caseNumber) => {
     setIsGeneratingReport(true);
     try {
-      await fetch('http://localhost:8000/generateReport', {
+      await fetch('/api/generateReport', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ const FileUpload = ({ onSuccess }) => {
         formData.append('files', file);
       });
 
-      const response = await fetch('http://localhost:8000/upload', {
+      const response = await fetch('/api/upload', {
         method: 'POST',
         body: formData,
       });

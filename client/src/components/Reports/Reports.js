@@ -42,7 +42,7 @@ const Reports = () => {
 
   const fetchCases = async () => {
     try {
-      const response = await fetch('http://localhost:8000/cases');
+      const response = await fetch('/api/cases');
       const data = await response.json();
       setCases(data.cases);
     } catch (error) {
@@ -67,7 +67,7 @@ const Reports = () => {
 
   const handleDeleteConfirm = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/cases/${deleteConfirmation.caseNumber}`, {
+      const response = await fetch(`/api/cases/${deleteConfirmation.caseNumber}`, {
         method: 'DELETE'
       });
 

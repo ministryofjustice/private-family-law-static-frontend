@@ -91,7 +91,7 @@ const CaseView = () => {
 
   const fetchCase = useCallback(async () => {
     try {
-      const response = await fetch(`http://localhost:8000/cases/${caseNumber}`);
+      const response = await fetch(`/api/cases/${caseNumber}`);
       if (!response.ok) {
         throw new Error('Case not found');
       }

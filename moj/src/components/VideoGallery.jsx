@@ -10,7 +10,7 @@ const VideoGallery = ({ stepId = 'mediationProcess_mediation_preparation', title
     const fetchVideos = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:8000/api/media-extraction/get-videos/?step_id=${stepId}`);
+        const response = await fetch(`/api/media-extraction/get-videos/?step_id=${stepId}`);
         
         if (!response.ok) {
           throw new Error(`Error: ${response.status}`);
@@ -48,7 +48,7 @@ const VideoGallery = ({ stepId = 'mediationProcess_mediation_preparation', title
     return (
       <div className="p-4 bg-red-50 border border-red-200 rounded-md">
         <p className="text-red-600">Error loading videos: {error}</p>
-        <p className="mt-2">Please check that your API is running at localhost:8000</p>
+        <p className="mt-2">Please check that your API is running</p>
       </div>
     );
   }

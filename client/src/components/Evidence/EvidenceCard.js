@@ -13,7 +13,7 @@ import {
 import DescriptionIcon from '@mui/icons-material/Description';
 import CloseIcon from '@mui/icons-material/Close';
 
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = 'api';
 
 const EvidenceCard = ({ file }) => {
   const [open, setOpen] = useState(false);
