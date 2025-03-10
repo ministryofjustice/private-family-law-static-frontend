@@ -12,7 +12,7 @@ import SummaryCardActions from '../components/SummaryCardActions';
 import SummaryCardDocuments from '../components/SummaryCardDocuments';
 import CaseSummary from '../components/CaseSummary';
 import SuccessfulCases from '../components/SuccessfulCases';
-import RelevantVideos from '../components/RelevantVideos';
+import VideoGallery from '../components/VideoGallery';
 import VerticalStepper from '../components/VerticalStepper';
 
 function TabPanel(props) {
@@ -56,18 +56,19 @@ export default function VerticalTabs() {
   
 
   const params = useParams();
-  const caseId = params.caseId || "b432d15d-e04e-4e18-ba35-8eb0daf08ba9"; // Fallback to a dummy case ID
+  const caseId = params.caseId || "2c2edcb0-1238-4d1b-8262-91a08b82b971"; // Fallback to a dummy case ID
     
   const fetchPathwayStatus = useCallback(async () => {
     try {
       setLoadingPathway(true);
-      //const response = await fetch(`http://localhost:8000/api/pathway/${caseId}/status`);
+      const response = await fetch(`http://localhost:8000/api/pathway/${caseId}/status`);
       
-      //if (!response.ok) {
-      //  throw new Error('Failed to fetch pathway status');
-      //}
+      if (!response.ok) {
+        throw new Error('Failed to fetch pathway status');
+      }
       
-      //const data = await response.json();
+      const data = await response.json();
+      /**
       const data = {
         "overall_progress": {
           "completed": 0,
@@ -184,6 +185,7 @@ export default function VerticalTabs() {
           "test": "test"
         }
       };
+      */
       setPathwayData(data);
     } catch (error) {
       console.error('Error fetching pathway status:', error);
@@ -250,7 +252,7 @@ export default function VerticalTabs() {
                 <Grid size={{ xs: 12, lg: 8 }}>
                   <CaseSummary />
                   <SuccessfulCases />
-                  <RelevantVideos />
+                  <VideoGallery stepId={pathwayData?.currentStep?.id || 'mediationProcess_mediation_preparation'} />
                 </Grid>
                 <Grid size={{ xs: 12, lg: 4 }}>
                   <VerticalStepper 

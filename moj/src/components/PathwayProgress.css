@@ -39,6 +39,7 @@
     }
   }
 
+  
   .MuiStepConnector-line {
     border-left: 4px solid var(--black);
     margin: -12px 0;
@@ -163,6 +164,9 @@
     }
   }
 
-  
-  
+  /* Fix for step boxes to inherit parent background color */
+  .verticalStepper .step-box {
+    background-color: inherit !important;
+    border-left: 3px solid;
+  }
 }

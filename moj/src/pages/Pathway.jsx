@@ -14,18 +14,19 @@ export default function Pathway() {
 
   // Get the case ID from URL params or use a dummy value
   const params = useParams();
-  const caseId = params.caseId || "b432d15d-e04e-4e18-ba35-8eb0daf08ba9"; // Fallback to a dummy case ID
+  const caseId = params.caseId || "2c2edcb0-1238-4d1b-8262-91a08b82b971"; // Fallback to a dummy case ID
 
   const fetchPathwayStatus = useCallback(async () => {
     try {
       setLoadingPathway(true);
-      //const response = await fetch(`http://localhost:8000/api/pathway/${caseId}/status`);
-
-      //if (!response.ok) {
-      //  throw new Error('Failed to fetch pathway status');
-      //}
-
-      //const data = await response.json();
+      const response = await fetch(`http://localhost:8000/api/pathway/${caseId}/status`);
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch pathway status');
+      }
+      
+      const data = await response.json();
+      /**
       const data = {
         "overall_progress": {
           "completed": 0,
@@ -142,6 +143,7 @@ export default function Pathway() {
           "test": "test"
         }
       };
+      */
       setPathwayData(data);
     } catch (error) {
       console.error('Error fetching pathway status:', error);

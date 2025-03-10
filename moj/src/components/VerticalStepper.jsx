@@ -88,7 +88,7 @@ const VerticalStepper = ({ pathwayData, loadingPathway }) => {
                     variant="contained" 
                     className="mt-4 cta-button"
                   >
-                    See full pathway
+                    See steps
                   </Button>
                 </Box>
               )}
