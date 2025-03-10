@@ -29,7 +29,7 @@ export default function CaseSummary({ caseSummary }) {
           return renderedItems.length > 0 ? renderedItems : null;
         }
         // If array contains strings/numbers
-        return filteredArray.join(', ');
+        return filteredArray.join(' ');
       }
       
       // Handle nested objects
