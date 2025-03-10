@@ -14,6 +14,23 @@ export default function CaseSummary({ caseSummary }) {
         // Filter out "Unknown" values from arrays
         const filteredArray = value.filter(item => item !== "Unknown");
         if (filteredArray.length === 0) return null;
+        
+        // If only one element, just indent it
+        if (filteredArray.length === 1) {
+          if (typeof filteredArray[0] === 'object' && filteredArray[0] !== null) {
+            const rendered = renderObjectAsKeyValue(filteredArray[0]);
+            return rendered ? (
+              <div style={{ marginLeft: '20px' }}>
+                {rendered}
+              </div>
+            ) : null;
+          }
+          return (
+            <div style={{ marginLeft: '20px' }}>
+              {filteredArray[0]}
+            </div>
+          );
+        }
   
         // If array contains objects, render each object
         if (typeof filteredArray[0] === 'object' && filteredArray[0] !== null) {
@@ -21,15 +38,23 @@ export default function CaseSummary({ caseSummary }) {
             const rendered = renderObjectAsKeyValue(item);
             return rendered ? (
               <div key={index} style={{ marginLeft: '20px' }}>
-                {rendered}
+                • {rendered}
               </div>
             ) : null;
           }).filter(Boolean);
           
           return renderedItems.length > 0 ? renderedItems : null;
         }
-        // If array contains strings/numbers
-        return filteredArray.join(' ');
+        // If array contains multiple strings/numbers, render as bullet points
+        return (
+          <div>
+            {filteredArray.map((item, index) => (
+              <div key={index} style={{ marginLeft: '20px' }}>
+                • {item}
+              </div>
+            ))}
+          </div>
+        );
       }
       
       // Handle nested objects
