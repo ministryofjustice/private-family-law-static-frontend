@@ -152,29 +152,35 @@ export default function CaseSummary({ caseSummary }) {
           </li>
           <li>
             <p>
-              <span className="title">Defendant's Arguments:</span>
-              <span>{renderObjectAsKeyValue(caseSummary?.arguments_presented.defendant_arguments) || "No defendant arguments available"}</span>
+            {renderObjectAsKeyValue(caseSummary?.arguments_presented.defendant_arguments) && (
+              <>
+                <span className="title">Defendant's Arguments:</span>
+                <span>{renderObjectAsKeyValue(caseSummary?.arguments_presented.defendant_arguments)}</span>
+              </>
+            )}
             </p>
           </li>
         </ul>
       </div>
-      <div className="caseDecisionAndRationale">
-        <h4 className='mt-3 mb-1'>Decision and Rationale</h4>
-        <ul>
-          <li>
-            <p>
-              <span className="title">Court's Decision:</span>
-              <span>{renderObjectAsKeyValue(caseSummary?.decision_and_rationale.court_decision) || "No court decision available"}</span>
-            </p>
-          </li>
-          <li>
-            <p>
-              <span className="title">Legal Reasoning:</span>
-              <span>{renderObjectAsKeyValue(caseSummary?.decision_and_rationale.legal_reasoning) || "No legal reasoning available"}</span>
-            </p>
-          </li>
-        </ul>
-      </div>
+      {renderObjectAsKeyValue(caseSummary?.decision_and_rationale.court_decision) && (
+        <div className="caseDecisionAndRationale">
+          <h4 className='mt-3 mb-1'>Decision and Rationale</h4>
+          <ul>
+            <li>
+              <p>
+                <span className="title">Court's Decision:</span>
+                <span>{renderObjectAsKeyValue(caseSummary?.decision_and_rationale.court_decision)}</span>
+              </p>
+            </li>
+            <li>
+              <p>
+                <span className="title">Legal Reasoning:</span>
+                <span>{renderObjectAsKeyValue(caseSummary?.decision_and_rationale.legal_reasoning) || "No legal reasoning available"}</span>
+              </p>
+            </li>
+          </ul>
+        </div>
+      )}
       <div className="caseSignificance">
         <h4 className='mt-3 mb-1'>Significance of the Case</h4>
         <ul>
