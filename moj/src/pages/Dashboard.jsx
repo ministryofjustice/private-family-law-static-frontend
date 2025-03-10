@@ -61,13 +61,15 @@ export default function VerticalTabs() {
   const fetchPathwayStatus = useCallback(async () => {
     try {
       setLoadingPathway(true);
-      const response = await fetch(`api/pathway/${caseId}/status`);
-      
+      console.log("case id = ", caseId)
+      const response = await fetch(`/api/pathway/${caseId}/status`);
+      console.log("response = ", response)
       if (!response.ok) {
         throw new Error('Failed to fetch pathway status');
       }
       
       const data = await response.json();
+      console.log("data = ", data)
       /**
       const data = {
         "overall_progress": {

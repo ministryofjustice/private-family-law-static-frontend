@@ -13,10 +13,75 @@ import './VerticalStepper.css';
 const VerticalStepper = ({ pathwayData, loadingPathway }) => {
   const navigate = useNavigate();
 
+  // Helper function to find the target step ID for a given process
+  const findTargetStepForProcess = (processKey) => {
+    // Check if the current process has an active step specified in current_phase
+    if (pathwayData.current_phase) {
+      // Does this current_phase belong to our clicked process?
+      const currentPhaseProcess = [
+        ...pathwayData.completed_documents,
+        ...pathwayData.pending_documents
+      ].find(doc => doc.step_id === pathwayData.current_phase)?.process_key;
+      
+      if (currentPhaseProcess === processKey) {
+        // The current_phase belongs to this process, so use it
+        return pathwayData.current_phase;
+      }
+    }
+    
+    // Get all steps for this process
+    const stepsForProcess = [
+      ...new Set([
+        ...pathwayData.completed_documents
+          .filter(doc => doc.process_key === processKey)
+          .map(doc => doc.step_id),
+        ...pathwayData.pending_documents
+          .filter(doc => doc.process_key === processKey)
+          .map(doc => doc.step_id)
+      ])
+    ];
+    
+    // Find the first incomplete step
+    for (const stepId of stepsForProcess) {
+      const stepData = pathwayData.step_progress[stepId];
+      if (stepData && stepData.status !== "Complete") {
+        return stepId;
+      }
+    }
+    
+    // If all steps are complete or we couldn't find a step, use the first step
+    if (stepsForProcess.length > 0) {
+      return stepsForProcess[0];
+    }
+    
+    return null;
+  };
+
   // Handle navigation to the full pathway
-  const handleSeeFullPathway = () => {
-    // Navigate to the full pathway page
-    navigate('/pathway');
+  const handleNavigateToPathway = (processKey) => {
+    const targetStepId = findTargetStepForProcess(processKey);
+    
+    // Add logging to debug navigation
+    console.log("VerticalStepper navigating with:", {
+      targetProcessKey: processKey,
+      targetStepId: targetStepId
+    });
+    
+    // Store the pathway data in sessionStorage so we can access it from the Pathway component
+    try {
+      sessionStorage.setItem('pathwayData', JSON.stringify(pathwayData));
+    } catch (e) {
+      console.error("Error storing pathway data in sessionStorage:", e);
+    }
+    
+    // Navigate to the pathway page with state
+    navigate('/pathway', { 
+      state: { 
+        targetProcessKey: processKey,
+        targetStepId: targetStepId,
+        hasPathwayData: true // Flag to indicate data is available in sessionStorage
+      }
+    });
   };
 
   // Handle loading state
@@ -84,7 +149,7 @@ const VerticalStepper = ({ pathwayData, loadingPathway }) => {
               {index === effectiveActiveStep && (
                 <Box sx={{ mb: 2 }}>
                   <Button 
-                    onClick={handleSeeFullPathway} 
+                    onClick={() => handleNavigateToPathway(step.key)} 
                     variant="contained" 
                     className="mt-4 cta-button"
                   >

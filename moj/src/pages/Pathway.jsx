@@ -1,165 +1,74 @@
 import * as React from 'react';
 import { useCallback, useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import PathwayProgress from '../components/PathwayProgress';
 import GoBackButton from '../components/GoBackButton';
 
-//There are comments here and hardcoded data set for Ayush to sort out :).
-
 export default function Pathway() {
   const [pathwayData, setPathwayData] = useState(null);
-  const [loadingPathway, setLoadingPathway] = useState(false);
+  const [loadingPathway, setLoadingPathway] = useState(true); // Start with loading=true
   const [pathwayError, setPathwayError] = useState(null);
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
 
-  // Get the case ID from URL params or use a dummy value
-  const params = useParams();
-  const caseId = params.caseId || "2c2edcb0-1238-4d1b-8262-91a08b82b971"; // Fallback to a dummy case ID
+  // Get the case ID from URL params
+  const { caseId } = useParams();
+  
+  // Extract navigation state from location
+  const location = useLocation();
+  const { targetProcessKey, targetStepId, hasPathwayData } = location.state || {};
+  
+  // Log the state for debugging
+  console.log("Pathway page received navigation state:", { 
+    targetProcessKey, 
+    targetStepId,
+    hasPathwayData
+  });
+
+  // Check for data in sessionStorage first if coming from VerticalStepper
+  useEffect(() => {
+    if (hasPathwayData) {
+      try {
+        const savedData = sessionStorage.getItem('pathwayData');
+        if (savedData) {
+          const parsedData = JSON.parse(savedData);
+          console.log("Retrieved pathway data from sessionStorage");
+          setPathwayData(parsedData);
+          setLoadingPathway(false);
+          return; // Exit early, no need to fetch from API
+        }
+      } catch (e) {
+        console.error("Error retrieving data from sessionStorage:", e);
+      }
+    }
+    
+    // If we couldn't get data from sessionStorage, proceed with API fetch
+    if (caseId) {
+      fetchPathwayStatus();
+    } else {
+      setLoadingPathway(false);
+    }
+  }, [hasPathwayData, caseId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchPathwayStatus = useCallback(async () => {
     try {
       setLoadingPathway(true);
-      const response = await fetch(`http://localhost:8000/api/pathway/${caseId}/status`);
+      console.log("Fetching pathway status for case:", caseId);
+      const response = await fetch(`/api/pathway/${caseId}/status`);
       
       if (!response.ok) {
         throw new Error('Failed to fetch pathway status');
       }
       
       const data = await response.json();
-      /**
-      const data = {
-        "overall_progress": {
-          "completed": 0,
-          "required": 2,
-          "percentage": 0
-        },
-        "completed_documents": [],
-        "pending_documents": [
-          {
-            "process_name": "Mediation",
-            "process_key": "mediationProcess",
-            "process_required": true,
-            "step_id": "mediation_preparation",
-            "step_title": "Mediation Preparation",
-            "document_id": "mediation_process_started",
-            "combined_document_id": "mediationProcess_mediation_process_started",
-            "document_name": "Mediation Process Started",
-            "document_description": "Official confirmation that mediation has begun",
-            "required": true,
-            "conditional": null,
-            "status": "not_uploaded",
-            "step_required": true
-          },
-          {
-            "process_name": "Mediation",
-            "process_key": "mediationProcess",
-            "process_required": true,
-            "step_id": "mediation_conclusion",
-            "step_title": "Mediation Conclusion",
-            "document_id": "completed_mediation_confirmation",
-            "combined_document_id": "mediationProcess_completed_mediation_confirmation",
-            "document_name": "Completed Mediation Confirmation",
-            "document_description": "Official document confirming completion of mediation",
-            "required": true,
-            "conditional": null,
-            "status": "not_uploaded",
-            "step_required": true
-          }
-        ],
-        "anomaly_documents": [],
-        "step_progress": {
-          "mediation_preparation": {
-            "title": "Mediation Preparation",
-            "description": "Preparation for initial mediation session",
-            "completed_docs": 0,
-            "required_docs": 1,
-            "percentage": 0,
-            "status": "Not Started",
-            "required": true,
-            "process_required": true
-          },
-          "mediation_conclusion": {
-            "title": "Mediation Conclusion",
-            "description": "Finalizing mediation outcomes",
-            "completed_docs": 0,
-            "required_docs": 1,
-            "percentage": 0,
-            "status": "Not Started",
-            "required": true,
-            "process_required": true
-          }
-        },
-        "process_status": {
-          "mediationProcess": {
-            "name": "Mediation",
-            "static_required": true,
-            "dynamic_required": false,
-            "required": true,
-            "required_reason": "Static configuration",
-            "completed_docs": 0,
-            "required_docs": 2,
-            "percentage": 0,
-            "status": "Not Started"
-          },
-          "applicationProcess": {
-            "name": "Application Submission Process",
-            "static_required": false,
-            "dynamic_required": false,
-            "required": false,
-            "required_reason": "Not required",
-            "completed_docs": 0,
-            "required_docs": 0,
-            "percentage": 0,
-            "status": "Not Started"
-          },
-          "caseSetUpProcess": {
-            "name": "Case Setup Phase",
-            "static_required": false,
-            "dynamic_required": false,
-            "required": false,
-            "required_reason": "Not required",
-            "completed_docs": 0,
-            "required_docs": 0,
-            "percentage": 0,
-            "status": "Not Started"
-          },
-          "fhdraProcess": {
-            "name": "First Hearing and Dispute Resolution Appointment (FHDRA) Phase",
-            "static_required": false,
-            "dynamic_required": false,
-            "required": false,
-            "required_reason": "Not required",
-            "completed_docs": 0,
-            "required_docs": 0,
-            "percentage": 0,
-            "status": "Not Started"
-          }
-        },
-        "current_phase": "mediation_preparation",
-        "next_phase": "mediation_conclusion",
-        "completed_files": [],
-        "has_completed_steps": false,
-        "case_metadata": {
-          "test": "test"
-        }
-      };
-      */
+      console.log("Pathway data loaded successfully from API");
       setPathwayData(data);
     } catch (error) {
       console.error('Error fetching pathway status:', error);
-      //setPathwayError(error.message);
-      setPathwayError(false)
+      setPathwayError(error.message || 'Failed to load pathway data');
     } finally {
       setLoadingPathway(false);
     }
   }, [caseId]);
-
-  // Fetch pathway data when component mounts or caseId changes
-  useEffect(() => {
-    if (caseId) {
-      fetchPathwayStatus();
-    }
-  }, [caseId, fetchPathwayStatus]);
 
   return (
     <>
@@ -169,16 +78,9 @@ export default function Pathway() {
         loadingPathway={loadingPathway}
         pathwayError={pathwayError}
         setUploadDialogOpen={setUploadDialogOpen}
+        targetProcessKey={targetProcessKey}
+        targetStepId={targetStepId}
       />
-
-      {/* You would also need to add your upload dialog component here */}
-      {/* Example: 
-      <UploadDialog 
-        open={uploadDialogOpen} 
-        onClose={() => setUploadDialogOpen(false)} 
-        caseId={caseId}
-        onUploadComplete={fetchPathwayStatus}
-      /> */}
     </>
   );
 }
