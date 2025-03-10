@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -6,83 +6,107 @@ import StepLabel from '@mui/material/StepLabel';
 import StepContent from '@mui/material/StepContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-
 import { useNavigate } from 'react-router-dom';
 
 import './VerticalStepper.css';
 
-const steps = [
-  {
-    label: 'Information and guidance',
-    description: `Essential knowledge and support to help individuals make informed decisions.`,
-  },
-  {
-    label: 'Child arrangement plan',
-    description:
-      `Details about living arrangements and visitation for the child's well-being.`,
-  },
-  {
-    label: 'Attend MIAM',
-    description: `Required step to explore mediation before applying to court for family disputes.`,
-  },
-  {
-    label: 'Attend mediation',
-    description: `Helps resolve disputes through structured discussions with a neutral mediator.`,
-  },
-  {
-    label: 'Recommend court application',
-    description: `Seeking legal action when other options fail.`,
-  },
-  {
-    label: 'Go to court',
-    description: `Pursuing legal action when alternative solutions are ineffective.`,
-  },
-  {
-    label: 'Attend further hearing',
-    description: `Continue legal proceedings and provide additional information.`,
-  },
-  {
-    label: 'Court order',
-    description: `Legal directive requiring parties to follow specific actions or terms.`,
-  },
-  {
-    label: 'After court guidance',
-    description: `Instructions or recommendations to help parties comply with court decisions or resolve issues.`,
-  },
-];
+const VerticalStepper = ({ pathwayData, loadingPathway }) => {
+  const navigate = useNavigate();
 
-export default function VerticalStepper() {
-  const [activeStep, setActiveStep] = React.useState(3)
-
-  const navigate = useNavigate(); // hook to navigate programmatically
-
-  const handleButtonClick = () => {
-    // Navigate to Check file page
+  // Handle navigation to the full pathway
+  const handleSeeFullPathway = () => {
+    // Navigate to the full pathway page
     navigate('/pathway');
   };
 
+  // Handle loading state
+  if (loadingPathway || !pathwayData) {
+    return (
+      <Box className="verticalStepper mt-4 pb-4 sticky">
+        <h3 className="mb-2">Your next steps</h3>
+        <Typography>Loading pathway data...</Typography>
+      </Box>
+    );
+  }
+
+  // Extract steps from pathwayData
+  const processSteps = Object.entries(pathwayData.process_status)
+    .filter(([_, process]) => process.required === true)
+    .map(([processKey, process]) => {
+      return {
+        key: processKey,
+        label: process.name,
+        description: process.description || `Complete required documents for ${process.name}`,
+        status: process.status,
+        percentage: process.percentage,
+        isActive: process.status === "In Progress",
+        isCompleted: process.status === "Complete"
+      };
+    })
+    .sort((a, b) => {
+      // Sort by status: completed first, then in progress, then pending
+      if (a.isCompleted && !b.isCompleted) return -1;
+      if (!a.isCompleted && b.isCompleted) return 1;
+      if (a.isActive && !b.isActive) return -1;
+      if (!a.isActive && b.isActive) return 1;
+      return 0;
+    });
+
+  // Find the active step index
+  const activeStepIndex = processSteps.findIndex(step => step.isActive);
+  
+  // If no step is active, set to the first incomplete step
+  const effectiveActiveStep = activeStepIndex >= 0 ? 
+    activeStepIndex : 
+    processSteps.findIndex(step => !step.isCompleted);
+
   return (
     <Box className="verticalStepper mt-4 pb-4 sticky">
-      <h3 className="mb-2">You next steps</h3>
-      <Stepper className="verticalStepperSteps" activeStep={activeStep} orientation="vertical">
-        {steps.map((step, index) => (
-          <Step key={step.label}>
+      <h3 className="mb-2">Your next steps</h3>
+      
+      <Stepper className="verticalStepperSteps" activeStep={effectiveActiveStep} orientation="vertical">
+        {processSteps.map((step, index) => (
+          <Step key={step.key}>
             <StepLabel>
               {step.label}
             </StepLabel>
             <StepContent>
               <Typography>{step.description}</Typography>
-              <Box sx={{ mb: 2 }}>
-                <Button onClick={handleButtonClick} variant="contained" className='mt-4 cta-button'>
-                  Go to next step
-                </Button>
-              </Box>
+              
+              {/* Show progress if available */}
+              {step.percentage !== undefined && (
+                <Typography variant="body2" className="mt-2">
+                  Progress: {step.percentage}% complete
+                </Typography>
+              )}
+              
+              {/* Only show the button for the active step */}
+              {index === effectiveActiveStep && (
+                <Box sx={{ mb: 2 }}>
+                  <Button 
+                    onClick={handleSeeFullPathway} 
+                    variant="contained" 
+                    className="mt-4 cta-button"
+                  >
+                    See full pathway
+                  </Button>
+                </Box>
+              )}
             </StepContent>
           </Step>
         ))}
       </Stepper>
       
+      {/* Show a message if all steps are complete */}
+      {processSteps.every(step => step.isCompleted) && (
+        <Box sx={{ mt: 2, p: 2, bgcolor: 'success.lighter', borderRadius: 1 }}>
+          <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+            Congratulations! All steps completed.
+          </Typography>
+        </Box>
+      )}
     </Box>
   );
-}
+};
 
+export default VerticalStepper;

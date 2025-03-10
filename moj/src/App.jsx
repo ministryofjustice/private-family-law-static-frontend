@@ -49,7 +49,6 @@ export default function App() {
       body1: {
         fontSize: 19
       }
-
     },
     components: {
       MuiCssBaseline: {
@@ -76,6 +75,7 @@ export default function App() {
               <Route path="/file-upload" element={<FileUpload />} />
               <Route path="/dashboard" element={<TabPanel />} />
               <Route path="/case-summary" element={<CaseSummary />} />
+              <Route path="/pathway/:caseId" element={<Pathway />} />
               <Route path="/pathway" element={<Pathway />} />
               <Route path="*" element={<NoPage />} />
             </Routes>
