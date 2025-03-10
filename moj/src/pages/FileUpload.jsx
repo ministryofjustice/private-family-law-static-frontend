@@ -4,6 +4,8 @@ import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useNavigate } from 'react-router-dom';
 import GoBackButton from '../components/GoBackButton';
+import { useState } from 'react';
+import CircularProgress from '@mui/material/CircularProgress';
 import '../App.css';
 
 const VisuallyHiddenInput = styled('input')({
@@ -18,12 +20,136 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
+const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB in bytes
+const ALLOWED_FILE_TYPES = [
+  'application/msword', // doc
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // docx
+  'application/pdf', // pdf
+];
+
 export default function FileUpload() {
   const navigate = useNavigate(); // hook to navigate programmatically
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleButtonClick = () => {
-    // Navigate to Check file page
-    navigate('/dashboard');
+  const handleFileChange = (event) => {
+    const files = Array.from(event.target.files);
+    const invalidFiles = [];
+  
+    const validFiles = files.filter(file => {
+      if (file.size > MAX_FILE_SIZE) {
+        invalidFiles.push(`${file.name} is too large (max 20MB)`);
+        return false;
+      }
+  
+      if (!ALLOWED_FILE_TYPES.includes(file.type)) {
+        invalidFiles.push(`${file.name} has an invalid file type`);
+        return false;
+      }
+      return true;
+    });
+  
+    if (invalidFiles.length > 0) {
+      alert(`The following files cannot be uploaded:\n${invalidFiles.join('\n')}`);
+    }
+  
+    setSelectedFiles(validFiles);
+  };
+
+  const uploadFiles = async () => {
+    try {
+      const formData = new FormData();
+      for (let i = 0; i < selectedFiles.length; i++) {
+        formData.append('files', selectedFiles[i]);
+      }
+  
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      if (!response.ok) {
+        throw new Error('Upload failed');
+      }
+
+      const data = await response.json()
+      return data.caseId;
+      
+    } catch (error) {
+      console.error('Error uploading files:', error);
+      throw error;
+    }
+  };
+
+  const generateReport = async (caseId) => {
+    try {
+      await fetch('/api/generateReport', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ caseId: caseId })
+      });
+      return
+    } catch (error) {
+      console.error('Error generating report:', error);
+      throw error;
+    }
+  };
+
+  const getReportStatus = (caseId) => {
+    return new Promise((resolve, reject) => {
+      try {
+        const eventSource = new EventSource(`/api/generate_report/stream-status/${caseId}`);
+  
+        eventSource.addEventListener('status', (event) => {
+          const data = JSON.parse(event.data);
+          if (data.status === 'Completed') {
+            eventSource.close();
+            resolve(data);
+          } else if (data.status === 'error') {
+            eventSource.close();
+            reject(new Error(data.status));
+          }
+        });
+  
+        eventSource.addEventListener('error', (event) => {
+          const error = JSON.parse(event.data);
+          eventSource.close();
+          reject(new Error(error));
+        });
+  
+        eventSource.onerror = (error) => {
+          eventSource.close();
+          reject(new Error('EventSource failed:', error));
+        };
+  
+      } catch (error) {
+        console.error('Error setting up EventSource:', error);
+        reject(error);
+      }
+    });
+  };
+
+  const handleButtonClick = async () => {
+    if (selectedFiles.length === 0) {
+      alert('Please select files first');
+      return;
+    }
+  
+    setIsLoading(true);
+    
+    try {
+      const caseId = await uploadFiles();
+      await generateReport(caseId);
+      await getReportStatus(caseId);
+      setIsLoading(false);
+      navigate(`/dashboard/${caseId}`);
+    } catch (error) {
+      alert('Failed to process files. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -50,14 +176,24 @@ export default function FileUpload() {
               Choose file
               <VisuallyHiddenInput
                 type="file"
-                onChange={(event) => console.log(event.target.files)}
+                onChange={handleFileChange}
                 multiple
+                accept={ALLOWED_FILE_TYPES.join(',')}
               />
             </Button>
             <div>
-              <Button onClick={handleButtonClick} variant="contained" color="success" className='mt-4 cta-button'>
-                Continue
-              </Button>
+              {isLoading ? (
+                <CircularProgress />
+              ) : (
+                <Button 
+                  onClick={handleButtonClick} 
+                  variant="contained" 
+                  color="success" 
+                  className='mt-4 cta-button'
+                >
+                  Continue
+                </Button>
+              )}
             </div>
           </div>
         </Grid>

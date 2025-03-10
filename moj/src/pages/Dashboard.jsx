@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 import * as React from 'react';
 import { useState, useEffect, useCallback } from 'react'; // Added missing imports
 import { useParams } from 'react-router-dom'; // Added missing import
 import PropTypes from 'prop-types';
+=======
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';import PropTypes from 'prop-types';
+>>>>>>> develop/endpoints
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
@@ -14,6 +19,7 @@ import CaseSummary from '../components/CaseSummary';
 import SuccessfulCases from '../components/SuccessfulCases';
 import VideoGallery from '../components/VideoGallery';
 import VerticalStepper from '../components/VerticalStepper';
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -50,18 +56,17 @@ function tabsProps(index) {
 
 export default function VerticalTabs() {
   const [pathwayData, setPathwayData] = useState(null);
-  const [value, setValue] = useState(0);
   const [loadingPathway, setLoadingPathway] = useState(false);
   const [pathwayError, setPathwayError] = useState(null); // Added missing state variable
   
-
-  const params = useParams();
-  const caseId = params.caseId || "2c2edcb0-1238-4d1b-8262-91a08b82b971"; // Fallback to a dummy case ID
+  const { caseId } = useParams();
+  const [value, setValue] = useState(0);
+  const [caseData, setCaseData] = useState(null);
     
   const fetchPathwayStatus = useCallback(async () => {
     try {
       setLoadingPathway(true);
-      const response = await fetch(`http://localhost:8000/api/pathway/${caseId}/status`);
+      const response = await fetch(`api/pathway/${caseId}/status`);
       
       if (!response.ok) {
         throw new Error('Failed to fetch pathway status');
@@ -201,10 +206,25 @@ export default function VerticalTabs() {
       fetchPathwayStatus();
     }
   }, [caseId, fetchPathwayStatus]);
+  
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    const fetchCaseData = async () => {
+      try {
+        const response = await fetch(`/api/cases/${caseId}`);
+        const data = await response.json();
+        setCaseData(data?.case);
+      } catch (error) {
+        console.error('Error fetching case data:', error);
+      }
+    };
+
+    fetchCaseData();
+  }, [caseId]);
 
   return (
     <>
@@ -245,7 +265,7 @@ export default function VerticalTabs() {
                   <SummaryCardActions />
                 </Grid>
                 <Grid size={{ xs: 12, lg: 6 }}>
-                  <SummaryCardDocuments />
+                  <SummaryCardDocuments caseFiles={caseData?.files}/>
                 </Grid>
               </Grid>
               <Grid container spacing={12}>
@@ -253,6 +273,8 @@ export default function VerticalTabs() {
                   <CaseSummary />
                   <SuccessfulCases />
                   <VideoGallery stepId={pathwayData?.currentStep?.id || 'mediationProcess_mediation_preparation'} />
+                  <CaseSummary caseSummary={caseData?.case_summary}/>
+                  <SuccessfulCases caseSummary={caseData?.case_summary} caseId={caseId}/>
                 </Grid>
                 <Grid size={{ xs: 12, lg: 4 }}>
                   <VerticalStepper 

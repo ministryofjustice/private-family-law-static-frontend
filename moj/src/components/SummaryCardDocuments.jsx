@@ -6,32 +6,38 @@ import CardContent from '@mui/material/CardContent';
 import './SummaryCardDocuments.css';
 
 
-export default function SummaryCardDocuments() {
+export default function SummaryCardDocuments({ caseFiles }) {
+
+  const getDocumentClass = (filename) => {
+    const extension = filename.split('.').pop().toLowerCase();
+    switch(extension) {
+      case 'pdf':
+        return 'pdfDocument';
+      case 'doc':
+      case 'docx':
+        return 'docDocument';
+      case 'xls':
+      case 'xlsx':
+        return 'xlsDocument';
+      default:
+        return 'docDocument';
+    }
+  };
+
   return (
     <Card className="summaryCardDocuments">
       <CardContent>
         <h3>Documents</h3>
         <ul>
-          <li>
-            <div className="pdfDocument">
-              <a href="">Correspondence with Partner's Legal Representative</a>
-            </div>
-          </li>
-          <li>
-            <div className="docDocument">
-              <a href="">Evidence of Communication with Partner</a>
-            </div>
-          </li>
-          <li>
-            <div className="xlsDocument">
-              <a href="">Financial documents​</a>
-            </div>
-          </li>
-          <li>
-            <div className="pdfDocument">
-              <a href="">Property Ownership Documents​​</a>
-            </div>
-          </li>
+          {caseFiles?.map((file, index) => (
+            <li key={index}>
+              <div className={getDocumentClass(file.storedName)}>
+                <a href='#'>
+                  {file.doc_title}
+                </a>
+              </div>
+            </li>
+          ))}
         </ul>
       </CardContent>
     </Card>

@@ -73,7 +73,7 @@ export default function App() {
               <Route index element={<FileUpload />} />
               <Route path="/home" element={<Home />} />
               <Route path="/file-upload" element={<FileUpload />} />
-              <Route path="/dashboard" element={<TabPanel />} />
+              <Route path="/dashboard/:caseId" element={<TabPanel />} />
               <Route path="/case-summary" element={<CaseSummary />} />
               <Route path="/pathway/:caseId" element={<Pathway />} />
               <Route path="/pathway" element={<Pathway />} />
