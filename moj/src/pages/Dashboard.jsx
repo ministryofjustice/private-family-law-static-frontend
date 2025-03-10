@@ -1,12 +1,7 @@
-<<<<<<< HEAD
 import * as React from 'react';
-import { useState, useEffect, useCallback } from 'react'; // Added missing imports
-import { useParams } from 'react-router-dom'; // Added missing import
+import { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-=======
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';import PropTypes from 'prop-types';
->>>>>>> develop/endpoints
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
