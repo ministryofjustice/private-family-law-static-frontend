@@ -6,9 +6,9 @@ import { Button } from '@mui/material';
 import './QuestionsAnswers.css';
 
 export default function QuestionsAnswers({ queries: initialQueries, caseId, onQueryAdded }) {
-  const [queries, setQueries] = React.useState(initialQueries || []); // Add this
-  const [question, setQuestion] = React.useState(''); // Add this
-  const [isSubmitting, setIsSubmitting] = React.useState(false); // Add this
+  const [queries, setQueries] = React.useState(initialQueries || []); 
+  const [question, setQuestion] = React.useState(''); 
+  const [isSubmitting, setIsSubmitting] = React.useState(false); 
 
   // Update queries when initialQueries changes
   React.useEffect(() => {
