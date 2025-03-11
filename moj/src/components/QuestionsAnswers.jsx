@@ -6,7 +6,7 @@ import { Button } from '@mui/material';
 import './QuestionsAnswers.css';
 
 export default function QuestionsAnswers({ queries: initialQueries, caseId, onQueryAdded }) {
-  const [queries, setQueries] = React.useState(initialQueries || []); 
+  const [queries, setQueries] = React.useState(initialQueries || []);
   const [question, setQuestion] = React.useState(''); 
   const [isSubmitting, setIsSubmitting] = React.useState(false); 
 
@@ -86,7 +86,7 @@ export default function QuestionsAnswers({ queries: initialQueries, caseId, onQu
           type="submit"
           disabled={isSubmitting || !question.trim()}
         >
-          {isSubmitting ? 'Submitting...' : 'Submit'}
+          Submit
         </Button>
       </Box>
     </div>
