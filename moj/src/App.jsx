@@ -7,8 +7,13 @@ import CaseSummary from './components/CaseSummary';
 
 import Home from './pages/Home';
 import FileUpload from './pages/FileUpload';
+<<<<<<< HEAD
 import Dashboard from './pages/Dashboard'; // Renamed from TabPanel to Dashboard
 import ServicePage from './pages/ServicePage'; // New component
+=======
+import LoadingPage from './pages/LoadingPage';
+import TabPanel from './pages/Dashboard';
+>>>>>>> main-ross
 import Pathway from './pages/Pathway';
 import NoPage from './pages/NoPage';
 
@@ -80,6 +85,7 @@ export default function App() {
               <Route path="/dashboard/:caseId" element={<Dashboard />} />
               <Route path="/dashboard/:caseId/service/:serviceName" element={<ServicePage />} />
               
+              <Route path="/loading-page" element={<LoadingPage />} />
               <Route path="/case-summary" element={<CaseSummary />} />
               <Route path="/pathway/:caseId" element={<Pathway />} />
               <Route path="/pathway" element={<Pathway />} />

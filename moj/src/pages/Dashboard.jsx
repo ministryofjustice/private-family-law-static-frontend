@@ -18,6 +18,7 @@ import CaseSummary from '../components/CaseSummary';
 import SuccessfulCases from '../components/SuccessfulCases';
 import VideoGallery from '../components/VideoGallery';
 import VerticalStepper from '../components/VerticalStepper';
+import QuestionsAnswers from '../components/QuestionsAnswers';
 
 // Define colors for each service to use across the application
 export const serviceColors = {
@@ -89,6 +90,10 @@ export default function Dashboard() {
       fetchPathwayStatus();
     }
   }, [caseId, fetchPathwayStatus]);
+  
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   useEffect(() => {
     const fetchCaseData = async () => {
@@ -217,6 +222,12 @@ export default function Dashboard() {
       </Box>
     </Box>
   );
+  const updateCaseData = async (newQuery) => {
+    setCaseData(prevData => ({
+      ...prevData,
+      queries: [...(prevData?.queries || []), newQuery]
+    }));
+  };
 
   return (
     <>
@@ -302,6 +313,15 @@ export default function Dashboard() {
                       return <div>Error loading pathway steps</div>;
                     }
                   })()}
+                </Grid>
+              </Grid>
+              <Grid container spacing={4}>
+                <Grid size={{ xs: 12, lg: 12 }}>
+                <QuestionsAnswers 
+                  queries={caseData?.queries} 
+                  caseId={caseId} 
+                  onQueryAdded={updateCaseData}
+                />
                 </Grid>
               </Grid>
             </Grid>
