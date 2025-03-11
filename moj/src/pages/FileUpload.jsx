@@ -3,14 +3,12 @@ import { List, ListItem, ListItemText, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Grid from '@mui/material/Grid2';
 import { styled } from '@mui/material/styles';
-import { List, ListItem, ListItemText, IconButton } from '@mui/material';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useNavigate } from 'react-router-dom';
 import GoBackButton from '../components/GoBackButton';
 import CircularProgress from '@mui/material/CircularProgress';
 import '../App.css';
-import DeleteIcon from '@mui/icons-material/Delete';
 
 
 const VisuallyHiddenInput = styled('input')({

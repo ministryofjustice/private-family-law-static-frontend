@@ -7,13 +7,9 @@ import CaseSummary from './components/CaseSummary';
 
 import Home from './pages/Home';
 import FileUpload from './pages/FileUpload';
-<<<<<<< HEAD
 import Dashboard from './pages/Dashboard'; // Renamed from TabPanel to Dashboard
 import ServicePage from './pages/ServicePage'; // New component
-=======
 import LoadingPage from './pages/LoadingPage';
-import TabPanel from './pages/Dashboard';
->>>>>>> main-ross
 import Pathway from './pages/Pathway';
 import NoPage from './pages/NoPage';
 
