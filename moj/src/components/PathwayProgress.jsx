@@ -385,7 +385,7 @@ const PathwayProgress = ({
                                             {doc.document_name}
                                             <Chip
                                               size="small"
-                                              label="Required"
+                                              label="Action needed"
                                               color="error"
                                               sx={{ ml: 1 }}
                                             />
