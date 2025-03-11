@@ -30,7 +30,6 @@ const PathwayProgress = ({
   targetProcessKey, // New prop to accept a specific process to display
   targetStepId      // New prop to highlight a specific step
 }) => {
-  // ADD DEBUGGING LOGS
   useEffect(() => {
     if (pathwayData) {
       console.log("=== PATHWAY PROGRESS DEBUG ===");

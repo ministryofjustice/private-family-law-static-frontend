@@ -7,7 +7,8 @@ import CaseSummary from './components/CaseSummary';
 
 import Home from './pages/Home';
 import FileUpload from './pages/FileUpload';
-import TabPanel from './pages/Dashboard';
+import Dashboard from './pages/Dashboard'; // Renamed from TabPanel to Dashboard
+import ServicePage from './pages/ServicePage'; // New component
 import Pathway from './pages/Pathway';
 import NoPage from './pages/NoPage';
 
@@ -49,6 +50,7 @@ export default function App() {
       body1: {
         fontSize: 19
       }
+
     },
     components: {
       MuiCssBaseline: {
@@ -73,7 +75,11 @@ export default function App() {
               <Route index element={<FileUpload />} />
               <Route path="/home" element={<Home />} />
               <Route path="/file-upload" element={<FileUpload />} />
-              <Route path="/dashboard/:caseId" element={<TabPanel />} />
+              
+              {/* Updated routes for case dashboard and services */}
+              <Route path="/dashboard/:caseId" element={<Dashboard />} />
+              <Route path="/dashboard/:caseId/service/:serviceName" element={<ServicePage />} />
+              
               <Route path="/case-summary" element={<CaseSummary />} />
               <Route path="/pathway/:caseId" element={<Pathway />} />
               <Route path="/pathway" element={<Pathway />} />

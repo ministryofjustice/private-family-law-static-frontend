@@ -5,9 +5,15 @@ import CardContent from '@mui/material/CardContent';
 
 import './SummaryCardDocuments.css';
 
+// Custom styles for this component
+const styles = {
+  cardContent: {
+    maxHeight: '300px',
+    overflow: 'auto'
+  }
+};
 
 export default function SummaryCardDocuments({ caseFiles }) {
-
   const getDocumentClass = (filename) => {
     const extension = filename.split('.').pop().toLowerCase();
     switch(extension) {
@@ -26,7 +32,7 @@ export default function SummaryCardDocuments({ caseFiles }) {
 
   return (
     <Card className="summaryCardDocuments">
-      <CardContent>
+      <CardContent sx={styles.cardContent}>
         <h3>Documents</h3>
         <ul>
           {caseFiles?.map((file, index) => (
@@ -38,6 +44,13 @@ export default function SummaryCardDocuments({ caseFiles }) {
               </div>
             </li>
           ))}
+          {!caseFiles || caseFiles.length === 0 ? (
+            <li>
+              <div className="docDocument">
+                <span>No documents available</span>
+              </div>
+            </li>
+          ) : null}
         </ul>
       </CardContent>
     </Card>

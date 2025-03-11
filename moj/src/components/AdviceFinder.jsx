@@ -12,46 +12,28 @@ import {
   FormControl,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem,
+  Slider
 } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
-// A more functional version without using the external dialog
-const AdviceFinder = () => {
+const AdviceFinder = ({ caseId }) => {
   // States
   const [isSearching, setIsSearching] = useState(false);
-  const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [showSearchForm, setShowSearchForm] = useState(false);
   const [townOrPostcode, setTownOrPostcode] = useState('');
-  const [proximityOrder, setProximityOrder] = useState(10);
+  const [searchRadius, setSearchRadius] = useState(10);
   const [adviceResults, setAdviceResults] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
-  const [testClicked, setTestClicked] = useState(false); // TEST STATE
   
   // Handle showing the search form
   const handleShowSearchForm = () => {
-    try {
-      setShowSearchForm(true);
-    } catch (error) {
-      console.error("Error showing search form:", error);
-      setHasError(true);
-      setErrorMessage('Could not display the search form.');
-    }
-  };
-  
-  // Simple test function
-  const testButtonClick = () => {
-    console.log("TEST BUTTON CLICKED");
-    alert("Button clicked - if you see this, the button is working");
-    setTestClicked(true);
+    setShowSearchForm(true);
   };
   
   // Handle search submission
   const handleSearch = async () => {
-    console.log("SEARCH FUNCTION CALLED");
-    testButtonClick(); // This will show an alert if the function is called
-    
     try {
       // Validate input
       if (!townOrPostcode || townOrPostcode.trim() === '') {
@@ -62,32 +44,31 @@ const AdviceFinder = () => {
       setIsSearching(true);
       setErrorMessage('');
       
-      // Mock data for testing - this should always display if the function is reached
-      const mockData = [
-        {
-          "ResultID": 249,
-          "AgencyName": "Age UK - Wirral",
-          "ServiceDescription": "Range of services for older people. Advice and information. Day care centre for mentally and physically frail older people.",
-          "DistanceFromPostcode": 1.42644530277284
+      // Make the actual API call
+      const response = await fetch(`/api/advice-finder/get-advice`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        {
-          "ResultID": 369,
-          "AgencyName": "Sefton Carers Centre",
-          "ServiceDescription": "Information, advice and practical support for carers. Services include advocacy, carers emergency card, flexible and emergency respite.",
-          "DistanceFromPostcode": 3.99622119004096
-        }
-      ];
+        body: JSON.stringify({
+          townOrPostcode: townOrPostcode,
+          proximityOrder: searchRadius // This is the search radius in miles
+        })
+      });
       
-      // Skip API call for now and just use mock data
-      setAdviceResults(mockData);
+      if (!response.ok) {
+        throw new Error('Failed to fetch advice');
+      }
+      
+      const data = await response.json();
+      setAdviceResults(data);
       setHasSearched(true);
       setShowSearchForm(false);
-      setIsSearching(false);
       
     } catch (error) {
       console.error("Error in search:", error);
-      setHasError(true);
       setErrorMessage('An unexpected error occurred during search.');
+    } finally {
       setIsSearching(false);
     }
   };
@@ -97,16 +78,22 @@ const AdviceFinder = () => {
     setShowSearchForm(false);
   };
 
+  // Handle new search after results are shown
+  const handleNewSearch = () => {
+    setHasSearched(false);
+    setShowSearchForm(true);
+  };
+
   return (
-    <Box sx={{ p: 3 }}>
+    <Box>
       <Typography variant="h4" gutterBottom>
-        Advice Near You {testClicked ? '(BUTTON WORKED!)' : ''}
+        Advice Near You
       </Typography>
       <Typography variant="body1" paragraph>
         Find local support services and advice centers available in your area. Enter your town or postcode to discover resources that can help with your legal situation.
       </Typography>
       
-      {!showSearchForm ? (
+      {!showSearchForm && !hasSearched ? (
         <Button 
           variant="contained" 
           startIcon={<LocationOnIcon />}
@@ -114,57 +101,85 @@ const AdviceFinder = () => {
         >
           Find Local Advice
         </Button>
-      ) : (
+      ) : null}
+      
+      {showSearchForm && (
         <Box sx={{ mt: 3, p: 3, border: '1px solid #e0e0e0', borderRadius: 1 }}>
           <Typography variant="h6" gutterBottom>
             Search for Advice Services
           </Typography>
           
-          <Box sx={{ mb: 2 }}>
-            <TextField
-              label="Town or Postcode"
-              variant="outlined"
-              fullWidth
-              value={townOrPostcode}
-              onChange={(e) => setTownOrPostcode(e.target.value)}
-              placeholder="e.g. CH44 5RP"
-              sx={{ mb: 2 }}
+          <TextField
+            label="Town or Postcode"
+            variant="outlined"
+            fullWidth
+            placeholder="e.g. EC3R 6DT"
+            value={townOrPostcode}
+            onChange={(e) => setTownOrPostcode(e.target.value)}
+            sx={{ 
+              mb: 2,
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: 'var(--white)',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'var(--white)',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: 'var(--white)',
+                },
+                '& input': {
+                  color: 'var(--white)',
+                },
+              },
+              '& .MuiInputLabel-root': {
+                color: 'var(--white)',
+                '&.Mui-focused': {
+                  color: 'var(--white)',
+                },
+              },
+              '& .MuiFormHelperText-root': {
+                color: 'var(--white)',
+              },
+            }}
+          />
+          
+          <Typography variant="body2" sx={{ mb: 2 }}>
+            Search radius (miles):
+          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+            <Slider
+              value={searchRadius}
+              onChange={(e, newValue) => setSearchRadius(newValue)}
+              min={1}
+              max={50}
+              step={1}
+              valueLabelDisplay="auto"
+              sx={{ mr: 2, flex: 1 }}
             />
-            
-            <FormControl fullWidth sx={{ mb: 2 }}>
-              <InputLabel id="proximity-label">Proximity (miles)</InputLabel>
-              <Select
-                labelId="proximity-label"
-                value={proximityOrder}
-                label="Proximity (miles)"
-                onChange={(e) => setProximityOrder(e.target.value)}
-              >
-                <MenuItem value={1}>1 mile</MenuItem>
-                <MenuItem value={5}>5 miles</MenuItem>
-                <MenuItem value={10}>10 miles</MenuItem>
-                <MenuItem value={25}>25 miles</MenuItem>
-                <MenuItem value={50}>50 miles</MenuItem>
-              </Select>
-            </FormControl>
+            <Typography variant="body2">
+              {searchRadius} miles
+            </Typography>
           </Box>
           
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
-            <Button onClick={handleCancelSearch}>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, mt: 2 }}>
+            <Button onClick={handleCancelSearch} type="button">
               Cancel
             </Button>
             <Button 
-              variant="contained"
-              onClick={handleSearch} // This should call our test function
+              variant="contained" 
+              onClick={handleSearch} 
+              type="button"
               disabled={isSearching}
               startIcon={isSearching ? <CircularProgress size={20} /> : <LocationOnIcon />}
             >
-              {isSearching ? 'Searching...' : 'Test Search'}
+              {isSearching ? 'Searching...' : 'Search'}
             </Button>
           </Box>
         </Box>
       )}
       
-      {errorMessage && !hasError && (
+      {errorMessage && (
         <Alert severity="error" sx={{ mt: 2 }}>
           {errorMessage}
         </Alert>
@@ -185,23 +200,28 @@ const AdviceFinder = () => {
       {adviceResults.length > 0 && !isSearching && (
         <Box sx={{ mt: 4 }}>
           <Typography variant="h6" gutterBottom>
-            Found {adviceResults.length} advice service{adviceResults.length !== 1 ? 's' : ''} near {townOrPostcode || "TEST LOCATION"}
+            Found {adviceResults.length} advice service{adviceResults.length !== 1 ? 's' : ''} near {townOrPostcode}
           </Typography>
           
           <Grid container spacing={3}>
             {adviceResults.map((result) => (
               <Grid item xs={12} md={6} key={result.ResultID || `result-${Math.random()}`}>
-                <Card sx={{ height: '100%' }}>
+                <Card sx={{ 
+                  height: '100%', 
+                  backgroundColor: 'var(--black)',
+                  color: 'var(--white)',
+                  border: '1px solid var(--dark-grey)'
+                }}>
                   <CardContent>
-                    <Typography variant="h6" component="h3" gutterBottom>
+                    <Typography variant="h6" component="h3" gutterBottom sx={{ color: 'var(--white) !important' }}>
                       {result.AgencyName || 'Unknown Agency'}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" gutterBottom>
+                    <Typography variant="body2" color="var(--white)" gutterBottom>
                       {typeof result.DistanceFromPostcode === 'number' 
                         ? `${result.DistanceFromPostcode.toFixed(1)} miles away`
                         : 'Distance unknown'}
                     </Typography>
-                    <Typography variant="body2">
+                    <Typography variant="body2" sx={{ color: 'var(--white) !important' }}>
                       {result.ServiceDescription || 'No description available'}
                     </Typography>
                   </CardContent>
@@ -209,19 +229,18 @@ const AdviceFinder = () => {
               </Grid>
             ))}
           </Grid>
+          
+          <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
+            <Button 
+              variant="outlined" 
+              onClick={handleNewSearch}
+              type="button"
+            >
+              New Search
+            </Button>
+          </Box>
         </Box>
       )}
-      
-      {/* Test Button outside the form for verification */}
-      <Box sx={{ mt: 4 }}>
-        <Button 
-          variant="outlined" 
-          color="secondary"
-          onClick={testButtonClick}
-        >
-          Test Button (Click Me)
-        </Button>
-      </Box>
     </Box>
   );
 };

@@ -38,7 +38,7 @@ function App() {
               <Route path="/" element={<Navigate to="/reports" replace />} />
               <Route path="/upload" element={<Box sx={{ p: 3 }}><FileUpload /></Box>} />
               <Route path="/reports" element={<Reports />} />
-              <Route path="/case/:caseNumber" element={<CaseView />} />
+              <Route path="/dashboard/:caseNumber" element={<CaseView />} />
             </Routes>
           </Layout>
         </Box>

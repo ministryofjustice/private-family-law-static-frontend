@@ -208,7 +208,7 @@ const Reports = () => {
                     <Button
                       variant="contained"
                       size="small"
-                      onClick={() => navigate(`/case/${caseItem.caseNumber}`)}
+                      onClick={() => navigate(`/dashboard/${caseItem.caseNumber}`)}
                     >
                       View
                     </Button>

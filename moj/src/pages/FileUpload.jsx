@@ -1,5 +1,6 @@
 import Grid from '@mui/material/Grid2';
 import { styled } from '@mui/material/styles';
+import { List, ListItem, ListItemText, IconButton } from '@mui/material';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +8,8 @@ import GoBackButton from '../components/GoBackButton';
 import { useState } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import '../App.css';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -181,6 +184,28 @@ export default function FileUpload() {
                 accept={ALLOWED_FILE_TYPES.join(',')}
               />
             </Button>
+            <h3 className="mediumText mt-3">Uploaded files:</h3>
+              <List className="fileList">
+                {selectedFiles.length > 0 ? (
+                  selectedFiles.map((file, index) => {
+                    const fileSizeInKB = (file.size / 1024).toFixed(0); // Rounding file size to 2 decimal places
+                    return (
+                      <ListItem key={index} secondaryAction={
+                        <IconButton edge="end" onClick={() => handleDeleteFile(file.name)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      }>
+                        <ListItemText className="fileDetails"
+                          primary={file.name} 
+                          secondary={`Size: ${fileSizeInKB} KB`} 
+                        />
+                      </ListItem>
+                    );
+                  })
+                ) : (
+                  <p>No files uploaded yet.</p>
+                )}
+              </List>
             <div>
               {isLoading ? (
                 <CircularProgress />
