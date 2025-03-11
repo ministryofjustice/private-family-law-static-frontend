@@ -1,13 +1,14 @@
+import React, { useState } from "react";
+import { List, ListItem, ListItemText, IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Grid from '@mui/material/Grid2';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useNavigate } from 'react-router-dom';
 import GoBackButton from '../components/GoBackButton';
-import { useState } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import '../App.css';
-
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -19,19 +20,20 @@ const VisuallyHiddenInput = styled('input')({
   whiteSpace: 'nowrap',
   width: 1,
 });
-
 const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB in bytes
 const ALLOWED_FILE_TYPES = [
   'application/msword', // doc
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // docx
   'application/pdf', // pdf
 ];
-
 export default function FileUpload() {
-  const navigate = useNavigate(); // hook to navigate programmatically
+  const navigate = useNavigate();
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
+  // Handle file deletion
+  const handleDeleteFile = (fileName) => {
+    setSelectedFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName));
+  };
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
     const invalidFiles = [];
@@ -53,9 +55,8 @@ export default function FileUpload() {
       alert(`The following files cannot be uploaded:\n${invalidFiles.join('\n')}`);
     }
   
-    setSelectedFiles(validFiles);
-  };
-
+    setSelectedFiles((prevFiles) => [...prevFiles, ...validFiles]);
+};
   const uploadFiles = async () => {
     try {
       const formData = new FormData();
@@ -71,7 +72,6 @@ export default function FileUpload() {
       if (!response.ok) {
         throw new Error('Upload failed');
       }
-
       const data = await response.json()
       return data.caseId;
       
@@ -80,7 +80,6 @@ export default function FileUpload() {
       throw error;
     }
   };
-
   const generateReport = async (caseId) => {
     try {
       await fetch('/api/generateReport', {
@@ -96,7 +95,6 @@ export default function FileUpload() {
       throw error;
     }
   };
-
   const getReportStatus = (caseId) => {
     return new Promise((resolve, reject) => {
       try {
@@ -130,8 +128,8 @@ export default function FileUpload() {
       }
     });
   };
-
-  const handleButtonClick = async () => {
+  
+  const handleContinue = async () => {
     if (selectedFiles.length === 0) {
       alert('Please select files first');
       return;
@@ -139,21 +137,26 @@ export default function FileUpload() {
   
     setIsLoading(true);
     
+    // Navigate to loading page first
+    navigate("/loading-page");
+  
     try {
       const caseId = await uploadFiles();
+      console.log(caseId);
       await generateReport(caseId);
       await getReportStatus(caseId);
       setIsLoading(false);
       navigate(`/dashboard/${caseId}`);
     } catch (error) {
       alert('Failed to process files. Please try again.');
+      navigate(-1);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <>
+    <div>
       <GoBackButton />
       
       <Grid container spacing={4}>
@@ -165,39 +168,68 @@ export default function FileUpload() {
             
             <h3 className='mt-3'>Upload your file</h3>
             <p>You can upload your file here</p>
-
-            <Button className="btn-upload cta-button"
-              component="label"
-              role={undefined}
-              variant="outlined"
-              tabIndex={-1}
-              startIcon={<CloudUploadIcon />}
-            >
-              Choose file
-              <VisuallyHiddenInput
-                type="file"
-                onChange={handleFileChange}
-                multiple
-                accept={ALLOWED_FILE_TYPES.join(',')}
-              />
-            </Button>
             <div>
-              {isLoading ? (
-                <CircularProgress />
-              ) : (
+              <Button 
+                className="btn-upload cta-button"
+                variant="outlined"
+                component="label"
+                color="primary"
+                startIcon={<CloudUploadIcon />}
+                sx={{ marginBottom: 2 }}
+              >
+                Upload Files
+                <input
+                  type="file"
+                  hidden
+                  multiple
+                  onChange={handleFileChange}
+                  accept={ALLOWED_FILE_TYPES.join(',')}
+                />
+              </Button>
+              <h3 className="mediumText mt-3">Uploaded files:</h3>
+              <List className="fileList">
+                {selectedFiles.length > 0 ? (
+                  selectedFiles.map((file, index) => {
+                    const fileSizeInKB = (file.size / 1024).toFixed(0);
+                    return (
+                      <ListItem 
+                        key={index} 
+                        secondaryAction={
+                          <IconButton edge="end" onClick={() => handleDeleteFile(file.name)}>
+                            <DeleteIcon />
+                          </IconButton>
+                        }
+                      >
+                        <ListItemText 
+                          className="fileDetails"
+                          primary={file.name} 
+                          secondary={`Size: ${fileSizeInKB} KB`} 
+                        />
+                      </ListItem>
+                    );
+                  })
+                ) : (
+                  <p>No files uploaded yet.</p>
+                )}
+              </List>
+            </div>
+            {isLoading ? (
+              <CircularProgress />
+            ) : (
+              <div>
                 <Button 
-                  onClick={handleButtonClick} 
+                  onClick={handleContinue} 
                   variant="contained" 
                   color="success" 
                   className='mt-4 cta-button'
                 >
                   Continue
                 </Button>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </Grid>
       </Grid>
-    </>
+    </div>
   );
 }

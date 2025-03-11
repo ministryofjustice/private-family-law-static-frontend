@@ -14,6 +14,7 @@ import CaseSummary from '../components/CaseSummary';
 import SuccessfulCases from '../components/SuccessfulCases';
 import VideoGallery from '../components/VideoGallery';
 import VerticalStepper from '../components/VerticalStepper';
+import QuestionsAnswers from '../components/QuestionsAnswers';
 
 
 function TabPanel(props) {
@@ -204,7 +205,6 @@ export default function VerticalTabs() {
     }
   }, [caseId, fetchPathwayStatus]);
   
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -272,10 +272,22 @@ export default function VerticalTabs() {
                   <VideoGallery stepId={pathwayData?.currentStep?.id || 'mediationProcess_mediation_preparation'} />
                 </Grid>
                 <Grid size={{ xs: 12, lg: 4 }}>
-                  <VerticalStepper 
-                    pathwayData={pathwayData} 
-                    loadingPathway={loadingPathway} 
-                  />
+                  {(() => {
+                    try {
+                      return <VerticalStepper 
+                        pathwayData={pathwayData} 
+                        loadingPathway={loadingPathway} 
+                      />;
+                    } catch (error) {
+                      console.error('Error rendering VerticalStepper:', error);
+                      return <div>Error loading pathway steps</div>;
+                    }
+                  })()}
+                </Grid>
+              </Grid>
+              <Grid container spacing={4}>
+                <Grid size={{ xs: 12, lg: 12 }}>
+                  <QuestionsAnswers />
                 </Grid>
               </Grid>
             </TabPanel>

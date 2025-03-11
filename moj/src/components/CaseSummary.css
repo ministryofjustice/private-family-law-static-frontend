@@ -7,4 +7,15 @@
   border-bottom: 1px solid var(--white);
   padding-bottom: 30px;
   margin-bottom: 30px;
+
+  ul {
+    margin: 0;
+    padding: 0;
+
+    li {
+      list-style: disc;
+      margin: 0 0 8px 15px;
+      padding: 0;
+    }
+  }
 }

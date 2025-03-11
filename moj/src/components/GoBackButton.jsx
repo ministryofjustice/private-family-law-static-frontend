@@ -5,7 +5,7 @@ const GoBackButton = () => {
   const navigate = useNavigate();
 
   const handleGoBack = () => {
-    navigate(-1); // This takes you back to the previous page in the browser history
+    navigate('/file-upload'); // This takes you back to the previous page in the browser history
   };
 
   return (
