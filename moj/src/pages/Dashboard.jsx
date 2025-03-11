@@ -223,6 +223,13 @@ export default function VerticalTabs() {
     fetchCaseData();
   }, [caseId]);
 
+  const updateCaseData = async (newQuery) => {
+    setCaseData(prevData => ({
+      ...prevData,
+      queries: [...(prevData?.queries || []), newQuery]
+    }));
+  };
+
   return (
     <>
       <GoBackButton />
@@ -287,7 +294,11 @@ export default function VerticalTabs() {
               </Grid>
               <Grid container spacing={4}>
                 <Grid size={{ xs: 12, lg: 12 }}>
-                  <QuestionsAnswers />
+                <QuestionsAnswers 
+                  queries={caseData?.queries} 
+                  caseId={caseId} 
+                  onQueryAdded={updateCaseData}
+                />
                 </Grid>
               </Grid>
             </TabPanel>
