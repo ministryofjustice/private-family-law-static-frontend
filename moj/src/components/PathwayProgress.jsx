@@ -244,9 +244,9 @@ const PathwayProgress = ({
   console.log("Selected process to display:", currentProcessKey, currentProcessData?.name);
 
   return (
-    <Paper elevation={2} sx={{ p: 3, mb: 3, bgcolor: 'var(--lightOrange)' }} className="verticalStepper">
+    <div className="pathwayExpanded">
       {/* Process title as main header */}
-      <Typography variant="h4" sx={{ mb: 2 }}>
+      <Typography variant="h2" sx={{ mb: 0 }}>
         {currentProcessData.name}
       </Typography>
       <Divider sx={{ mb: 3 }} />
@@ -274,7 +274,7 @@ const PathwayProgress = ({
           console.log("Target step ID to highlight:", targetStepId);
           
           return (
-            <Box className="verticalStepper" key={processKey} sx={{ mb: 4 }}>
+            <Box className="verticalStepper" key={processKey} sx={{ mb: 4}}>
               {/* Process status info */}
               <Box sx={{ 
                 display: 'flex', 
@@ -282,18 +282,20 @@ const PathwayProgress = ({
                 justifyContent: 'space-between',
                 mb: 2
               }}>
-                <Typography variant="body1">
+                <Typography variant="div">
                   {process.completed_docs} of {process.required_docs} required documents completed
-                </Typography>
-                <Chip 
+                  <Chip 
                   label={`${process.percentage}%`}
                   color={isInProgress ? "primary" : "default"}
                   size="medium"
+                  sx={{ ml: 1 }}
                 />
+                </Typography>
+                
               </Box>
               
               {/* Process Content */}
-              <Box className="verticalStepper">
+              <Box className="verticalStepper" sx={{ p: 0}}>
                 {stepsForProcess.length > 0 ? (
                   <Stepper orientation="vertical" className="verticalStepperSteps">
                     {stepsForProcess.map((step) => {
@@ -321,9 +323,9 @@ const PathwayProgress = ({
                             }}
                           >
                             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                              <Typography variant="h6" sx={{ fontWeight: 'medium', color: 'black !important' }}>
+                              <h3 className="mediumText">
                                 {step.title}
-                                {step.required && (
+                                {/* {step.required && (
                                   <Chip
                                     size="small"
                                     label="Required"
@@ -331,7 +333,7 @@ const PathwayProgress = ({
                                     variant="outlined"
                                     sx={{ ml: 1 }}
                                   />
-                                )}
+                                )} */}
                                 {isCurrentStep && (
                                   <Chip
                                     size="small"
@@ -340,21 +342,23 @@ const PathwayProgress = ({
                                     sx={{ ml: 1 }}
                                   />
                                 )}
-                              </Typography>
-                              {stepCompleted ? (
+                                {stepCompleted ? (
                                 <Chip
                                   icon={<CheckCircleIcon />}
-                                  label="Complete"
+                                  label="Completed"
                                   color="success"
-                                  size="small"
+                                  size="small" 
+                                  sx={{ ml: 1 }}
                                 />
                               ) : (
                                 <Chip
                                   label={`${step.percentage}%`}
                                   color="primary"
                                   size="small"
+                                  sx={{ ml: 1 }}
                                 />
                               )}
+                              </h3>
                             </Box>
                           </StepLabel>
                           <StepContent>
@@ -365,16 +369,16 @@ const PathwayProgress = ({
                             {/* Pending Documents */}
                             {pendingDocs.length > 0 && (
                               <Box sx={{ mb: 2 }}>
-                                <Typography variant="subtitle2" sx={{ fontWeight: 'bold', mb: 1, color: 'black !important' }}>
+                                <h4 className="smallText">
                                   Required Documents
-                                </Typography>
+                                </h4>
                                 <List dense>
                                   {pendingDocs.map(doc => (
-                                    <ListItem key={doc.document_id}>
-                                      <ListItemIcon>
+                                    <ListItem sx={{ ml: 0, pl: 0 }} key={doc.document_id}>
+                                      <ListItemIcon sx={{mr: 0, pr: 0, minWidth:"45px"}}>
                                         <ErrorIcon color="error" />
                                       </ListItemIcon>
-                                      <ListItemText 
+                                      <ListItemText
                                         primary={
                                           <>
                                             {doc.document_name}
@@ -474,7 +478,7 @@ const PathwayProgress = ({
           </Alert>
         )}
       </Box>
-    </Paper>
+    </div>
   );
 };
 
