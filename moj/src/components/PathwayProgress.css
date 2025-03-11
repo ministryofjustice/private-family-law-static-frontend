@@ -1,0 +1,29 @@
+.pathwayExpanded {
+  .MuiChip-colorPrimary {
+    /* background-color: red !important; */
+  }
+  .MuiChip-colorPrimary {
+    background-color: var(--btnBlue);
+    border-color: var(--btnBlue);
+    border-radius: 5px;
+    color: var(--white);
+  }
+  .MuiChip-colorSecondary {
+    background-color: var(--btnOrange);
+    border-color: var(--btnOrange);
+    border-radius: 5px;
+    color: var(--white);
+  }
+  .MuiChip-colorSuccess {
+    background-color: var(--btnGreen);
+    border-color: var(--btnGreen);
+    border-radius: 5px;
+    color: var(--white);
+  }
+  .MuiChip-colorError {
+    background-color: var(--btnRed);
+    border-color: var(--btnRed);
+    border-radius: 5px;
+    color: var(--white);
+  }
+}
