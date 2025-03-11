@@ -1,0 +1,44 @@
+.questionArea {
+  border-top: 1px solid var(--white);
+  color: var(--white);
+
+  label,
+  textarea {
+    color: var(--white) !important;
+  }
+
+  fieldset {
+    border-color: var(--white);
+  }
+
+  &:hover {
+    fieldset {
+      border-color: var(--white) !important; 
+    }
+  }
+
+  textarea {
+    width: 100%;
+  }
+
+  .questionAnswerList {
+    margin: 15px 0 30px;
+
+    li {
+      margin: 0 0 20px 15px;
+      list-style-type: disc;
+
+      .question {
+        font-family: GDSTransportBold;
+        font-size: 24px;
+      }
+    }
+  }
+
+  button {
+    background-color: #c3c3c3;
+    color: var(--black);
+    text-transform: none;
+    float: right;
+  }
+}

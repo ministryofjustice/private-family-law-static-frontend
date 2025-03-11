@@ -13,6 +13,7 @@ import CaseSummary from '../components/CaseSummary';
 import SuccessfulCases from '../components/SuccessfulCases';
 import RelevantVideos from '../components/RelevantVideos';
 import VerticalStepper from '../components/VerticalStepper';
+import QuestionsAnswers from '../components/QuestionsAnswers';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -395,6 +396,11 @@ export default function VerticalTabs() {
                       return <div>Error loading pathway steps</div>;
                     }
                   })()}
+                </Grid>
+              </Grid>
+              <Grid container spacing={4}>
+                <Grid size={{ xs: 12, lg: 12 }}>
+                  <QuestionsAnswers />
                 </Grid>
               </Grid>
             </TabPanel>
