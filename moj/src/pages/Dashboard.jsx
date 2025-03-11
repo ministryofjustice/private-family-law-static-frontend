@@ -315,7 +315,7 @@ export default function Dashboard() {
                   })()}
                 </Grid>
               </Grid>
-              <Grid container spacing={4}>
+              <Grid container className="container" spacing={4}>
                 <Grid size={{ xs: 12, lg: 12 }}>
                 <QuestionsAnswers 
                   queries={caseData?.queries} 

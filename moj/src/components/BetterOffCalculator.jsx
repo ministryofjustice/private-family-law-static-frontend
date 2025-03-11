@@ -136,7 +136,7 @@ const BetterOffCalculator = ({ caseId }) => {
         input_paymentcycle_user_job1: betterOffForm.input_paymentcycle_user_job1 || "weekly",
         input_savings: Number(betterOffForm.input_savings || 0)
       };
-      
+      console.log(formData);
       // Only add receiving_benefits if it's not "None"
       if (betterOffForm.input_receiving_benefits && betterOffForm.input_receiving_benefits !== "None") {
         formData.input_receiving_benefits = betterOffForm.input_receiving_benefits;
@@ -198,7 +198,7 @@ const BetterOffCalculator = ({ caseId }) => {
                   Eligible Total
                 </Typography>
                 <Typography variant="h4" sx={{ color: 'var(--white) !important' }}>
-                  £{betterOffData.output_eligible_total_result?.toFixed(2) || '0.00'} per week
+                  £{betterOffData.output_eligible_total_result?.toFixed(2) || '0.00'} per month
                 </Typography>
               </CardContent>
             </Card>
@@ -223,7 +223,7 @@ const BetterOffCalculator = ({ caseId }) => {
                     }}
                   >
                     {betterOffData.output_eligible_total_result > betterOffData.income_earnings_net ? '+' : ''}
-                    £{(betterOffData.output_eligible_total_result - betterOffData.income_earnings_net).toFixed(2)} per week
+                    £{(betterOffData.output_eligible_total_result - betterOffData.income_earnings_net).toFixed(2)} per month
                   </Typography>
                 </CardContent>
               </Card>

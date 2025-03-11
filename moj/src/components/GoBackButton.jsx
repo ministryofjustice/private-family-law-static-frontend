@@ -5,7 +5,8 @@ const GoBackButton = () => {
   const navigate = useNavigate();
   const { caseId } = useParams();
   const location = useLocation();
-  // List of routes that should navigate to home
+  
+  // List of base routes that should navigate to home
   const routesToHome = ['/file-upload', '/dashboard'];
 
   const handleGoBack = () => {
@@ -13,14 +14,19 @@ const GoBackButton = () => {
     if (location.pathname.includes('/service/') && caseId) {
       // Navigate directly to the dashboard with the case ID
       navigate(`/dashboard/${caseId}`);
-    } else if(routesToHome.includes(location.pathname)) {
-      navigate('/home');
     } else {
-      // Otherwise use standard back navigation
-      navigate(-1);
-  
-    
-    };
+      // Check if current path matches any routesToHome base path
+      const isRouteToHome = routesToHome.some(route => 
+        location.pathname.startsWith(route)
+      );
+
+      if (isRouteToHome) {
+        navigate('/home');
+      } else {
+        // Otherwise use standard back navigation
+        navigate(-1);
+      }
+    }
   };
 
   return (
