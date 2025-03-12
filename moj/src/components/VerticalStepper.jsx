@@ -68,15 +68,16 @@ const VerticalStepper = ({ pathwayData, loadingPathway }) => {
     });
     
     // Store the pathway data in sessionStorage so we can access it from the Pathway component
-    try {
-      sessionStorage.setItem('pathwayData', JSON.stringify(pathwayData));
-    } catch (e) {
-      console.error("Error storing pathway data in sessionStorage:", e);
-    }
+    //try {
+    //  sessionStorage.setItem('pathwayData', JSON.stringify(pathwayData));
+    //} catch (e) {
+    //  console.error("Error storing pathway data in sessionStorage:", e);
+    //}
     
     // Navigate to the pathway page with state
     navigate('/pathway', { 
       state: { 
+        pathwayData:  pathwayData,
         targetProcessKey: processKey,
         targetStepId: targetStepId,
         hasPathwayData: true // Flag to indicate data is available in sessionStorage

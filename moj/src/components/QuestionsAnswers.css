@@ -1,7 +1,7 @@
 .questionArea {
   border-top: 1px solid var(--white);
   color: var(--white);
-
+  
   label,
   textarea {
     color: var(--white) !important;
@@ -19,6 +19,23 @@
 
   textarea {
     width: 100%;
+    scrollbar-width: thin;
+    scrollbar-color: #1e5631 var(--dark-grey);
+  }
+  
+  /* Custom scrollbar styling */
+  textarea::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  textarea::-webkit-scrollbar-track {
+    background: var(--dark-grey);
+    border-radius: 4px;
+  }
+  
+  textarea::-webkit-scrollbar-thumb {
+    background-color: #1e5631;
+    border-radius: 4px;
   }
 
   .questionAnswerList {
@@ -40,5 +57,53 @@
     color: var(--black);
     text-transform: none;
     float: right;
+    
+    &:hover {
+      background-color: #a3a3a3;
+      color: var(--black);
+    }
+  }
+}
+
+/* Light theme adjustments */
+.light-theme .questionArea {
+  border-top: 1px solid var(--black);
+  color: var(--black);
+  
+  label,
+  textarea {
+    color: var(--black) !important;
+  }
+
+  fieldset {
+    border-color: var(--black);
+  }
+
+  &:hover {
+    fieldset {
+      border-color: var(--black) !important; 
+    }
+  }
+  
+  textarea {
+    scrollbar-color: var(--blue) var(--grey);
+  }
+  
+  textarea::-webkit-scrollbar-track {
+    background: var(--grey);
+  }
+  
+  textarea::-webkit-scrollbar-thumb {
+    background-color: var(--blue);
+  }
+
+  button {
+    background-color: var(--blue);
+    color: var(--white);
+    
+    &:hover {
+      background-color: var(--blue-hover, #3b8cb9);
+      color: var(--white);
+    }
   }
 }

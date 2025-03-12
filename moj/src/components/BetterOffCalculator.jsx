@@ -124,7 +124,7 @@ const BetterOffCalculator = ({ caseId }) => {
       
       // Create the base form data
       const formData = {
-        input_dob_user: betterOffForm.input_dob_user || "29/04/1996",
+        input_dob_user: betterOffForm.input_dob_user || "",
         input_dob_partner: betterOffForm.input_dob_partner || "",
         input_relationship_status: betterOffForm.input_relationship_status || "single",
         input_number_of_children: Number(betterOffForm.input_number_of_children || 0),

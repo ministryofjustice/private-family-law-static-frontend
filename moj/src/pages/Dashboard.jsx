@@ -62,8 +62,12 @@ export default function Dashboard() {
       open: false
     });
   };
-
-  const fetchPathwayStatus = useCallback(async () => {
+    
+  // Fetch pathway data when component mounts or caseId changes
+  const fetchPathwayStatus = async () => {
+    // Skip if already loading or if we have data for this case
+    if (loadingPathway || (pathwayData && pathwayData.case_id === caseId)) return;
+    
     try {
       setLoadingPathway(true);
       console.log("case id = ", caseId);
@@ -82,14 +86,15 @@ export default function Dashboard() {
     } finally {
       setLoadingPathway(false);
     }
-  }, [caseId]);
-    
-  // Fetch pathway data when component mounts or caseId changes
+  };
+  
+  // Simplify the useEffect
   useEffect(() => {
     if (caseId) {
       fetchPathwayStatus();
     }
-  }, [caseId, fetchPathwayStatus]);
+    // Only depend on caseId
+  }, [caseId]);
   
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -97,6 +102,8 @@ export default function Dashboard() {
 
   useEffect(() => {
     const fetchCaseData = async () => {
+
+      if (caseData && caseData.id === caseId) return;
       try {
         if (!caseId) {
           console.log('No case ID provided, skipping data fetch');
@@ -276,28 +283,13 @@ export default function Dashboard() {
               {/* Case Details and Pathway */}
               <Grid size={{ xs: 12 }} container spacing={3}>
                 <Grid size={{ xs: 12, lg: 8 }}>
+                  {/* Case Summary */}
                   {(() => {
                     try {
                       return <CaseSummary caseSummary={caseData?.case_summary}/>;
                     } catch (error) {
                       console.error('Error rendering CaseSummary:', error);
                       return <div>Error loading case summary</div>;
-                    }
-                  })()}
-                  {(() => {
-                    try {
-                      return <SuccessfulCases caseSummary={caseData?.case_summary} caseId={caseId}/>;
-                    } catch (error) {
-                      console.error('Error rendering SuccessfulCases:', error);
-                      return <div>Error loading successful cases</div>;
-                    }
-                  })()}
-                  {(() => {
-                    try {
-                      return <VideoGallery title={pathwayData?.pending_documents[0]?.process_name} stepId={pathwayData?.pending_documents[0]?.process_key + '_' + pathwayData?.pending_documents[0]?.step_id} />;
-                    } catch (error) {
-                      console.error('Error rendering VideoGallery:', error);
-                      return <div>Error loading video gallery</div>;
                     }
                   })()}
                 </Grid>
@@ -315,8 +307,36 @@ export default function Dashboard() {
                   })()}
                 </Grid>
               </Grid>
-              <Grid container className="container" spacing={4}>
-                <Grid size={{ xs: 12, lg: 12 }}>
+              
+              {/* Successful Cases - Now in its own grid container */}
+              <Grid size={{ xs: 12 }} container spacing={3}>
+                <Grid size={{ xs: 12, lg: 8 }}>
+                  {(() => {
+                    try {
+                      return <SuccessfulCases caseSummary={caseData?.case_summary} caseId={caseId}/>;
+                    } catch (error) {
+                      console.error('Error rendering SuccessfulCases:', error);
+                      return <div>Error loading successful cases</div>;
+                    }
+                  })()}
+                </Grid>
+              </Grid>
+              
+              {/* Video Gallery */}
+              <Grid size={{ xs: 12 }} container spacing={3}>
+                <Grid size={{ xs: 12, lg: 8 }}>
+                  {(() => {
+                    try {
+                      return <VideoGallery title={pathwayData?.pending_documents[0]?.process_name} stepId={pathwayData?.pending_documents[0]?.process_key + '_' + pathwayData?.pending_documents[0]?.step_id} />;
+                    } catch (error) {
+                      console.error('Error rendering VideoGallery:', error);
+                      return <div>Error loading video gallery</div>;
+                    }
+                  })()}
+                </Grid>
+              </Grid>
+              <Grid className="container" container spacing={4}>
+                <Grid size={{ xs: 12, lg: 8 }}>
                 <QuestionsAnswers 
                   queries={caseData?.queries} 
                   caseId={caseId} 

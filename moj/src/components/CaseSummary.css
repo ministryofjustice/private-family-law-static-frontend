@@ -1,21 +1,65 @@
-.caseSummary {
-  /* max-height: 400px;
-  overflow:auto !important; */
+.caseSummaryWrapper {
   background-color: var(--black) !important;
   box-shadow: none !important;
   color: var(--white) !important;
   border-bottom: 1px solid var(--white);
-  padding-bottom: 30px;
+  padding-bottom: 15px;
   margin-bottom: 30px;
+}
 
-  ul {
-    margin: 0;
+.caseSummary {
+  height: 900px;
+  overflow-y: auto;
+  background-color: var(--black) !important;
+  box-shadow: none !important;
+  color: var(--white) !important;
+  padding-bottom: 15px;
+  scrollbar-width: thin;
+  scrollbar-color: #43A6C6 var(--dark-grey);
+}
+
+/* Custom scrollbar styling */
+.caseSummary::-webkit-scrollbar {
+  width: 8px;
+}
+
+.caseSummary::-webkit-scrollbar-track {
+  background: var(--dark-grey);
+  border-radius: 4px;
+}
+
+.caseSummary::-webkit-scrollbar-thumb {
+  background-color: #1e5631;
+  border-radius: 4px;
+}
+
+.caseSummary ul {
+  margin: 0;
+  padding: 0;
+
+  li {
+    list-style: disc;
+    margin: 0 0 8px 15px;
     padding: 0;
-
-    li {
-      list-style: disc;
-      margin: 0 0 8px 15px;
-      padding: 0;
-    }
   }
+}
+
+/* Light theme scrollbar adjustments */
+.light-theme .caseSummary {
+  scrollbar-color: var(--blue) var(--grey);
+}
+
+.light-theme .caseSummary::-webkit-scrollbar-track {
+  background: var(--grey);
+}
+
+.light-theme .caseSummary::-webkit-scrollbar-thumb {
+  background-color: var(--blue);
+}
+
+/* Light theme wrapper adjustments */
+.light-theme .caseSummaryWrapper {
+  background-color: var(--white) !important;
+  color: var(--black) !important;
+  border-bottom: 1px solid var(--black);
 }
