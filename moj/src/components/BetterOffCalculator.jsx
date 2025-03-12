@@ -124,7 +124,7 @@ const BetterOffCalculator = ({ caseId }) => {
       
       // Create the base form data
       const formData = {
-        input_dob_user: betterOffForm.input_dob_user || "29/04/1996",
+        input_dob_user: betterOffForm.input_dob_user || "",
         input_dob_partner: betterOffForm.input_dob_partner || "",
         input_relationship_status: betterOffForm.input_relationship_status || "single",
         input_number_of_children: Number(betterOffForm.input_number_of_children || 0),
@@ -198,7 +198,7 @@ const BetterOffCalculator = ({ caseId }) => {
                   Eligible Total
                 </Typography>
                 <Typography variant="h4" sx={{ color: 'var(--white) !important' }}>
-                  £{betterOffData.output_eligible_total_result?.toFixed(2) || '0.00'} per week
+                  £{betterOffData.output_eligible_total_result?.toFixed(2) || '0.00'} per month
                 </Typography>
               </CardContent>
             </Card>
@@ -223,7 +223,7 @@ const BetterOffCalculator = ({ caseId }) => {
                     }}
                   >
                     {betterOffData.output_eligible_total_result > betterOffData.income_earnings_net ? '+' : ''}
-                    £{(betterOffData.output_eligible_total_result - betterOffData.income_earnings_net).toFixed(2)} per week
+                    £{(betterOffData.output_eligible_total_result - betterOffData.income_earnings_net).toFixed(2)} per month
                   </Typography>
                 </CardContent>
               </Card>

@@ -35,6 +35,7 @@ const PathwayProgress = ({
       console.log("=== PATHWAY PROGRESS DEBUG ===");
       console.log("Target Process Key:", targetProcessKey);
       console.log("Target Step ID:", targetStepId);
+      console.log("pathwayData:", pathwayData);
       console.log("Current Phase from API:", pathwayData.current_phase);
       
       // Log all processes

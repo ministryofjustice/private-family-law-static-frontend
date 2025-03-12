@@ -62,8 +62,12 @@ export default function Dashboard() {
       open: false
     });
   };
-
-  const fetchPathwayStatus = useCallback(async () => {
+    
+  // Fetch pathway data when component mounts or caseId changes
+  const fetchPathwayStatus = async () => {
+    // Skip if already loading or if we have data for this case
+    if (loadingPathway || (pathwayData && pathwayData.case_id === caseId)) return;
+    
     try {
       setLoadingPathway(true);
       console.log("case id = ", caseId);
@@ -82,14 +86,15 @@ export default function Dashboard() {
     } finally {
       setLoadingPathway(false);
     }
-  }, [caseId]);
-    
-  // Fetch pathway data when component mounts or caseId changes
+  };
+  
+  // Simplify the useEffect
   useEffect(() => {
     if (caseId) {
       fetchPathwayStatus();
     }
-  }, [caseId, fetchPathwayStatus]);
+    // Only depend on caseId
+  }, [caseId]);
   
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -97,6 +102,8 @@ export default function Dashboard() {
 
   useEffect(() => {
     const fetchCaseData = async () => {
+
+      if (caseData && caseData.id === caseId) return;
       try {
         if (!caseId) {
           console.log('No case ID provided, skipping data fetch');
@@ -328,10 +335,8 @@ export default function Dashboard() {
                   })()}
                 </Grid>
               </Grid>
-              
-              {/* Questions and Answers */}
-              <Grid size={{ xs: 12 }} container spacing={3}>
-                <Grid size={{ xs: 12, lg: 8 }}>
+              <Grid className="container" container spacing={4}>
+                <Grid size={{ xs: 12, lg: 12 }}>
                 <QuestionsAnswers 
                   queries={caseData?.queries} 
                   caseId={caseId} 
