@@ -20,29 +20,37 @@ export default function SummaryCardActions() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchPathwayStatus = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(`/api/pathway/${caseId}/status`);
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch pathway status');
-        }
-        
-        const data = await response.json();
-        setPathwayData(data);
-      } catch (error) {
-        console.error('Error fetching pathway status:', error);
-        setError(error.message);
-      } finally {
-        setLoading(false);
+  // Define fetchPathwayStatus outside useEffect to match Dashboard pattern
+  const fetchPathwayStatus = async () => {
+    // Skip if we already have data for this case
+    if (pathwayData && pathwayData.case_id === caseId) {
+      return;
+    }
+    
+    try {
+      setLoading(true);
+      const response = await fetch(`/api/pathway/${caseId}/status`);
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch pathway status');
       }
-    };
+      
+      const data = await response.json();
+      setPathwayData(data);
+    } catch (error) {
+      console.error('Error fetching pathway status:', error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  // Simplify the useEffect to match Dashboard pattern
+  useEffect(() => {
     if (caseId) {
       fetchPathwayStatus();
     }
+    // Only depend on caseId like in Dashboard
   }, [caseId]);
 
   // Calculate dates two weeks from now for pending tasks

@@ -10,6 +10,8 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
+RUN npm install react-markdown
+
 # Copy the rest of the application
 COPY . .
 

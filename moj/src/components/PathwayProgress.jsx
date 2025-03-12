@@ -21,15 +21,16 @@ import ErrorIcon from '@mui/icons-material/Error';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 import './PathwayProgress.css';
+import { useNavigate } from 'react-router-dom';
 
 const PathwayProgress = ({ 
   pathwayData, 
   loadingPathway, 
   pathwayError, 
-  setUploadDialogOpen,
   targetProcessKey, // New prop to accept a specific process to display
   targetStepId      // New prop to highlight a specific step
 }) => {
+  const navigate = useNavigate();
   useEffect(() => {
     if (pathwayData) {
       console.log("=== PATHWAY PROGRESS DEBUG ===");
@@ -247,10 +248,27 @@ const PathwayProgress = ({
   return (
     <Paper elevation={2} sx={{ p: 3, mb: 3, bgcolor: 'var(--lightOrange)' }} className="verticalStepper">
       {/* Process title as main header */}
-      <Typography variant="h4" sx={{ mb: 2 }}>
-        {currentProcessData.name}
-      </Typography>
-      <Divider sx={{ mb: 3 }} />
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+          <Typography variant="h4">
+            {currentProcessData.name}
+          </Typography>
+          <Button 
+            variant="contained"
+            onClick={() => navigate('/')}
+            sx={{ 
+              backgroundColor: 'var(--greenButton)', 
+              textTransform: 'none',
+              color: 'var(--white)',
+              '&:hover': {
+                backgroundColor: 'var(--greenButton)',
+                opacity: 0.9
+              }
+            }}
+          >
+            Upload more documents
+          </Button>
+        </Box>
+        <Divider sx={{ mb: 3 }} />
       
       <Box>
         {/* MODIFIED: Only show the selected process instead of all incomplete processes */}
