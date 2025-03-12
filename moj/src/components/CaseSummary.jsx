@@ -150,21 +150,23 @@ export default function CaseSummary({ caseSummary }) {
         </p>
       </div>
 
-      <div className="caseArgumentsPresented">
-        <h4 className='mt-3 mb-1'>Arguments presented</h4>
-        <p>
-          <span className="title">Plaintiff's Arguments:</span>
-          <span>{renderObjectAsKeyValue(caseSummary?.arguments_presented.plaintiff_arguments) || "No plaintiff arguments available"}</span>
-        </p>
-        <p>
-          {renderObjectAsKeyValue(caseSummary?.arguments_presented.defendant_arguments) && (
-            <>
-              <span className="title">Defendant's Arguments:</span>
-              <span>{renderObjectAsKeyValue(caseSummary?.arguments_presented.defendant_arguments)}</span>
-            </>
-          )}
-        </p>
-      </div>
+      {renderObjectAsKeyValue(caseSummary?.arguments_presented.plaintiff_arguments) && (
+        <div className="caseArgumentsPresented">
+          <h4 className='mt-3 mb-1'>Arguments presented</h4>
+          <p>
+            <span className="title">Plaintiff's Arguments:</span>
+            <span>{renderObjectAsKeyValue(caseSummary?.arguments_presented.plaintiff_arguments)}</span>
+          </p>
+          <p>
+            {renderObjectAsKeyValue(caseSummary?.arguments_presented.defendant_arguments) && (
+              <>
+                <span className="title">Defendant's Arguments:</span>
+                <span>{renderObjectAsKeyValue(caseSummary?.arguments_presented.defendant_arguments)}</span>
+              </>
+            )}
+          </p>
+        </div>
+      )}
 
       {renderObjectAsKeyValue(caseSummary?.decision_and_rationale.court_decision) && (
         <div className="caseDecisionAndRationale">

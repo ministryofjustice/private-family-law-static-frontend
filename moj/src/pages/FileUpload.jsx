@@ -208,51 +208,6 @@ export default function FileUpload() {
                   <p>No files uploaded yet.</p>
                 )}
               </List>
-            <div>
-              <Button 
-                className="btn-upload cta-button"
-                variant="outlined"
-                component="label"
-                color="primary"
-                startIcon={<CloudUploadIcon />}
-                sx={{ marginBottom: 2 }}
-              >
-                Upload Files
-                <input
-                  type="file"
-                  hidden
-                  multiple
-                  onChange={handleFileChange}
-                  accept={ALLOWED_FILE_TYPES.join(',')}
-                />
-              </Button>
-              <h3 className="mediumText mt-3">Uploaded files:</h3>
-              <List className="fileList">
-                {selectedFiles.length > 0 ? (
-                  selectedFiles.map((file, index) => {
-                    const fileSizeInKB = (file.size / 1024).toFixed(0);
-                    return (
-                      <ListItem 
-                        key={index} 
-                        secondaryAction={
-                          <IconButton edge="end" onClick={() => handleDeleteFile(file.name)}>
-                            <DeleteIcon />
-                          </IconButton>
-                        }
-                      >
-                        <ListItemText 
-                          className="fileDetails"
-                          primary={file.name} 
-                          secondary={`Size: ${fileSizeInKB} KB`} 
-                        />
-                      </ListItem>
-                    );
-                  })
-                ) : (
-                  <p>No files uploaded yet.</p>
-                )}
-              </List>
-            </div>
             {isLoading ? (
               <CircularProgress />
             ) : (

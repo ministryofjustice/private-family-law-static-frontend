@@ -136,7 +136,7 @@ const BetterOffCalculator = ({ caseId }) => {
         input_paymentcycle_user_job1: betterOffForm.input_paymentcycle_user_job1 || "weekly",
         input_savings: Number(betterOffForm.input_savings || 0)
       };
-      
+      console.log(formData);
       // Only add receiving_benefits if it's not "None"
       if (betterOffForm.input_receiving_benefits && betterOffForm.input_receiving_benefits !== "None") {
         formData.input_receiving_benefits = betterOffForm.input_receiving_benefits;
