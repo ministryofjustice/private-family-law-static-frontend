@@ -276,28 +276,13 @@ export default function Dashboard() {
               {/* Case Details and Pathway */}
               <Grid size={{ xs: 12 }} container spacing={3}>
                 <Grid size={{ xs: 12, lg: 8 }}>
+                  {/* Case Summary */}
                   {(() => {
                     try {
                       return <CaseSummary caseSummary={caseData?.case_summary}/>;
                     } catch (error) {
                       console.error('Error rendering CaseSummary:', error);
                       return <div>Error loading case summary</div>;
-                    }
-                  })()}
-                  {(() => {
-                    try {
-                      return <SuccessfulCases caseSummary={caseData?.case_summary} caseId={caseId}/>;
-                    } catch (error) {
-                      console.error('Error rendering SuccessfulCases:', error);
-                      return <div>Error loading successful cases</div>;
-                    }
-                  })()}
-                  {(() => {
-                    try {
-                      return <VideoGallery title={pathwayData?.pending_documents[0]?.process_name} stepId={pathwayData?.pending_documents[0]?.process_key + '_' + pathwayData?.pending_documents[0]?.step_id} />;
-                    } catch (error) {
-                      console.error('Error rendering VideoGallery:', error);
-                      return <div>Error loading video gallery</div>;
                     }
                   })()}
                 </Grid>
@@ -315,8 +300,38 @@ export default function Dashboard() {
                   })()}
                 </Grid>
               </Grid>
-              <Grid container spacing={4}>
-                <Grid size={{ xs: 12, lg: 12 }}>
+              
+              {/* Successful Cases - Now in its own grid container */}
+              <Grid size={{ xs: 12 }} container spacing={3}>
+                <Grid size={{ xs: 12, lg: 8 }}>
+                  {(() => {
+                    try {
+                      return <SuccessfulCases caseSummary={caseData?.case_summary} caseId={caseId}/>;
+                    } catch (error) {
+                      console.error('Error rendering SuccessfulCases:', error);
+                      return <div>Error loading successful cases</div>;
+                    }
+                  })()}
+                </Grid>
+              </Grid>
+              
+              {/* Video Gallery */}
+              <Grid size={{ xs: 12 }} container spacing={3}>
+                <Grid size={{ xs: 12, lg: 8 }}>
+                  {(() => {
+                    try {
+                      return <VideoGallery title={pathwayData?.pending_documents[0]?.process_name} stepId={pathwayData?.pending_documents[0]?.process_key + '_' + pathwayData?.pending_documents[0]?.step_id} />;
+                    } catch (error) {
+                      console.error('Error rendering VideoGallery:', error);
+                      return <div>Error loading video gallery</div>;
+                    }
+                  })()}
+                </Grid>
+              </Grid>
+              
+              {/* Questions and Answers */}
+              <Grid size={{ xs: 12 }} container spacing={3}>
+                <Grid size={{ xs: 12, lg: 8 }}>
                 <QuestionsAnswers 
                   queries={caseData?.queries} 
                   caseId={caseId} 

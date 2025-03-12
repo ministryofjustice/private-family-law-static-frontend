@@ -94,7 +94,8 @@ export default function CaseSummary({ caseSummary }) {
   };
 
   return (
-    <div className="caseSummary">
+    <div className="caseSummaryWrapper">
+      <div className="caseSummary">
       <h3 className="mt-4">Your case summary</h3>
       
       <div className="caseTitle">
@@ -196,9 +197,8 @@ export default function CaseSummary({ caseSummary }) {
       </div>
 
       <div className="caseConclusion">
-        <h4 className='mt-3 mb-1'>Conclusion</h4>
+        <h4 className='mt-3 mb-1'>Summary of your case so far</h4>
         <p>
-          <span className="title">Summary:</span>
           <span>{renderObjectAsKeyValue(caseSummary?.conclusion.summary) || "No summary available"}</span>
         </p>
       </div>
@@ -212,6 +212,7 @@ export default function CaseSummary({ caseSummary }) {
           </p>
         </div>
       )}
+      </div>
     </div>
   );
 };
