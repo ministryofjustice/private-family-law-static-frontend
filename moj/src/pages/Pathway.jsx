@@ -15,13 +15,6 @@ export default function Pathway() {
 
   // Get the case ID from URL params
   const { caseId } = useParams();
-  
-  // Log the state for debugging
-  console.log("Pathway page received navigation state:", { 
-    hasRouterData: !!routerPathwayData,
-    targetProcessKey, 
-    targetStepId
-  });
 
   // Only fetch from API if we don't have data from router state
   useEffect(() => {
@@ -33,7 +26,6 @@ export default function Pathway() {
   const fetchPathwayStatus = useCallback(async () => {
     try {
       setLoadingPathway(true);
-      console.log("Fetching pathway status for case:", caseId);
       const response = await fetch(`/api/pathway/${caseId}/status`);
       
       if (!response.ok) {
@@ -41,7 +33,6 @@ export default function Pathway() {
       }
       
       const data = await response.json();
-      console.log("Pathway data loaded successfully from API");
       setPathwayData(data);
     } catch (error) {
       console.error('Error fetching pathway status:', error);

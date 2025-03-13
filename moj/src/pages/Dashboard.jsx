@@ -70,15 +70,12 @@ export default function Dashboard() {
     
     try {
       setLoadingPathway(true);
-      console.log("case id = ", caseId);
       const response = await fetch(`/api/pathway/${caseId}/status`);
-      console.log("response = ", response);
       if (!response.ok) {
         throw new Error('Failed to fetch pathway status');
       }
       
       const data = await response.json();
-      console.log("data = ", data);
       setPathwayData(data);
     } catch (error) {
       console.error('Error fetching pathway status:', error);
@@ -106,7 +103,6 @@ export default function Dashboard() {
       if (caseData && caseData.id === caseId) return;
       try {
         if (!caseId) {
-          console.log('No case ID provided, skipping data fetch');
           return;
         }
         

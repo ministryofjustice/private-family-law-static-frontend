@@ -144,7 +144,6 @@ export default function FileUpload() {
   
     try {
       const caseId = await uploadFiles();
-      console.log(caseId);
       await generateReport(caseId);
       await getReportStatus(caseId);
       setIsLoading(false);

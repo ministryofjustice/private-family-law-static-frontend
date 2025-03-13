@@ -61,12 +61,6 @@ const VerticalStepper = ({ pathwayData, loadingPathway }) => {
   const handleNavigateToPathway = (processKey) => {
     const targetStepId = findTargetStepForProcess(processKey);
     
-    // Add logging to debug navigation
-    console.log("VerticalStepper navigating with:", {
-      targetProcessKey: processKey,
-      targetStepId: targetStepId
-    });
-    
     // Store the pathway data in sessionStorage so we can access it from the Pathway component
     //try {
     //  sessionStorage.setItem('pathwayData', JSON.stringify(pathwayData));
