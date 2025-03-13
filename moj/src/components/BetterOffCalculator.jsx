@@ -432,7 +432,7 @@ const BetterOffCalculator = ({ caseId }) => {
               
               <Grid item xs={12} md={6}>
                 <TextField
-                  label="Weekly Income"
+                  label="Your Household Net Income"
                   name="input_wage_user_job1"
                   type="number"
                   value={betterOffForm.input_wage_user_job1}
@@ -448,7 +448,7 @@ const BetterOffCalculator = ({ caseId }) => {
               
               <Grid item xs={12} md={6}>
                 <FormControl fullWidth margin="normal" sx={selectStyles}>
-                  <InputLabel>Payment Cycle</InputLabel>
+                  <InputLabel>Your Payment Cycle</InputLabel>
                   <Select
                     name="input_paymentcycle_user_job1"
                     value={betterOffForm.input_paymentcycle_user_job1}
@@ -458,7 +458,7 @@ const BetterOffCalculator = ({ caseId }) => {
                     <MenuItem value="weekly">Weekly</MenuItem>
                     <MenuItem value="fortnightly">Fortnightly</MenuItem>
                     <MenuItem value="monthly">Monthly</MenuItem>
-                    <MenuItem value="annually">Annually</MenuItem>
+                    <MenuItem value="annual">Annually</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
