@@ -8,7 +8,8 @@ import CaseSummary from './components/CaseSummary';
 import Home from './pages/Home';
 import FileUpload from './pages/FileUpload';
 import LoadingPage from './pages/LoadingPage';
-import TabPanel from './pages/Dashboard';
+import CaseDetails from './pages/CaseDetails';
+import ParentPlanner from './pages/ParentPlanner';
 import Pathway from './pages/Pathway';
 import NoPage from './pages/NoPage';
 
@@ -76,7 +77,8 @@ export default function App() {
               <Route path="/home" element={<Home />} />
               <Route path="/file-upload" element={<FileUpload />} />
               <Route path="/loading-page" element={<LoadingPage />} />
-              <Route path="/dashboard" element={<TabPanel />} />
+              <Route path="/case-details" element={<CaseDetails />} />
+              <Route path="/parent-planner" element={<ParentPlanner />} />
               <Route path="/case-summary" element={<CaseSummary />} />
               <Route path="/pathway/:caseId" element={<Pathway />} />
               <Route path="/pathway" element={<Pathway />} />

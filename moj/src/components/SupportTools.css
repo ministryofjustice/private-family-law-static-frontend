@@ -1,0 +1,371 @@
+.supportTools{
+  border: none !important;
+  margin-right: 30px;
+
+  li {
+    color: var(--white) !important;
+    display: block;
+    font-weight: bold;
+    font-family: GDSTransportBold;
+    margin: 0 0 10px;
+    padding: 0 ;
+    width: 100%;
+    max-width: 280px;
+    text-transform: none; 
+    text-align: left;
+    border: 2px solid var(--white);
+
+    a{
+      display: block;
+      text-decoration: none;
+      color: var(--white) !important;
+      padding: 20px;
+      width: 100%;
+    }
+
+    &.disabled {
+      background-color: #333333 !important;
+      cursor: not-allowed !important;
+      pointer-events: all !important;
+
+      &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #333333;
+        opacity: 0.8;
+      }
+      
+      a{
+        color: #bbbbbb !important;
+      }
+      
+      &:hover {
+        .tooltip {
+          display: none !important;
+        }
+      }
+    }
+  }
+  .MuiTabs-indicator {
+    background-color: transparent;
+  }
+  .Mui-selected {
+    border-width: 6px;
+  }
+
+  .tooltip {
+    display: none;
+    color: var(--black);
+    font-family: GDSTransport;
+    font-size: 15px;
+    font-weight: 400;
+    height: auto;
+    padding: 15px;
+    width: 250px;
+    position: absolute;
+    right: -260px;
+    top: -2px;
+    z-index: 1;
+  }
+  /**********
+  Colour Tabs
+  **********/
+  .btn-blue{
+    background-color: var(--btnBlue) !important;
+    position: relative;
+
+    &:hover {
+      background-color: #B5D9E8 !important;
+
+      .tooltip {
+        display: block;
+        background-color: #B5D9E8;
+      }
+    }
+  }
+  .btn-green{
+    background-color: var(--btnGreen) !important;
+    position: relative;
+
+    &:hover {
+      background-color: #D7F7D5 !important;
+
+      .tooltip {
+        display: block;
+        background-color: #D7F7D5;
+      }
+    }
+  }
+  .btn-yellow{
+    background-color: var(--btnYellow) !important;
+    position: relative;
+
+    &:hover {
+      background-color: #F1E5C3 !important;
+
+      .tooltip {
+        display: block;
+        background-color: #F1E5C3;
+      }
+    }
+  }
+  .btn-orange{
+    background-color: var(--btnOrange) !important;
+    position: relative;
+
+    &:hover {
+      background-color: #E6C6A8 !important;
+
+      .tooltip {
+        display: block;
+        background-color: #E6C6A8;
+      }
+    }
+  }
+  .btn-maroon{
+    background-color: var(--btnMaroon) !important;
+    position: relative;
+
+    &:hover {
+      background-color: #FBCEC6 !important;
+
+      .tooltip {
+        display: block;
+        background-color: #FBCEC6;
+      }
+    }
+  }
+  .btn-pink{
+    background-color: var(--btnPink) !important;
+    position: relative;
+
+    &:hover {
+      background-color: #EDC1DE !important;
+
+      .tooltip {
+        display: block;
+        background-color: #EDC1DE;
+      }
+    }
+  }
+  .btn-purple{
+    background-color: var(--btnPurple) !important;
+    position: relative;
+
+    &:hover {
+      background-color: #E1BFF5 !important;
+
+      .tooltip {
+        display: block;
+        background-color: #E1BFF5;
+      }
+    }
+  }
+  .btn-cobalt{
+    background-color: var(--btnCobalt) !important;
+    position: relative;
+
+    &:hover {
+      background-color: #C6CFEF !important;
+
+      .tooltip {
+        display: block;
+        background-color: #C6CFEF;
+      }
+    }
+  }
+
+  /* Icons */
+  .caseDetails {
+    background: url(../assets/icons/icon-case-details-white.png) no-repeat 20px 50% / 30px auto;
+    padding-left: 50px;
+
+    &:hover {
+      background-image: url(../assets/icons/icon-case-details-black.png);
+
+      a{
+        color: var(--black) !important;
+      }
+    }
+  }
+  .parentPlanner {
+    background: url(../assets/icons/icon-parent-planner-white.svg) no-repeat 20px 50% / 30px auto;
+    padding-left: 50px;
+
+    &:hover {
+      background-image: url(../assets/icons/icon-parent-planner-black.svg);
+
+      a{
+        color: var(--black) !important;
+      }
+    }
+  }
+  .financePlanner {
+    background: url(../assets/icons/icon-finance-planner-white.svg) no-repeat 20px 50% / 35px auto;
+    padding-left: 50px;
+    
+    &:hover {
+      background-image: url(../assets/icons/icon-finance-planner-black.svg);
+
+      a{
+        color: var(--black) !important;
+      }
+    }
+  }
+  .benefits {
+    background: url(../assets/icons/icon-benefits-white.svg) no-repeat 20px 50% / 35px auto;
+    padding-left: 50px;
+
+    &:hover {
+      background-image: url(../assets/icons/icon-benefits-black.svg);
+
+      a{
+        color: var(--black) !important;
+      }
+    }
+  }
+  .adviceFinder {
+    background: url(../assets/icons/icon-advice-finder-white.svg) no-repeat 20px 50% / 35px auto;
+    padding-left: 50px;
+
+    &:hover {
+      background-image: url(../assets/icons/icon-advice-finder-black.svg);
+
+      a{
+        color: var(--black) !important;
+      }
+    }
+  }
+  .homesAndAssets {
+    background: url(../assets/icons/icon-homes-and-assets-white.svg) no-repeat 20px 50% / 35px auto;
+    padding-left: 50px;
+
+    &:hover {
+      background-image: url(../assets/icons/icon-homes-and-assets-black.svg);
+
+      a{
+        color: var(--black) !important;
+      }
+    }
+  }
+  .findRepresentative {
+    background: url(../assets/icons/icon-find-a-representative-white.png) no-repeat 20px 50% / 35px auto;
+    padding-left: 50px;
+
+    &:hover {
+      background-image: url(../assets/icons/icon-find-a-representative-black.png);
+
+      a{
+        color: var(--black) !important;
+      }
+    }
+  }
+  .mentalHealth {
+    background: url(../assets/icons/icon-mental-health-white.svg) no-repeat 20px 50% / 35px auto;
+    padding-left: 50px;
+
+    &:hover {
+      background-image: url(../assets/icons/icon-mental-health-black.svg);
+
+      a{
+        color: var(--black) !important;
+      }
+    }
+  }
+  .voiceOfTheChild {
+    background: url(../assets/icons/icon-voice-of-the-child-white.svg) no-repeat 20px 50% / 35px auto;
+    padding-left: 50px;
+
+    &:hover {
+      background-image: url(../assets/icons/icon-voice-of-the-child-black.svg);
+
+      a{
+        color: var(--black) !important;
+      }
+    }
+  }  
+}
+
+/* Content Area */
+.caseDetailsWrapper {
+  .contentArea {
+    border-top: 10px solid var(--btnBlue);
+    padding-top: 40px;
+  }
+}
+.parentPlannerWrapper {
+  .contentArea {
+    border-top: 10px solid var(--btnGreen);
+    padding-top: 40px;
+  }
+}
+
+
+/********** 
+LIGHT THEME
+**********/
+.light-theme {
+  .supportTools{
+    .btn-blue{
+      border-color: var(--btnBlue) !important;
+
+      &:hover{
+        border-color: #B5D9E8 !important;
+      }
+    }
+
+    .btn-green{
+      border-color: var(--btnGreen) !important;
+
+      &:hover {
+        border-color: #D7F7D5 !important;
+      }
+    }
+    .btn-yellow{
+      border-color: var(--btnYellow) !important;
+
+      &:hover {
+        border-color: #F1E5C3 !important;
+      }
+    }
+    .btn-orange{
+      border-color: var(--btnOrange) !important;
+
+      &:hover {
+        border-color: #E6C6A8 !important;
+      }
+    }
+    .btn-maroon{
+      border-color: var(--btnMaroon) !important;
+
+      &:hover {
+        border-color: #FBCEC6 !important;
+      }
+    }
+    .btn-pink{
+      border-color: var(--btnPink) !important;
+
+      &:hover {
+        border-color: #EDC1DE !important;
+      }
+    }
+    .btn-purple{
+      border-color: var(--btnPurple) !important;
+
+      &:hover {
+        border-color: #E1BFF5 !important;
+      }
+    }
+    .btn-cobalt{
+      border-color: var(--btnCobalt) !important;
+
+      &:hover {
+        border-color: #C6CFEF !important;
+      }
+    }
+  }
+}

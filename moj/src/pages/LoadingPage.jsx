@@ -8,7 +8,7 @@ const LoadingPage = () => {
   useEffect(() => {
     // Simulate a 2-second loading time
     setTimeout(() => {
-      navigate("/dashboard"); // After the delay, navigate to page three
+      navigate("/case-details"); // After the delay, navigate to page three
     }, 3000);
   }, [navigate]);
 
