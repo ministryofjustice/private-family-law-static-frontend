@@ -12,6 +12,7 @@ import Alert from '@mui/material/Alert';
 import TranscribeIcon from '@mui/icons-material/Transcribe';
 
 import GoBackButton from '../components/GoBackButton';
+import SupportTools from '../components/SupportTools';
 import SummaryCardActions from '../components/SummaryCardActions';
 import SummaryCardDocuments from '../components/SummaryCardDocuments';
 import CaseSummary from '../components/CaseSummary';
@@ -21,7 +22,7 @@ import VerticalStepper from '../components/VerticalStepper';
 import QuestionsAnswers from '../components/QuestionsAnswers';
 import { serviceColors } from '../utils/constants'; 
 
-export default function Dashboard() {
+export default function CaseDetails() {
   const navigate = useNavigate();
   const [pathwayData, setPathwayData] = useState(null);
   const [loadingPathway, setLoadingPathway] = useState(false);

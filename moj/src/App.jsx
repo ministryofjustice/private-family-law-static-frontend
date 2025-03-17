@@ -10,6 +10,8 @@ import FileUpload from './pages/FileUpload';
 import Dashboard from './pages/Dashboard'; // Renamed from TabPanel to Dashboard
 import ServicePage from './pages/ServicePage'; // New component
 import LoadingPage from './pages/LoadingPage';
+import CaseDetails from './pages/CaseDetails';
+import ParentPlanner from './pages/ParentPlanner';
 import Pathway from './pages/Pathway';
 import NoPage from './pages/NoPage';
 
@@ -79,10 +81,15 @@ export default function App() {
               <Route path="/file-upload/:caseId" element={<FileUpload />} />
               
               {/* Updated routes for case dashboard and services */}
-              <Route path="/dashboard/:caseId" element={<Dashboard />} />
-              <Route path="/dashboard/:caseId/service/:serviceName" element={<ServicePage />} />
+              <Route path="/case-details/:caseId" element={<CaseDetails />} />
+              <Route path="/case-details/:caseId/service/:serviceName" element={<ServicePage />} />
               
               <Route path="/loading-page" element={<LoadingPage />} />
+
+        
+              <Route path="/parent-planner" element={<ParentPlanner />} />
+
+
               <Route path="/case-summary" element={<CaseSummary />} />
               <Route path="/pathway/:caseId" element={<Pathway />} />
               <Route path="/pathway" element={<Pathway />} />
