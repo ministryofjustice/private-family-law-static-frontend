@@ -1,16 +1,9 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 
 import GoBackButton from '../components/GoBackButton';
 import SupportTools from '../components/SupportTools';
-import SummaryCardActions from '../components/SummaryCardActions';
-import SummaryCardDocuments from '../components/SummaryCardDocuments';
-import CaseSummary from '../components/CaseSummary';
-import SuccessfulCases from '../components/SuccessfulCases';
-import RelevantVideos from '../components/RelevantVideos';
-import VerticalStepper from '../components/VerticalStepper';
 
 export default function ParentPlanner() {
   return (
