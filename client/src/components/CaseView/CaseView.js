@@ -93,7 +93,7 @@ const CaseView = () => {
     try {
       const response = await fetch(`/api/cases/${caseNumber}`);
       if (!response.ok) {
-        throw new Error('Case not found');
+        throw new Error('Cases not found');
       }
       const data = await response.json();
       setCaseData(data.case);
