@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 import './VerticalStepper.css';
 
-const VerticalStepper = ({ pathwayData, loadingPathway }) => {
+const VerticalStepper = ({ pathwayData, loadingPathway, caseId }) => {
   const navigate = useNavigate();
 
   // Helper function to find the target step ID for a given process
@@ -61,12 +61,6 @@ const VerticalStepper = ({ pathwayData, loadingPathway }) => {
   const handleNavigateToPathway = (processKey) => {
     const targetStepId = findTargetStepForProcess(processKey);
     
-    // Add logging to debug navigation
-    console.log("VerticalStepper navigating with:", {
-      targetProcessKey: processKey,
-      targetStepId: targetStepId
-    });
-    
     // Store the pathway data in sessionStorage so we can access it from the Pathway component
     //try {
     //  sessionStorage.setItem('pathwayData', JSON.stringify(pathwayData));
@@ -75,8 +69,10 @@ const VerticalStepper = ({ pathwayData, loadingPathway }) => {
     //}
     
     // Navigate to the pathway page with state
-    navigate('/pathway', { 
+    console.log(caseId);
+    navigate(`/pathway/${caseId}`, { 
       state: { 
+        caseId: caseId,
         pathwayData:  pathwayData,
         targetProcessKey: processKey,
         targetStepId: targetStepId,

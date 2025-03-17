@@ -8,7 +8,6 @@ export default function SuccessfulCases({ caseId, caseSummary }) {
 
   useEffect(() => {
     const fetchSimilarCaseData = async () => {
-      console.log(caseId);
       try {
         const response = await fetch('/api/cases/get_similar_summaries', {
           method: 'PUT',

@@ -21,7 +21,7 @@ import ErrorIcon from '@mui/icons-material/Error';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 import './PathwayProgress.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const PathwayProgress = ({ 
   pathwayData, 
@@ -31,45 +31,10 @@ const PathwayProgress = ({
   targetStepId      // New prop to highlight a specific step
 }) => {
   const navigate = useNavigate();
+  const { caseId } = useParams();
   useEffect(() => {
-    if (pathwayData) {
-      console.log("=== PATHWAY PROGRESS DEBUG ===");
-      console.log("Target Process Key:", targetProcessKey);
-      console.log("Target Step ID:", targetStepId);
-      console.log("pathwayData:", pathwayData);
-      console.log("Current Phase from API:", pathwayData.current_phase);
-      
-      // Log all processes
-      console.log("All Processes:", Object.entries(pathwayData.process_status).map(([key, process]) => ({
-        key,
-        name: process.name,
-        status: process.status,
-        percentage: process.percentage
-      })));
-      
-      // Log all steps
-      console.log("All Steps:", Object.entries(pathwayData.step_progress).map(([key, step]) => ({
-        key,
-        title: step.title,
-        status: step.status,
-        percentage: step.percentage,
-        process_key: step.process_key,
-      })));
-      
-      // Log document mappings between steps and processes
-      console.log("Document mappings:", {
-        completed: pathwayData.completed_documents.map(doc => ({
-          step_id: doc.step_id,
-          process_key: doc.process_key
-        })),
-        pending: pathwayData.pending_documents.map(doc => ({
-          step_id: doc.step_id,
-          process_key: doc.process_key
-        }))
-      });
-    }
   }, [pathwayData, targetProcessKey, targetStepId]);
-
+  
   if (loadingPathway) {
     return (
       <Paper elevation={2} sx={{ p: 3, mb: 3 }} className="verticalStepper">
@@ -147,8 +112,6 @@ const PathwayProgress = ({
     // Get distinct step IDs
     const uniqueStepIds = [...new Set(stepIdsFromDocs)];
     
-    console.log(`Steps found for process ${processKey}:`, uniqueStepIds);
-    
     // Map step IDs to step objects
     return uniqueStepIds
       .map(stepId => ({
@@ -160,17 +123,14 @@ const PathwayProgress = ({
 
   // Find the active process to display
   const getActiveProcess = () => {
-    console.log("getActiveProcess() called with targetProcessKey:", targetProcessKey);
     
     // First priority: If targetProcessKey is provided (from button click), use that
     if (targetProcessKey && pathwayData.process_status[targetProcessKey]) {
-      console.log("Using targetProcessKey:", targetProcessKey);
       return [targetProcessKey, pathwayData.process_status[targetProcessKey]];
     }
     
     // Second priority: If there's a current_phase in the pathway data, find its process
     if (pathwayData.current_phase) {
-      console.log("Looking for process containing current_phase:", pathwayData.current_phase);
       
       // Find all documents for the current phase step
       const docsForCurrentPhase = [
@@ -178,12 +138,10 @@ const PathwayProgress = ({
         ...pathwayData.pending_documents
       ].filter(doc => doc.step_id === pathwayData.current_phase);
       
-      console.log("Documents found for current_phase:", docsForCurrentPhase);
       
       // If we found documents, use their process
       if (docsForCurrentPhase.length > 0) {
         const processKey = docsForCurrentPhase[0].process_key;
-        console.log("Using process from current_phase docs:", processKey);
         return [processKey, pathwayData.process_status[processKey]];
       }
       
@@ -202,12 +160,10 @@ const PathwayProgress = ({
           
           // Check if any of these step IDs match the current_phase
           const result = [...new Set(stepIds)].includes(pathwayData.current_phase);
-          console.log(`Process ${processKey} contains current_phase:`, result);
           return result;
         });
       
       if (processWithCurrentPhase) {
-        console.log("Using process from step match:", processWithCurrentPhase[0]);
         return processWithCurrentPhase;
       }
     }
@@ -218,7 +174,6 @@ const PathwayProgress = ({
       .find(([_, process]) => process.status === "In Progress");
     
     if (inProgressProcess) {
-      console.log("Using first In Progress process:", inProgressProcess[0]);
       return inProgressProcess;
     }
     
@@ -228,23 +183,20 @@ const PathwayProgress = ({
       .sort((a, b) => b[1].percentage - a[1].percentage)[0];
     
     if (requiredProcess) {
-      console.log("Using first required process that's not complete:", requiredProcess[0]);
       return requiredProcess;
     }
     
     // Last resort: Return the first process
     const firstProcess = Object.entries(pathwayData.process_status)[0] ||
       ["default", { name: "Case Progress" }];
-    console.log("Using first process as fallback:", firstProcess[0]);
     return firstProcess;
   };
 
   // Get the current active process
   const currentProcess = getActiveProcess();
   const [currentProcessKey, currentProcessData] = currentProcess;
-  
-  console.log("Selected process to display:", currentProcessKey, currentProcessData?.name);
 
+  console.log(caseId)
   return (
     <div className="pathwayExpanded">
       {/* Process title as main header */}
@@ -254,7 +206,7 @@ const PathwayProgress = ({
           </Typography>
           <Button 
             variant="contained"
-            onClick={() => navigate('/')}
+            onClick={() => navigate(`/file-upload/${caseId}`)}
             sx={{ 
               backgroundColor: 'var(--greenButton)', 
               textTransform: 'none',
@@ -289,9 +241,6 @@ const PathwayProgress = ({
           const isInProgress = process.status === "In Progress";
           const stepsForProcess = getStepsForProcess(processKey);
           
-          console.log(`Rendering process ${processKey} with ${stepsForProcess.length} steps`);
-          console.log("Target step ID to highlight:", targetStepId);
-          
           return (
             <Box className="verticalStepper" key={processKey} sx={{ mb: 4}}>
               {/* Process status info */}
@@ -324,16 +273,7 @@ const PathwayProgress = ({
                       // 1. Matching the targetStepId (from user action)
                       // 2. Matching the current_phase from API
                       const isCurrentStep = (targetStepId && step.key === targetStepId) || 
-                                           (!targetStepId && step.key === pathwayData.current_phase);
-                      
-                      console.log(`Rendering step ${step.key}:`, {
-                        title: step.title,
-                        completed: stepCompleted,
-                        isCurrentStep,
-                        completedDocs: completedDocs.length,
-                        pendingDocs: pendingDocs.length
-                      });
-                      
+                                           (!targetStepId && step.key === pathwayData.current_phase);                      
                       return (
                         <Step key={step.key} active={!stepCompleted || isCurrentStep} completed={stepCompleted}>
                           <StepLabel 

@@ -9,7 +9,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import IconButton from '@mui/material/IconButton';
 
 // Import the service colors from Dashboard
-import { serviceColors } from './Dashboard';
+import { serviceColors } from '../utils/constants';
 
 // Import service components
 import AdviceFinder from '../components/AdviceFinder';
