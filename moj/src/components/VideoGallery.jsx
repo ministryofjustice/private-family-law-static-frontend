@@ -6,6 +6,21 @@ const VideoGallery = ({ stepId = 'mediationProcess_mediation_preparation', title
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const defaultVideos = [
+    {
+      id: 'default-1',
+      url: 'https://www.youtube.com/watch?v=hvfa0DHKzbg',
+      title: 'What is Parental Responsibility',
+      description: 'Do you know your parental responsibilities and rights? Family Law specialist Christina Blacklaws breaks down the main responsibilities of a parent and how a step-parent can legally gain them too.'
+    },
+    {
+      id: 'default-2',
+      url: 'https://www.youtube.com/watch?v=Qv6pGXCS6c8',
+      title: 'What to include in a Child Arrangement Plan',
+      description: 'A comprehensive guide on essential elements to include when creating an effective child arrangement plan.'
+    }
+  ];
+
   useEffect(() => {
     const fetchVideos = async () => {
       try {
