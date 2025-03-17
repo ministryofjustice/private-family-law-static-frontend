@@ -21,7 +21,7 @@ import ErrorIcon from '@mui/icons-material/Error';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 import './PathwayProgress.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const PathwayProgress = ({ 
   pathwayData, 
@@ -31,9 +31,10 @@ const PathwayProgress = ({
   targetStepId      // New prop to highlight a specific step
 }) => {
   const navigate = useNavigate();
+  const { caseId } = useParams();
   useEffect(() => {
   }, [pathwayData, targetProcessKey, targetStepId]);
-
+  
   if (loadingPathway) {
     return (
       <Paper elevation={2} sx={{ p: 3, mb: 3 }} className="verticalStepper">
@@ -195,7 +196,7 @@ const PathwayProgress = ({
   const currentProcess = getActiveProcess();
   const [currentProcessKey, currentProcessData] = currentProcess;
 
-
+  console.log(caseId)
   return (
     <div className="pathwayExpanded">
       {/* Process title as main header */}
@@ -205,7 +206,7 @@ const PathwayProgress = ({
           </Typography>
           <Button 
             variant="contained"
-            onClick={() => navigate('/')}
+            onClick={() => navigate(`/file-upload/${caseId}`)}
             sx={{ 
               backgroundColor: 'var(--greenButton)', 
               textTransform: 'none',

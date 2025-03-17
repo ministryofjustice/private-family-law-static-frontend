@@ -19,13 +19,7 @@ import SuccessfulCases from '../components/SuccessfulCases';
 import VideoGallery from '../components/VideoGallery';
 import VerticalStepper from '../components/VerticalStepper';
 import QuestionsAnswers from '../components/QuestionsAnswers';
-
-// Define colors for each service to use across the application
-export const serviceColors = {
-  adviceFinder: '#810f7c', // Yellow
-  betterOff: '#2c7fb8',   // Blue
-  wyserAssist: '#31a354'    // Green
-};
+import { serviceColors } from '../utils/constants'; 
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -293,6 +287,7 @@ export default function Dashboard() {
                   {(() => {
                     try {
                       return <VerticalStepper 
+                        caseId={caseId}
                         pathwayData={pathwayData} 
                         loadingPathway={loadingPathway} 
                       />;

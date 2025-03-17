@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { List, ListItem, ListItemText, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Grid from '@mui/material/Grid2';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import GoBackButton from '../components/GoBackButton';
 import CircularProgress from '@mui/material/CircularProgress';
 import '../App.css';
@@ -30,12 +30,15 @@ const ALLOWED_FILE_TYPES = [
 ];
 export default function FileUpload() {
   const navigate = useNavigate();
+  const { caseId: existingCaseId } = useParams(); // Get caseId from URL if present
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  
   // Handle file deletion
   const handleDeleteFile = (fileName) => {
     setSelectedFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName));
   };
+  
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
     const invalidFiles = [];
@@ -58,15 +61,22 @@ export default function FileUpload() {
     }
   
     setSelectedFiles((prevFiles) => [...prevFiles, ...validFiles]);
-};
-  const uploadFiles = async () => {
+  };
+  
+  const uploadFiles = async (caseId = null) => {
     try {
       const formData = new FormData();
       for (let i = 0; i < selectedFiles.length; i++) {
         formData.append('files', selectedFiles[i]);
       }
+      
+      // Build the URL with query parameter if caseId exists
+      let url = '/api/upload';
+      if (caseId) {
+        url = `${url}?case_id=${caseId}`;
+      }
   
-      const response = await fetch('/api/upload', {
+      const response = await fetch(url, {
         method: 'POST',
         body: formData,
       });
@@ -74,7 +84,7 @@ export default function FileUpload() {
       if (!response.ok) {
         throw new Error('Upload failed');
       }
-      const data = await response.json()
+      const data = await response.json();
       return data.caseId;
       
     } catch (error) {
@@ -82,6 +92,7 @@ export default function FileUpload() {
       throw error;
     }
   };
+  
   const generateReport = async (caseId) => {
     try {
       await fetch('/api/generateReport', {
@@ -91,12 +102,13 @@ export default function FileUpload() {
         },
         body: JSON.stringify({ caseId: caseId })
       });
-      return
+      return;
     } catch (error) {
       console.error('Error generating report:', error);
       throw error;
     }
   };
+  
   const getReportStatus = (caseId) => {
     return new Promise((resolve, reject) => {
       try {
@@ -143,7 +155,8 @@ export default function FileUpload() {
     navigate("/loading-page");
   
     try {
-      const caseId = await uploadFiles();
+      // Pass existingCaseId if it exists
+      const caseId = await uploadFiles(existingCaseId);
       await generateReport(caseId);
       await getReportStatus(caseId);
       setIsLoading(false);
@@ -168,7 +181,7 @@ export default function FileUpload() {
             <p>Additionally, you can find your action list, submitted documents, and support tools. The AI Q&A tool is also available to assist with any questions you may have.</p>
             
             <h3 className='mt-3'>Upload your file</h3>
-            <p>You can upload your file here</p>
+            <p>{existingCaseId ? 'Upload additional files to your existing case' : 'You can upload your file here'}</p>
 
             <Button className="btn-upload cta-button"
               component="label"
@@ -217,7 +230,7 @@ export default function FileUpload() {
                   color="success" 
                   className='mt-4 cta-button'
                 >
-                  Continue
+                  {existingCaseId ? 'Upload Additional Files' : 'Continue'}
                 </Button>
               </div>
             )}
