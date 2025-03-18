@@ -102,6 +102,12 @@ body{
 .pb-4 {
   padding-bottom: 40px !important;
 }
+.mh-300 {
+  min-height: 300px;
+}
+.mh-500 {
+  min-height: 500px;
+}
 
 .loadingPage {
   min-height: 500px;

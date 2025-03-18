@@ -3,7 +3,6 @@ import { List, ListItem, ListItemText, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import Grid from '@mui/material/Grid2';
-import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useNavigate } from 'react-router-dom';
@@ -106,51 +105,3 @@ export default function FileUpload() {
     </div>
   );
 }
-
-
-// import React, { useState } from 'react';
-// import { Button, List, ListItem, ListItemText, Typography } from '@mui/material';
-
-// const FileUpload = () => {
-//   const [files, setFiles] = useState([]);
-
-//   // Handle file selection
-//   const handleFileChange = (event) => {
-//     const uploadedFiles = Array.from(event.target.files);
-//     setFiles((prevFiles) => [...prevFiles, ...uploadedFiles]);
-//   };
-
-//   return (
-//     <div>
-//       <Button
-//         variant="contained"
-//         component="label"
-//         color="primary"
-//         sx={{ marginBottom: 2 }}
-//       >
-//         Upload Files
-//         <input
-//           type="file"
-//           hidden
-//           multiple
-//           onChange={handleFileChange}
-//         />
-//       </Button>
-
-//       <Typography variant="h6">Uploaded Files:</Typography>
-//       <List>
-//         {files.length > 0 ? (
-//           files.map((file, index) => (
-//             <ListItem key={index}>
-//               <ListItemText primary={file.name} secondary={`Size: ${file.size / 1024} KB`} />
-//             </ListItem>
-//           ))
-//         ) : (
-//           <Typography variant="body2" color="textSecondary">No files uploaded yet.</Typography>
-//         )}
-//       </List>
-//     </div>
-//   );
-// };
-
-// export default FileUpload;
