@@ -7,7 +7,6 @@ import CaseSummary from './components/CaseSummary';
 
 import Home from './pages/Home';
 import FileUpload from './pages/FileUpload';
-import Dashboard from './pages/Dashboard'; // Renamed from TabPanel to Dashboard
 import ServicePage from './pages/ServicePage'; // New component
 import LoadingPage from './pages/LoadingPage';
 import CaseDetails from './pages/CaseDetails';

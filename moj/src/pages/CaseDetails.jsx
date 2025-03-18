@@ -5,14 +5,11 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid2';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import CalculateIcon from '@mui/icons-material/Calculate';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import TranscribeIcon from '@mui/icons-material/Transcribe';
 
 import GoBackButton from '../components/GoBackButton';
-import SupportTools from '../components/SupportTools';
+import SupportTools from '../components/SupportTools'; // Import the new component
 import SummaryCardActions from '../components/SummaryCardActions';
 import SummaryCardDocuments from '../components/SummaryCardDocuments';
 import CaseSummary from '../components/CaseSummary';
@@ -20,7 +17,6 @@ import SuccessfulCases from '../components/SuccessfulCases';
 import VideoGallery from '../components/VideoGallery';
 import VerticalStepper from '../components/VerticalStepper';
 import QuestionsAnswers from '../components/QuestionsAnswers';
-import { serviceColors } from '../utils/constants'; 
 
 export default function CaseDetails() {
   const navigate = useNavigate();
@@ -36,21 +32,6 @@ export default function CaseDetails() {
   const { caseId } = useParams();
   const [caseData, setCaseData] = useState(null);
   
-  // Navigation functions for external services
-  const navigateToService = (serviceName) => {
-    if (caseId) {
-      navigate(`/dashboard/${caseId}/service/${serviceName}`);
-    } else {
-      // If no caseId is provided, we need to handle this case
-      // You could either redirect to a case selection page or show an error
-      setSnackbar({
-        open: true,
-        message: 'Please select a case first',
-        severity: 'warning'
-      });
-    }
-  };
-
   const handleSnackbarClose = () => {
     setSnackbar({
       ...snackbar,
@@ -144,82 +125,6 @@ export default function CaseDetails() {
     );
   }
 
-  // Component for Support Services sidebar
-  const SupportServices = () => (
-    <Box sx={{ p: 2 }}>
-      <h3 className="mb-2">
-        Support Services
-      </h3>
-      
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        <Button 
-          variant="contained"
-          fullWidth
-          onClick={() => navigateToService('advice-finder')}
-          sx={{ 
-            py: 2, 
-            textTransform: 'none',
-            backgroundColor: serviceColors.adviceFinder,
-            '&:hover': {
-              backgroundColor: serviceColors.adviceFinder,
-              opacity: 0.9
-            },
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: 1
-          }}
-        >
-          <Typography variant="subtitle1">Advice Finder</Typography>
-          <LocationOnIcon sx={{ fontSize: 36 }} />
-        </Button>
-        
-        <Button 
-          variant="contained"
-          fullWidth
-          onClick={() => navigateToService('better-off')}
-          sx={{ 
-            py: 2, 
-            textTransform: 'none',
-            backgroundColor: serviceColors.betterOff,
-            '&:hover': {
-              backgroundColor: serviceColors.betterOff,
-              opacity: 0.9
-            },
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: 1
-          }}
-        >
-          <Typography variant="subtitle1">Better Off Calculator</Typography>
-          <CalculateIcon sx={{ fontSize: 36 }} />
-        </Button>
-        
-        <Button 
-          variant="contained"
-          fullWidth
-          onClick={() => navigateToService('service-3')}
-          sx={{ 
-            py: 2, 
-            textTransform: 'none',
-            backgroundColor: serviceColors.wyserAssist,
-            '&:hover': {
-              backgroundColor: serviceColors.wyserAssist,
-              opacity: 0.9
-            },
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: 1
-          }}
-        >
-          <Typography variant="subtitle1">Wyser Assist</Typography>
-          <TranscribeIcon sx={{ fontSize: 36 }} />
-        </Button>
-      </Box>
-    </Box>
-  );
   const updateCaseData = async (newQuery) => {
     setCaseData(prevData => ({
       ...prevData,
@@ -231,7 +136,7 @@ export default function CaseDetails() {
     <>
       <GoBackButton />
 
-      <Box sx={{ flexGrow: 1 }}>
+      <Box className="caseDetailsWrapper" sx={{ flexGrow: 1 }}>
         <Grid className="container" container spacing={2}>
           <Grid size={{ xs: 12, lg: 12 }}>
             <h2>Your case details</h2>
@@ -241,13 +146,13 @@ export default function CaseDetails() {
         
         {/* Main layout with support services on the left */}
         <Grid container spacing={3}>
-          {/* Left sidebar for Support Services */}
+          {/* Left sidebar for Support Services - Now using the SupportTools component */}
           <Grid size={{ xs: 12, md: 3, lg: 2 }}>
-            <SupportServices />
+            <SupportTools />
           </Grid>
           
           {/* Main content area */}
-          <Grid size={{ xs: 12, md: 9, lg: 10 }}>
+          <Grid className="contentArea" size={{ xs: 12, md: 9, lg: 10 }}>
             <Grid container spacing={3}>
               {/* Case Summary Cards */}
               <Grid size={{ xs: 12, lg: 6 }}>

@@ -14,6 +14,7 @@ import { serviceColors } from '../utils/constants';
 // Import service components
 import AdviceFinder from '../components/AdviceFinder';
 import BetterOffCalculator from '../components/BetterOffCalculator';
+import AudioUploadComponent from '../components/WyserAssist';
 
 // Service configuration with titles, colors, and components
 const serviceConfig = {
@@ -27,25 +28,10 @@ const serviceConfig = {
     color: serviceColors.betterOff,
     component: BetterOffCalculator
   },
-  'service-3': {
-    title: 'Service 3',
-    color: serviceColors.service3,
-    component: () => <div>Service 3 Content</div>
-  },
-  'service-4': {
-    title: 'Service 4',
-    color: serviceColors.service4,
-    component: () => <div>Service 4 Content</div>
-  },
-  'service-5': {
-    title: 'Service 5',
-    color: serviceColors.service5,
-    component: () => <div>Service 5 Content</div>
-  },
-  'service-6': {
-    title: 'Service 6',
-    color: serviceColors.service6,
-    component: () => <div>Service 6 Content</div>
+  'transcribe': {
+    title: 'Transcribe',
+    color: serviceColors.transcribe,
+    component: AudioUploadComponent
   }
 };
 
@@ -66,7 +52,7 @@ const ServicePage = () => {
   
   // Custom back handler specifically for service pages
   const handleBackToDashboard = () => {
-    navigate(`/dashboard/${caseId}`);
+    navigate(`/case-details/${caseId}`);
   };
   
   return (

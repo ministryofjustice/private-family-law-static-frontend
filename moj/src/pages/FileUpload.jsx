@@ -160,7 +160,7 @@ export default function FileUpload() {
       await generateReport(caseId);
       await getReportStatus(caseId);
       setIsLoading(false);
-      navigate(`/dashboard/${caseId}`);
+      navigate(`/case-details/${caseId}`);
     } catch (error) {
       alert('Failed to process files. Please try again.');
       navigate(-1);

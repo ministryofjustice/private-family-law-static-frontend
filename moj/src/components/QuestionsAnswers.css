@@ -107,3 +107,26 @@
     }
   }
 }
+
+.pendingAnswer {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.ml-2 {
+  margin-left: 0.5rem;
+}
+
+/* Optional animation for the pending text */
+@keyframes pulse {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+.pendingAnswer span {
+  animation: pulse 1.5s infinite;
+  color: #ffffff;
+}

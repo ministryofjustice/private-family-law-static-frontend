@@ -1,5 +1,5 @@
 export const serviceColors = {
-    adviceFinder: '#810f7c', // Purple
-    betterOff: '#2c7fb8',   // Blue
-    wyserAssist: '#31a354'  // Green
+    adviceFinder: '#d32f2f', // Purple
+    betterOff: '#CF6300',   // Blue
+    transcribe: '#008080'  // Green
   };
