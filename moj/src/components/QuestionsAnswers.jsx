@@ -246,6 +246,22 @@ export default function QuestionsAnswers({ queries: initialQueries, caseId, onQu
             onChange={(e) => setQuestion(e.target.value)}
             onKeyDown={handleKeyPress}
             disabled={isSubmitting}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: 'var(--white)',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'var(--white)',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: 'var(--white)',
+                },
+                '&.Mui-disabled fieldset': {
+                  borderColor: 'var(--white)',
+                }
+              }
+            }}
           />
         </div>
         <Button
