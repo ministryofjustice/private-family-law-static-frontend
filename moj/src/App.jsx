@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
-import CaseSummary from './components/CaseSummary';
+import ToggleClassSwitch from './components/ChangeTheme';
 
 import Home from './pages/Home';
 import FileUpload from './pages/FileUpload';
@@ -69,6 +69,7 @@ export default function App() {
   return (
     <>
       <Header />
+      <ToggleClassSwitch />
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Box sx={{ flexGrow: 1 }} className="main">

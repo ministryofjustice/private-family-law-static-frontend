@@ -66,22 +66,24 @@
 }
 
 /* Light theme adjustments */
-.light-theme .questionArea {
-  border-top: 1px solid var(--black);
-  color: var(--black);
+.light-theme {
+  .questionArea {
+    border-top: 1px solid var(--black);
+    color: var(--black);
   
-  label,
-  textarea {
-    color: var(--black) !important;
-  }
-
-  fieldset {
-    border-color: var(--black);
-  }
-
-  &:hover {
+    label,
+    textarea {
+      color: var(--black) !important;
+    }
+  
     fieldset {
-      border-color: var(--black) !important; 
+      border-color: var(--black);
+    }
+  
+    &:hover {
+      fieldset {
+        border-color: var(--black) !important; 
+      }
     }
   }
   

@@ -8,6 +8,7 @@ header {
     height: 50px;
     margin: 10px 0;
     padding: 0;
+    background: url(../assets/logo-white.png) no-repeat 0 0 / 150px auto;
 
     &:hover {
       filter: none;
@@ -15,6 +16,18 @@ header {
 
     button {
       color: #ffffff !important;
+    }
+  }
+}
+
+/* LIGHT THEME */
+.light-theme { 
+  header {
+    background-color: var(--white) !important;
+    border-bottom: 1px solid var(--black);
+
+    .logo {
+      background-image: url(../assets/logo-black.png);
     }
   }
 }
