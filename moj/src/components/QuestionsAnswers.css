@@ -42,3 +42,24 @@
     float: right;
   }
 }
+
+.light-theme {
+  .questionArea {
+    color: var(--black);
+  
+    label,
+    textarea {
+      color: var(--black) !important;
+    }
+  
+    fieldset {
+      border-color: var(--black);
+    }
+  
+    &:hover {
+      fieldset {
+        border-color: var(--black) !important; 
+      }
+    }
+  }
+}
