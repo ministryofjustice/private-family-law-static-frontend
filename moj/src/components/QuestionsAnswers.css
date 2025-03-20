@@ -45,6 +45,7 @@
 
 .light-theme {
   .questionArea {
+    border-color: var(--black);
     color: var(--black);
   
     label,
