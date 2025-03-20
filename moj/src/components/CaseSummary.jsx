@@ -100,118 +100,114 @@ export default function CaseSummary({ caseSummary }) {
       
       <div className="caseTitle">
         <h4 className='mt-3 mb-1'>Title</h4>
-        <p>
+        <div className="summary-item">
           {caseSummary?.title.case_name !== 'Unknown' && (
             <>
               <span className="title">Case Name:</span>
               <span>{caseSummary?.title.case_name}</span>
             </>
           )}
-        </p>
-        <p>
+        </div>
+        <div className="summary-item">
           {caseSummary?.title.citation !== 'Unknown' && (
             <>
               <span className="title">Citation:</span>
               <span>{caseSummary?.title.citation}</span>
             </>
           )}
-        </p>
+        </div>
       </div>
 
       <div className="caseIntroduction">
         <h4 className='mt-3 mb-1'>Introduction</h4>
-        <p>
+        <div className="summary-item">
           <span className="title">Background:</span>
-          <span>{renderObjectAsKeyValue(caseSummary?.introduction.background) || "No background available"}</span>
-        </p>
-        <p>
+          <div className="value-container">{renderObjectAsKeyValue(caseSummary?.introduction.background) || "No background available"}</div>
+        </div>
+        <div className="summary-item">
           <span className="title">Parties Involved: </span>
-          <span>{renderObjectAsKeyValue(caseSummary?.introduction.parties_involved) || "No parties information available"}</span>
-        </p>
+          <div className="value-container">{renderObjectAsKeyValue(caseSummary?.introduction.parties_involved) || "No parties information available"}</div>
+        </div>
       </div>
 
       <div className="caseKeyFacts">
         <h4 className='mt-3 mb-1'>Key Facts</h4>
-        <p>
+        <div className="summary-item">
           <span className="title">Situation Overview:</span>
-          <span>{renderObjectAsKeyValue(caseSummary?.key_facts.situation_overview) || "No situation overview available"}</span>
-        </p>
-        <p>
+          <div className="value-container">{renderObjectAsKeyValue(caseSummary?.key_facts.situation_overview) || "No situation overview available"}</div>
+        </div>
+        <div className="summary-item">
           <span className="title">Relevant Details:</span>
-          <span>{renderObjectAsKeyValue(caseSummary?.key_facts.relevant_details) || "No relevant details available"}</span>
-        </p>
+          <div className="value-container">{renderObjectAsKeyValue(caseSummary?.key_facts.relevant_details) || "No relevant details available"}</div>
+        </div>
       </div>
 
       <div className="caseLegalIssues">
         <h4 className='mt-3 mb-1'>Legal Issues</h4>
-        <p>
+        <div className="summary-item">
           <span className="title">Questions at Hand:</span>
-          <span>{renderObjectAsKeyValue(caseSummary?.legal_issues.questions_at_hand) || "No legal issues available"}</span>
-        </p>
+          <div className="value-container">{renderObjectAsKeyValue(caseSummary?.legal_issues.questions_at_hand) || "No legal issues available"}</div>
+        </div>
       </div>
 
       {renderObjectAsKeyValue(caseSummary?.arguments_presented.plaintiff_arguments) && (
         <div className="caseArgumentsPresented">
           <h4 className='mt-3 mb-1'>Arguments presented</h4>
-          <p>
+          <div className="summary-item">
             <span className="title">Plaintiff's Arguments:</span>
-            <span>{renderObjectAsKeyValue(caseSummary?.arguments_presented.plaintiff_arguments)}</span>
-          </p>
-          <p>
-            {renderObjectAsKeyValue(caseSummary?.arguments_presented.defendant_arguments) && (
-              <>
-                <span className="title">Defendant's Arguments:</span>
-                <span>{renderObjectAsKeyValue(caseSummary?.arguments_presented.defendant_arguments)}</span>
-              </>
-            )}
-          </p>
+            <div className="value-container">{renderObjectAsKeyValue(caseSummary?.arguments_presented.plaintiff_arguments)}</div>
+          </div>
+          {renderObjectAsKeyValue(caseSummary?.arguments_presented.defendant_arguments) && (
+            <div className="summary-item">
+              <span className="title">Defendant's Arguments:</span>
+              <div className="value-container">{renderObjectAsKeyValue(caseSummary?.arguments_presented.defendant_arguments)}</div>
+            </div>
+          )}
         </div>
       )}
 
       {renderObjectAsKeyValue(caseSummary?.decision_and_rationale.court_decision) && (
         <div className="caseDecisionAndRationale">
           <h4 className='mt-3 mb-1'>Decision and Rationale</h4>
-          <p>
+          <div className="summary-item">
             <span className="title">Court's Decision:</span>
-            <span>{renderObjectAsKeyValue(caseSummary?.decision_and_rationale.court_decision)}</span>
-          </p>
-          <p>
+            <div className="value-container">{renderObjectAsKeyValue(caseSummary?.decision_and_rationale.court_decision)}</div>
+          </div>
+          <div className="summary-item">
             <span className="title">Legal Reasoning:</span>
-            <span>{renderObjectAsKeyValue(caseSummary?.decision_and_rationale.legal_reasoning) || "No legal reasoning available"}</span>
-          </p>
+            <div className="value-container">{renderObjectAsKeyValue(caseSummary?.decision_and_rationale.legal_reasoning) || "No legal reasoning available"}</div>
+          </div>
         </div>
       )}
 
       <div className="caseSignificance">
         <h4 className='mt-3 mb-1'>Significance of the Case</h4>
-        <p>
+        <div className="summary-item">
           <span className="title">Implications:</span>
-          <span>{renderObjectAsKeyValue(caseSummary?.significance.implications) || "No implications available"}</span>
-        </p>
-        <p>
-          {renderObjectAsKeyValue(caseSummary?.significance.precedent_set) && (
-            <>
-              <span className="title">Precedents Set:</span>
-              <span>{renderObjectAsKeyValue(caseSummary?.significance.precedent_set)}</span>
-            </>
-          )}
-        </p>
+          <div className="value-container">{renderObjectAsKeyValue(caseSummary?.significance.implications) || "No implications available"}</div>
+        </div>
+        {renderObjectAsKeyValue(caseSummary?.significance.precedent_set) && (
+          <div className="summary-item">
+            <span className="title">Precedents Set:</span>
+            <div className="value-container">{renderObjectAsKeyValue(caseSummary?.significance.precedent_set)}</div>
+          </div>
+        )}
       </div>
 
       <div className="caseConclusion">
         <h4 className='mt-3 mb-1'>Summary of your case so far</h4>
-        <p>
-          <span>{renderObjectAsKeyValue(caseSummary?.conclusion.summary) || "No summary available"}</span>
-        </p>
+        <div className="summary-item">
+          <div className="value-container">{renderObjectAsKeyValue(caseSummary?.conclusion.summary) || "No summary available"}</div>
+        </div>
       </div>
 
       {renderObjectAsKeyValue(caseSummary?.references) && (
         <div className="caseReferences">
           <h4 className='mt-3 mb-1'>References</h4>
-          <p>
+          <div className="summary-item">
             <span className="title">Sources:</span>
-            <span>{renderObjectAsKeyValue(caseSummary?.references)}</span>
-          </p>
+            <div className="value-container">{renderObjectAsKeyValue(caseSummary?.references)}</div>
+          </div>
         </div>
       )}
       </div>

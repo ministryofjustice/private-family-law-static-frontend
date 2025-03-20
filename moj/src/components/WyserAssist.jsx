@@ -22,6 +22,7 @@ import AudioFileIcon from '@mui/icons-material/AudioFile';
 import FolderIcon from '@mui/icons-material/Folder';
 import DescriptionIcon from '@mui/icons-material/Description';
 import { useNavigate } from 'react-router-dom';
+import GoBackButton from './GoBackButton'; // Import the GoBackButton component
 
 const WyserAssist = ({ caseId }) => {
   const navigate = useNavigate();
@@ -52,23 +53,6 @@ const WyserAssist = ({ caseId }) => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('error');
-
-  // Card styles
-  const cardStyles = {
-    backgroundColor: 'var(--black)',
-    color: 'var(--white)',
-    border: '1px solid var(--dark-grey)'
-  };
-
-  // Button styles
-  const buttonStyles = {
-    color: 'var(--white)',
-    borderColor: 'var(--white)',
-    '&:hover': {
-      borderColor: 'var(--white)',
-      bgcolor: 'rgba(255, 255, 255, 0.1)'
-    }
-  };
 
   // Handle file selection
   const handleFileChange = (event) => {
@@ -216,21 +200,6 @@ const WyserAssist = ({ caseId }) => {
       }
     };
     
-    // Add default timestamps if not present in transcript items
-    const addDefaultTimestamps = (transcriptData) => {
-      if (!transcriptData || !Array.isArray(transcriptData)) return [];
-      
-      return transcriptData.map((item, index) => {
-        // If timestamps aren't present, add default ones based on position
-        if (!item.hasOwnProperty('start_time')) {
-          item.start_time = index * 10; // 10 seconds per segment as default
-        }
-        if (!item.hasOwnProperty('end_time')) {
-          item.end_time = (index + 1) * 10 - 0.5; // slight gap between segments
-        }
-        return item;
-      });
-    };
 
     eventSource.addEventListener('status', (event) => {
       try {
@@ -255,44 +224,43 @@ const WyserAssist = ({ caseId }) => {
     });
 
     eventSource.addEventListener('results', (event) => {
-      try {
-        // Try to parse as proper JSON first
-        let resultsData;
         try {
-          resultsData = JSON.parse(event.data);
-        } catch (jsonError) {
-          // If that fails, try parsing as Python dict
-          resultsData = pythonDictToJSON(event.data);
-        }
-        
-        if (resultsData) {
-          if (resultsData.transcript) {
-            // Add default timestamps if not present in transcript items
-            const processedTranscript = addDefaultTimestamps(resultsData.transcript);
-            setTranscript(processedTranscript);
-            // Store in sessionStorage for persistence
-            sessionStorage.setItem(storedTranscriptKey, JSON.stringify(processedTranscript));
+          // Try to parse as proper JSON first
+          let resultsData;
+          try {
+            resultsData = JSON.parse(event.data);
+          } catch (jsonError) {
+            // If that fails, try parsing as Python dict
+            resultsData = pythonDictToJSON(event.data);
           }
-          setSummary(resultsData.summary);
-          if (resultsData.summary) {
-            sessionStorage.setItem(storedSummaryKey, JSON.stringify(resultsData.summary));
+          
+          if (resultsData) {
+            if (resultsData.transcript) {
+              // Use resultsData.transcript directly instead of undefined processedTranscript
+              setTranscript(resultsData.transcript);
+              // Store in sessionStorage for persistence
+              sessionStorage.setItem(storedTranscriptKey, JSON.stringify(resultsData.transcript));
+            }
+            setSummary(resultsData.summary);
+            if (resultsData.summary) {
+              sessionStorage.setItem(storedSummaryKey, JSON.stringify(resultsData.summary));
+            }
+            // Store uploadId for potential retrieval
+            sessionStorage.setItem(storedUploadIdKey, uploadId);
+          } else {
+            console.warn('Results data could not be parsed:', event.data);
           }
-          // Store uploadId for potential retrieval
-          sessionStorage.setItem(storedUploadIdKey, uploadId);
-        } else {
-          console.warn('Results data could not be parsed:', event.data);
+        } catch (err) {
+          console.error('Error processing results data:', err, event.data);
+          setError(`Error processing results: ${err.message}`);
+          setSnackbarSeverity('error');
+          setSnackbarMessage(`Error processing results: ${err.message}`);
+          setOpenSnackbar(true);
+        } finally {
+          setIsProcessing(false);
+          eventSource.close();
         }
-      } catch (err) {
-        console.error('Error processing results data:', err, event.data);
-        setError(`Error processing results: ${err.message}`);
-        setSnackbarSeverity('error');
-        setSnackbarMessage(`Error processing results: ${err.message}`);
-        setOpenSnackbar(true);
-      } finally {
-        setIsProcessing(false);
-        eventSource.close();
-      }
-    });
+      });
 
     eventSource.addEventListener('error', (event) => {
       let errorMessage = 'An error occurred during processing';
@@ -427,36 +395,8 @@ const WyserAssist = ({ caseId }) => {
     }
     
     // Format transcript into text (without summary)
-    let transcriptText = transcript.map((segment, index) => {
-      // Format timestamp safely with validation
-      const formatTimestamp = (timestamp) => {
-        if (timestamp === undefined || timestamp === null || isNaN(timestamp)) {
-          // Use index-based timestamp if none provided
-          return `00:00:${(index * 10).toString().padStart(2, '0')}`;
-        }
-        
-        try {
-          // Ensure timestamp is valid
-          const time = Number(timestamp);
-          if (time < 0 || time > 86400) {
-            return `00:00:${(index * 10).toString().padStart(2, '0')}`;
-          }
-          
-          const hours = Math.floor(time / 3600);
-          const minutes = Math.floor((time % 3600) / 60);
-          const seconds = Math.floor(time % 60);
-          
-          return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        } catch (err) {
-          console.error("Error formatting timestamp:", err);
-          return `00:00:${(index * 10).toString().padStart(2, '0')}`;
-        }
-      };
-      
-      const startTime = formatTimestamp(segment.start_time);
-      const endTime = formatTimestamp(segment.end_time);
-      
-      return `[${startTime} - ${endTime}] ${segment.speaker || 'Speaker'}: ${segment.text}`;
+    let transcriptText = transcript.map((segment, index) => {      
+      return `${segment.speaker || 'Speaker'}: ${segment.text}`;
     }).join('\n\n');
     
     // Create a file from the transcript text
@@ -504,181 +444,164 @@ const WyserAssist = ({ caseId }) => {
   };
 
   return (
-    <Box>
-      <Typography variant="h4" gutterBottom>
-        Transcribe
-      </Typography>
-      <Typography variant="body1" paragraph>
-        Upload audio recordings for transcription (Conversations from 18+ year olds only). 
-      </Typography>
-      
-      {/* Upload Card */}
-      {!transcript || transcript.length === 0 ? (
-        <Card sx={{ ...cardStyles, mb: 4 }}>
-          <CardContent>
-            <Typography variant="h6" gutterBottom sx={{ color: 'var(--white) !important', display: 'flex', alignItems: 'center' }}>
-              <MicIcon sx={{ mr: 1 }} /> Upload Audio Recording
-            </Typography>
-            
-            <Box sx={{ mb: 3, mt: 3 }}>
-              <input
-                accept="audio/*"
-                style={{ display: 'none' }}
-                id="audio-file-upload"
-                type="file"
-                onChange={handleFileChange}
-                disabled={isUploading || isProcessing}
-              />
-              <label htmlFor="audio-file-upload">
-                <Button
-                  variant="outlined"
-                  component="span"
-                  startIcon={<UploadFileIcon />}
-                  disabled={isUploading || isProcessing}
-                  sx={{ ...buttonStyles, mr: 2 }}
-                >
-                  Select Audio File
-                </Button>
-              </label>
-              
-              {file && (
-                <Box sx={{ display: 'flex', alignItems: 'center', mt: 2, mb: 2 }}>
-                  <AudioFileIcon sx={{ mr: 1, color: 'var(--white)' }} />
-                  <Typography variant="body2" sx={{ color: 'var(--white) !important' }}>
-                    Selected file: {file.name}
-                  </Typography>
-                </Box>
-              )}
-              
-              <Box sx={{ mt: 3 }}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleUpload}
-                  disabled={!file || isUploading || isProcessing}
-                  startIcon={isUploading || isProcessing ? <CircularProgress size={20} /> : <CloudUploadIcon />}
-                >
-                  {isUploading ? 'Uploading...' : isProcessing ? 'Processing...' : 'Upload and Process'}
-                </Button>
-              </Box>
-            </Box>
-            
-            {(isUploading || isProcessing) && (
-              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', my: 3 }}>
-                <CircularProgress size={40} />
-                <Typography variant="body1" sx={{ mt: 2, color: 'var(--white) !important' }}>
-                  {isUploading ? 'Uploading audio file...' : statusMessage}
+    <Box className="transcribe-container">
+        <Typography variant="h4" gutterBottom>
+            Transcribe your audio files and add them to your case documents
+        </Typography>
+        <Typography variant="body1" paragraph>
+            Upload audio recordings for transcription (Conversations from 18+ year olds only). 
+        </Typography>
+        
+        {/* Upload Card */}
+        {!transcript || transcript.length === 0 ? (
+            <Card className="transcribe-card" sx={{ mb: 4 }}>
+            <CardContent>
+                <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center' }}>
+                <MicIcon sx={{ mr: 1 }} /> Upload Audio Recording
                 </Typography>
-              </Box>
-            )}
-          </CardContent>
-        </Card>
-      ) : null}
-      
-      {/* Transcript Display */}
-      {transcript && transcript.length > 0 && (
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Card sx={{ ...cardStyles }}>
-              <CardContent>
-                <Typography variant="h6" gutterBottom sx={{ color: 'var(--white) !important' }}>
-                  Transcript
-                </Typography>
-                <Box sx={{ p: 2, maxHeight: 400, overflow: 'auto', bgcolor: 'rgba(255, 255, 255, 0.05)' }}>
-                  <List>
-                    {transcript.map((segment, index) => (
-                      <React.Fragment key={index}>
-                        <ListItem alignItems="flex-start">
-                          <ListItemText
-                            primary={
-                              <Typography sx={{ fontWeight: 'bold', color: 'var(--white) !important' }}>
-                                {segment.speaker || 'Speaker'} 
-                                <span style={{ fontWeight: 'normal', opacity: 0.7, marginLeft: '8px' }}>
-                                  {segment.start_time || segment.end_time ? 
-                                  (() => {
-                                    // Safe timestamp formatter for display
-                                    const formatTime = (timestamp) => {
-                                      if (timestamp === undefined || timestamp === null || isNaN(timestamp)) return "00:00:00";
-                                      try {
-                                        const time = Number(timestamp);
-                                        if (time < 0 || time > 86400) return "00:00:00";
-                                        
-                                        const hours = Math.floor(time / 3600);
-                                        const minutes = Math.floor((time % 3600) / 60);
-                                        const seconds = Math.floor(time % 60);
-                                        
-                                        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                                      } catch (err) {
-                                        return "00:00:00";
-                                      }
-                                    };
-                                    
-                                    return `(${formatTime(segment.start_time)} - ${formatTime(segment.end_time)})`;
-                                  })() 
-                                  : ''}
-                                </span>
-                              </Typography>
-                            }
-                            secondary={
-                              <Typography sx={{ color: 'var(--white) !important', opacity: 0.9 }}>
-                                {segment.text}
-                              </Typography>
-                            }
-                          />
-                        </ListItem>
-                        {index < transcript.length - 1 && <Divider component="li" sx={{ borderColor: 'rgba(255, 255, 255, 0.1)' }} />}
-                      </React.Fragment>
-                    ))}
-                  </List>
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
-          
-          {/* Action Buttons */}
-          <Grid item xs={12}>
-            <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center', gap: 2, flexWrap: 'wrap' }}>
-                {/* Combined Button for Upload and Generate Report */}
-                <Button 
-                variant="contained" 
-                color="primary"
-                onClick={handleUploadAndGenerateReport}
-                disabled={isGeneratingReport || isUploadingToCaseDocuments}
-                startIcon={isUploadingToCaseDocuments || isGeneratingReport ? <CircularProgress size={20} /> : <FolderIcon />}
-                >
-                {isUploadingToCaseDocuments || isGeneratingReport ? 'Processing...' : 'Upload transcript to your case documents'}
-                </Button>
                 
-                {/* Process Another Recording Button */}
-                <Button 
-                variant="outlined" 
-                onClick={() => {
-                    setFile(null);
-                    setTranscript([]);
-                    setSummary(null);
-                    setUploadId(null);
-                }} 
-                sx={buttonStyles}
-                startIcon={<MicIcon />}
-                disabled={isGeneratingReport || isUploadingToCaseDocuments}
-                >
-                Process Another Recording
-                </Button>
-            </Box>
-          </Grid>
-        </Grid>
-      )}
-      
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-      >
-        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
-    </Box>
+                <Box sx={{ mb: 3, mt: 3 }}>
+                <input
+                    accept="audio/*"
+                    style={{ display: 'none' }}
+                    id="audio-file-upload"
+                    type="file"
+                    onChange={handleFileChange}
+                    disabled={isUploading || isProcessing}
+                />
+                <label htmlFor="audio-file-upload">
+                    <Button
+                    variant="outlined"
+                    component="span"
+                    startIcon={<UploadFileIcon />}
+                    disabled={isUploading || isProcessing}
+                    className="btn-upload"
+                    sx={{ mr: 2 }}
+                    >
+                    Select Audio File
+                    </Button>
+                </label>
+                
+                {file && (
+                    <Box sx={{ display: 'flex', alignItems: 'center', mt: 2, mb: 2 }}>
+                    <AudioFileIcon sx={{ mr: 1 }} />
+                    <Typography variant="body2">
+                        Selected file: {file.name}
+                    </Typography>
+                    </Box>
+                )}
+                
+                <Box sx={{ mt: 3 }}>
+                    <Button
+                    variant="outlined" 
+                    className="btn-upload"
+                    color="primary"
+                    onClick={handleUpload}
+                    disabled={!file || isUploading || isProcessing}
+                    startIcon={isUploading || isProcessing ? <CircularProgress size={20} /> : <CloudUploadIcon />}
+                    >
+                    {isUploading ? 'Uploading...' : isProcessing ? 'Processing...' : 'Upload and Process'}
+                    </Button>
+                </Box>
+                </Box>
+                
+                {(isUploading || isProcessing) && (
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', my: 3 }}>
+                    <CircularProgress size={40} />
+                    <Typography variant="body1" sx={{ mt: 2 }}>
+                    {isUploading ? 'Uploading audio file...' : statusMessage}
+                    </Typography>
+                </Box>
+                )}
+            </CardContent>
+            </Card>
+        ) : null}
+        
+        {/* Transcript Display */}
+        {transcript && transcript.length > 0 && (
+            <Grid container spacing={3}>
+            <Grid item xs={12}>
+                <Card className="transcribe-card">
+                <CardContent>
+                    <Typography variant="h6" gutterBottom>
+                    Transcript
+                    </Typography>
+                    <Box className="transcript-container" sx={{ p: 2, maxHeight: 400, overflow: 'auto' }}>
+                    <List>
+                        {transcript.map((segment, index) => (
+                        <React.Fragment key={index}>
+                            <ListItem alignItems="flex-start">
+                            <ListItemText
+                                primary={
+                                <Typography sx={{ fontWeight: 'bold' }}>
+                                    {segment.speaker || 'Speaker'} 
+                                </Typography>
+                                }
+                                secondary={
+                                <Typography sx={{ opacity: 0.9 }}>
+                                    {segment.text}
+                                </Typography>
+                                }
+                            />
+                            </ListItem>
+                            {index < transcript.length - 1 && <Divider component="li" />}
+                        </React.Fragment>
+                        ))}
+                    </List>
+                    </Box>
+                </CardContent>
+                </Card>
+            </Grid>
+            
+            {/* Action Buttons */}
+            <Grid item xs={12}>
+                <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center', gap: 2, flexWrap: 'wrap' }}>
+                    {/* Combined Button for Upload and Generate Report */}
+                    <Button 
+                    variant="outlined" 
+                    className="btn-upload"
+                    color="primary"
+                    onClick={handleUploadAndGenerateReport}
+                    disabled={isGeneratingReport || isUploadingToCaseDocuments}
+                    startIcon={isUploadingToCaseDocuments || isGeneratingReport ? <CircularProgress size={20} /> : <FolderIcon />}
+                    >
+                    {isUploadingToCaseDocuments || isGeneratingReport ? 'Processing...' : 'Upload transcript to your case documents'}
+                    </Button>
+                    
+                    {/* Process Another Recording Button */}
+                    <Button 
+                    variant="outlined"
+                    className="btn-upload"
+                    onClick={() => {
+                        setFile(null);
+                        setTranscript([]);
+                        setSummary(null);
+                        setUploadId(null);
+                    }} 
+                    startIcon={<MicIcon />}
+                    disabled={isGeneratingReport || isUploadingToCaseDocuments}
+                    >
+                    Process Another Recording
+                    </Button>
+                </Box>
+            </Grid>
+            </Grid>
+        )}
+        
+        {/* Replace standard Snackbar with custom Snackbar that includes GoBackButton */}
+        <Snackbar
+            open={openSnackbar}
+            autoHideDuration={6000}
+            onClose={handleCloseSnackbar}
+            action={
+            <GoBackButton />
+            }
+        >
+            <Alert severity={snackbarSeverity} sx={{ width: '100%' }}>
+            {snackbarMessage}
+            </Alert>
+        </Snackbar>
+        </Box>
   );
 };
 

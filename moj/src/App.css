@@ -203,6 +203,19 @@ p {
   }
 }
 
+.requirements-list {
+  list-style-type: disc !important;
+}
+
+.requirements-list li {
+  display: list-item !important;
+  list-style-type: disc !important;
+}
+
+/* Ensure proper colors in both themes */
+.requirements-list li {
+  color: var(--white) !important;
+}
 
 /* LIGHT THEME */
 .light-theme {
@@ -229,9 +242,23 @@ p {
     }
   }
 
+  .file-requirements-content ul {
+    color: var(--black) !important;
+  }
+  
+  .file-requirements-content ul li {
+    color: var(--black) !important;
+  }
+
+  .btn-upload.cta-button {
+    color: var(--black) !important;
+    border-color: var(--black) !important;
+  }
+
   /* Back Link */
   .backBtn {
     color: var(--black);
+    background-color: transparent;
   }
 
   h1,
@@ -255,6 +282,13 @@ p {
     border-color: var(--black) !important;
   }
 
+  .fileList li .MuiIconButton-root {
+    background-color: transparent !important;
+  }
+
+  .fileList li .MuiIconButton-root:hover {
+    background-color: rgba(0, 0, 0, 0.1) !important;
+  }
   /* Uploaded file list */
   .fileList li {
     border-bottom: 1px solid var(--black);
@@ -285,3 +319,4 @@ p {
     border-bottom: 1px solid var(--black);
   }
 }
+

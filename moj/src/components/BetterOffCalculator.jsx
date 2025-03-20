@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
@@ -20,6 +20,36 @@ import CalculateIcon from '@mui/icons-material/Calculate';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 const BetterOffCalculator = ({ caseId }) => {
+  // State to track the theme
+  const [isLightTheme, setIsLightTheme] = useState(document.body.classList.contains('light-theme'));
+  
+  // Add a listener to detect theme changes
+  useEffect(() => {
+    const handleBodyClassChange = () => {
+      setIsLightTheme(document.body.classList.contains('light-theme'));
+    };
+
+    // Create a MutationObserver to watch for class changes on the body
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.type === 'attributes' &&
+          mutation.attributeName === 'class'
+        ) {
+          handleBodyClassChange();
+        }
+      });
+    });
+    
+    // Start observing
+    observer.observe(document.body, { attributes: true });
+    
+    // Clean up
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   const [betterOffForm, setBetterOffForm] = useState({
     input_dob_user: '',
     input_dob_partner: '',
@@ -42,66 +72,66 @@ const BetterOffCalculator = ({ caseId }) => {
     severity: 'info'
   });
 
-  // Common styles for TextFields
+  // Define styles based on the current theme
   const textFieldStyles = {
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderColor: 'var(--white)',
+        borderColor: isLightTheme ? 'var(--black)' : 'var(--white)',
       },
       '&:hover fieldset': {
-        borderColor: 'var(--white)',
+        borderColor: isLightTheme ? 'var(--black)' : 'var(--white)',
       },
       '&.Mui-focused fieldset': {
-        borderColor: 'var(--white)',
+        borderColor: isLightTheme ? 'var(--blue)' : 'var(--white)',
       },
       '& input': {
-        color: 'var(--white)',
+        color: isLightTheme ? 'var(--black)' : 'var(--white)',
       },
     },
     '& .MuiInputLabel-root': {
-      color: 'var(--white)',
+      color: isLightTheme ? 'var(--black)' : 'var(--white)',
       '&.Mui-focused': {
-        color: 'var(--white)',
+        color: isLightTheme ? 'var(--blue)' : 'var(--white)',
       },
     },
     '& .MuiFormHelperText-root': {
-      color: 'var(--white)',
+      color: isLightTheme ? 'var(--black)' : 'var(--white)',
     },
   };
 
-  // Common styles for Select components
   const selectStyles = {
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderColor: 'var(--white)',
+        borderColor: isLightTheme ? 'var(--black)' : 'var(--white)',
       },
       '&:hover fieldset': {
-        borderColor: 'var(--white)',
+        borderColor: isLightTheme ? 'var(--black)' : 'var(--white)',
       },
       '&.Mui-focused fieldset': {
-        borderColor: 'var(--white)',
+        borderColor: isLightTheme ? 'var(--blue)' : 'var(--white)',
       },
       '& .MuiSelect-select': {
-        color: 'var(--white)',
+        color: isLightTheme ? 'var(--black)' : 'var(--white)',
       },
-      '& .MuiSvgIcon-root': { // Dropdown icon
-        color: 'var(--white)',
+      '& .MuiSvgIcon-root': {
+        color: isLightTheme ? 'var(--black)' : 'var(--white)',
       },
     },
     '& .MuiInputLabel-root': {
-      color: 'var(--white)',
+      color: isLightTheme ? 'var(--black)' : 'var(--white)',
       '&.Mui-focused': {
-        color: 'var(--white)',
+        color: isLightTheme ? 'var(--blue)' : 'var(--white)',
       },
     },
   };
 
-  // Card styles
   const cardStyles = {
-    backgroundColor: 'var(--black)',
-    color: 'var(--white)',
-    border: '1px solid var(--dark-grey)'
+    backgroundColor: isLightTheme ? 'var(--white)' : 'var(--black)',
+    color: isLightTheme ? 'var(--black)' : 'var(--white)',
+    border: isLightTheme ? '1px solid var(--grey)' : '1px solid var(--dark-grey)'
   };
+
+  const textColor = isLightTheme ? 'var(--black) !important' : 'var(--white) !important';
 
   const handleSnackbarClose = () => {
     setSnackbar({
@@ -182,7 +212,7 @@ const BetterOffCalculator = ({ caseId }) => {
     
     return (
       <Box sx={{ mt: 4 }}>
-        <Typography variant="h5" gutterBottom>
+        <Typography variant="h5" gutterBottom sx={{ color: textColor }}>
           Your Benefits Calculation Results
         </Typography>
         
@@ -191,10 +221,10 @@ const BetterOffCalculator = ({ caseId }) => {
           <Grid item xs={12} md={6}>
             <Card sx={cardStyles}>
               <CardContent>
-                <Typography variant="h6" gutterBottom sx={{ color: 'var(--white) !important' }}>
+                <Typography variant="h6" gutterBottom sx={{ color: textColor }}>
                   Eligible Total
                 </Typography>
-                <Typography variant="h4" sx={{ color: 'var(--white) !important' }}>
+                <Typography variant="h4" sx={{ color: textColor }}>
                   £{betterOffData.output_eligible_total_result?.toFixed(2) || '0.00'} per month
                 </Typography>
               </CardContent>
@@ -206,11 +236,13 @@ const BetterOffCalculator = ({ caseId }) => {
             <Grid item xs={12}>
               <Card sx={{ 
                 ...cardStyles,
-                bgcolor: 'var(--black)',
+                bgcolor: isLightTheme ? 'var(--white)' : 'var(--black)',
                 borderColor: betterOffData.output_eligible_total_result > betterOffData.income_earnings_net ? 'var(--green)' : 'var(--btnMaroon)'
-              }}>
+              }}
+              className={`difference-card ${betterOffData.output_eligible_total_result > betterOffData.income_earnings_net ? 'positive-difference' : 'negative-difference'}`}
+              >
                 <CardContent>
-                  <Typography variant="h6" gutterBottom sx={{ color: 'var(--white) !important' }}>
+                  <Typography variant="h6" gutterBottom sx={{ color: textColor }}>
                     Difference with Eligible Benefits
                   </Typography>
                   <Typography 
@@ -218,6 +250,7 @@ const BetterOffCalculator = ({ caseId }) => {
                     sx={{ 
                       color: betterOffData.output_eligible_total_result > betterOffData.income_earnings_net ? 'var(--green) !important' : 'var(--btnMaroon) !important' 
                     }}
+                    className={betterOffData.output_eligible_total_result > betterOffData.income_earnings_net ? 'positive-result' : 'negative-result'}
                   >
                     {betterOffData.output_eligible_total_result > betterOffData.income_earnings_net ? '+' : ''}
                     £{(betterOffData.output_eligible_total_result - betterOffData.income_earnings_net).toFixed(2)} per month
@@ -233,22 +266,22 @@ const BetterOffCalculator = ({ caseId }) => {
           <Grid item xs={12} md={6}>
             <Card sx={cardStyles}>
               <CardContent>
-                <Typography variant="h6" gutterBottom sx={{ color: 'var(--white) !important' }}>
+                <Typography variant="h6" gutterBottom sx={{ color: textColor }}>
                   Council Tax Details
                 </Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                  <Typography variant="body1" sx={{ color: 'var(--white) !important' }}>
+                  <Typography variant="body1" sx={{ color: textColor }}>
                     Council Tax Award:
                   </Typography>
-                  <Typography variant="body1" fontWeight="bold" sx={{ color: 'var(--white) !important' }}>
+                  <Typography variant="body1" fontWeight="bold" sx={{ color: textColor }}>
                     £{betterOffData.council_tax_award_takehome?.toFixed(2) || '0.00'}
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <Typography variant="body1" sx={{ color: 'var(--white) !important' }}>
+                  <Typography variant="body1" sx={{ color: textColor }}>
                     Liability Post Single Person:
                   </Typography>
-                  <Typography variant="body1" fontWeight="bold" sx={{ color: 'var(--white) !important' }}>
+                  <Typography variant="body1" fontWeight="bold" sx={{ color: textColor }}>
                     £{betterOffData.cts_liability_postsingleperson?.toFixed(2) || '0.00'}
                   </Typography>
                 </Box>
@@ -259,14 +292,14 @@ const BetterOffCalculator = ({ caseId }) => {
           <Grid item xs={12} md={6}>
             <Card sx={cardStyles}>
               <CardContent>
-                <Typography variant="h6" gutterBottom sx={{ color: 'var(--white) !important' }}>
+                <Typography variant="h6" gutterBottom sx={{ color: textColor }}>
                   Universal Credit
                 </Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                  <Typography variant="body1" sx={{ color: 'var(--white) !important' }}>
+                  <Typography variant="body1" sx={{ color: textColor }}>
                     Universal Credit Allowance:
                   </Typography>
-                  <Typography variant="body1" fontWeight="bold" sx={{ color: 'var(--white) !important' }}>
+                  <Typography variant="body1" fontWeight="bold" sx={{ color: textColor }}>
                     £{betterOffData.universalcredit_takehomeincome && betterOffData.output_eligible_total_result 
                         ? (betterOffData.universalcredit_takehomeincome - betterOffData.output_eligible_total_result).toFixed(2) 
                         : '0.00'}
@@ -278,14 +311,14 @@ const BetterOffCalculator = ({ caseId }) => {
           <Grid item xs={12} md={6}>
             <Card sx={cardStyles}>
               <CardContent>
-                <Typography variant="h6" gutterBottom sx={{ color: 'var(--white) !important' }}>
+                <Typography variant="h6" gutterBottom sx={{ color: textColor }}>
                   Housing Benefit
                 </Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                  <Typography variant="body1" sx={{ color: 'var(--white) !important' }}>
+                  <Typography variant="body1" sx={{ color: textColor }}>
                     Housing Entitlement:
                   </Typography>
-                  <Typography variant="body1" fontWeight="bold" sx={{ color: 'var(--white) !important' }}>
+                  <Typography variant="body1" fontWeight="bold" sx={{ color: textColor }}>
                     £{betterOffData.hb_sizecriteria_lha_entitled?.toFixed(2) || '0.00'}
                   </Typography>
                 </Box>
@@ -296,22 +329,22 @@ const BetterOffCalculator = ({ caseId }) => {
           <Grid item xs={12} md={6}>
             <Card sx={cardStyles}>
               <CardContent>
-                <Typography variant="h6" gutterBottom sx={{ color: 'var(--white) !important' }}>
+                <Typography variant="h6" gutterBottom sx={{ color: textColor }}>
                   Eligibility Information
                 </Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                  <Typography variant="body1" sx={{ color: 'var(--white) !important' }}>
+                  <Typography variant="body1" sx={{ color: textColor }}>
                     Pensioner Household:
                   </Typography>
-                  <Typography variant="body1" fontWeight="bold" sx={{ color: 'var(--white) !important' }}>
+                  <Typography variant="body1" fontWeight="bold" sx={{ color: textColor }}>
                     {betterOffData.isPensionerHousehold ? 'Yes' : 'No'}
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                  <Typography variant="body1" sx={{ color: 'var(--white) !important' }}>
+                  <Typography variant="body1" sx={{ color: textColor }}>
                     Eligible Total:
                   </Typography>
-                  <Typography variant="body1" fontWeight="bold" sx={{ color: 'var(--white) !important' }}>
+                  <Typography variant="body1" fontWeight="bold" sx={{ color: textColor }}>
                     £{betterOffData.output_eligible_total_result?.toFixed(2) || '0.00'}
                   </Typography>
                 </Box>
@@ -325,10 +358,10 @@ const BetterOffCalculator = ({ caseId }) => {
           <Box sx={{ mt: 4 }}>
             <Card sx={cardStyles}>
               <CardContent>
-                <Typography variant="h6" gutterBottom sx={{ color: 'var(--white) !important' }}>
+                <Typography variant="h6" gutterBottom sx={{ color: textColor }}>
                   Need More Detailed Calculations?
                 </Typography>
-                <Typography variant="body1" paragraph sx={{ color: 'var(--white) !important' }}>
+                <Typography variant="body1" paragraph sx={{ color: textColor }}>
                   For a more detailed breakdown of your benefits calculation, please visit the full Better Off Calculator.
                 </Typography>
                 <Button 
@@ -354,11 +387,11 @@ const BetterOffCalculator = ({ caseId }) => {
             onClick={() => setBetterOffData(null)} 
             size="large"
             sx={{ 
-              color: 'var(--white)', 
-              borderColor: 'var(--white)',
+              color: isLightTheme ? 'var(--black)' : 'var(--white)', 
+              borderColor: isLightTheme ? 'var(--black)' : 'var(--white)',
               '&:hover': {
-                borderColor: 'var(--white)',
-                bgcolor: 'rgba(255, 255, 255, 0.1)'
+                borderColor: isLightTheme ? 'var(--black)' : 'var(--white)',
+                bgcolor: isLightTheme ? 'rgba(0, 0, 0, 0.04)' : 'rgba(255, 255, 255, 0.1)'
               }
             }}
           >
@@ -370,18 +403,18 @@ const BetterOffCalculator = ({ caseId }) => {
   };
   
   return (
-    <Box>
-      <Typography variant="h4" gutterBottom>
+    <Box className="BetterOffCalculator">
+      <Typography variant="h4" gutterBottom sx={{ color: textColor }}>
         Better Off Calculator
       </Typography>
-      <Typography variant="body1" paragraph>
+      <Typography variant="body1" paragraph sx={{ color: textColor }}>
         Use Policy in Practice's calculator to estimate your benefits entitlement and see if you could be better off.
       </Typography>
       
       {!betterOffData && (
         <Card sx={{ ...cardStyles, mb: 4 }}>
           <CardContent>
-            <Typography variant="h6" gutterBottom sx={{ color: 'var(--white) !important' }}>
+            <Typography variant="h6" gutterBottom sx={{ color: textColor }}>
               Enter Your Details
             </Typography>
             
@@ -438,7 +471,12 @@ const BetterOffCalculator = ({ caseId }) => {
                   margin="normal"
                   sx={textFieldStyles}
                   InputProps={{
-                    startAdornment: <span style={{ marginRight: 8, color: 'var(--white)' }}>£</span>,
+                    startAdornment: <span 
+                      style={{ marginRight: 8, color: isLightTheme ? 'var(--black)' : 'var(--white)' }}
+                      className="currency-prefix"
+                    >
+                      £
+                    </span>,
                   }}
                 />
               </Grid>
@@ -484,7 +522,12 @@ const BetterOffCalculator = ({ caseId }) => {
                   margin="normal"
                   sx={textFieldStyles}
                   InputProps={{
-                    startAdornment: <span style={{ marginRight: 8, color: 'var(--white)' }}>£</span>,
+                    startAdornment: <span 
+                      style={{ marginRight: 8, color: isLightTheme ? 'var(--black)' : 'var(--white)' }}
+                      className="currency-prefix"
+                    >
+                      £
+                    </span>,
                   }}
                 />
               </Grid>
@@ -535,7 +578,12 @@ const BetterOffCalculator = ({ caseId }) => {
                   margin="normal"
                   sx={textFieldStyles}
                   InputProps={{
-                    startAdornment: <span style={{ marginRight: 8, color: 'var(--white)' }}>£</span>,
+                    startAdornment: <span 
+                      style={{ marginRight: 8, color: isLightTheme ? 'var(--black)' : 'var(--white)' }}
+                      className="currency-prefix"
+                    >
+                      £
+                    </span>,
                   }}
                 />
               </Grid>
@@ -573,7 +621,8 @@ const BetterOffCalculator = ({ caseId }) => {
             
             <Box sx={{ mt: 4, display: 'flex', justifyContent: 'flex-end' }}>
               <Button
-                variant="contained"
+                variant="outlined" 
+                className="btn-upload"
                 color="primary"
                 onClick={handleBetterOffSubmit}
                 disabled={calculatingBetterOff}
@@ -594,7 +643,18 @@ const BetterOffCalculator = ({ caseId }) => {
         autoHideDuration={6000}
         onClose={handleSnackbarClose}
       >
-        <Alert onClose={handleSnackbarClose} severity={snackbar.severity}>
+        <Alert 
+          onClose={handleSnackbarClose} 
+          severity={snackbar.severity}
+          sx={{
+            backgroundColor: isLightTheme ? 
+              (snackbar.severity === 'success' ? 'var(--bgLightGreen)' : 
+               snackbar.severity === 'error' ? 'var(--lightOrange)' : 'var(--white)') : 
+              'var(--dark-grey)',
+            color: isLightTheme ? 'var(--black)' : 'var(--white)',
+            border: isLightTheme ? '1px solid var(--grey)' : 'none'
+          }}
+        >
           {snackbar.message}
         </Alert>
       </Snackbar>

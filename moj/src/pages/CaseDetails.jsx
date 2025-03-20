@@ -68,10 +68,6 @@ export default function CaseDetails() {
     }
     // Only depend on caseId
   }, [caseId]);
-  
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
 
   useEffect(() => {
     const fetchCaseData = async () => {
@@ -224,7 +220,17 @@ export default function CaseDetails() {
                 <Grid size={{ xs: 12, lg: 8 }}>
                   {(() => {
                     try {
-                      return <VideoGallery title={pathwayData?.pending_documents[0]?.process_name} stepId={pathwayData?.pending_documents[0]?.process_key + '_' + pathwayData?.pending_documents[0]?.step_id} />;
+                      // Safely access nested properties
+                      const documentData = pathwayData?.pending_documents?.[0];
+                      const title = documentData?.process_name || 'Prepare for mediation';
+                      
+                      // Only construct stepId if both values exist, otherwise use default
+                      let stepId = 'mediationProcess_mediation_preparation'; // Default value
+                      if (documentData?.process_key && documentData?.step_id) {
+                        stepId = `${documentData.process_key}_${documentData.step_id}`;
+                      }
+                      
+                      return <VideoGallery title={title} stepId={stepId} />;
                     } catch (error) {
                       console.error('Error rendering VideoGallery:', error);
                       return <div>Error loading video gallery</div>;

@@ -85,6 +85,16 @@
         border-color: var(--black) !important; 
       }
     }
+
+    /* Add specific styling for copy buttons */
+    .copyButton {
+      background-color: transparent;
+      color: var(--black);
+      
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.04);
+      }
+    }
   }
   
   textarea {

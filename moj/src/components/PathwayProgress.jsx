@@ -18,6 +18,7 @@ import {
   StepContent
 } from '@mui/material';
 import ErrorIcon from '@mui/icons-material/Error';
+import FolderIcon from '@mui/icons-material/Folder';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 import './PathwayProgress.css';
@@ -205,17 +206,11 @@ const PathwayProgress = ({
             {currentProcessData.name}
           </Typography>
           <Button 
-            variant="contained"
+            variant="outlined" 
+            className="btn-upload"
+            color="primary"
+            startIcon={<FolderIcon />}
             onClick={() => navigate(`/file-upload/${caseId}`)}
-            sx={{ 
-              backgroundColor: 'var(--greenButton)', 
-              textTransform: 'none',
-              color: 'var(--white)',
-              '&:hover': {
-                backgroundColor: 'var(--greenButton)',
-                opacity: 0.9
-              }
-            }}
           >
             Upload more documents
           </Button>

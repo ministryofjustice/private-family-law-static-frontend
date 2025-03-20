@@ -205,8 +205,8 @@ export default function QuestionsAnswers({ queries: initialQueries, caseId, onQu
         onSubmit={handleSubmit}
       >
         <ul className="questionAnswerList">
-          {allQueries && allQueries.map((item) => (
-            <li key={item.trace_id}>
+          {allQueries && allQueries.map((item, index) => (
+            <li key={item.trace_id || `query-${index}`}>
               <div className="question">
                 {item.query}
               </div>
@@ -246,22 +246,6 @@ export default function QuestionsAnswers({ queries: initialQueries, caseId, onQu
             onChange={(e) => setQuestion(e.target.value)}
             onKeyDown={handleKeyPress}
             disabled={isSubmitting}
-            sx={{
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: 'var(--white)',
-                },
-                '&:hover fieldset': {
-                  borderColor: 'var(--white)',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: 'var(--white)',
-                },
-                '&.Mui-disabled fieldset': {
-                  borderColor: 'var(--white)',
-                }
-              }
-            }}
           />
         </div>
         <Button

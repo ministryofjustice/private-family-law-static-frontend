@@ -90,7 +90,6 @@ export default function App() {
               <Route path="/parent-planner" element={<ParentPlanner />} />
 
 
-              <Route path="/case-summary" element={<CaseSummary />} />
               <Route path="/pathway/:caseId" element={<Pathway />} />
               <Route path="/pathway" element={<Pathway />} />
               <Route path="*" element={<NoPage />} />
