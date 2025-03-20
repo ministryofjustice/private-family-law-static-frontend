@@ -5,7 +5,9 @@ export default function Footer() {
   return (
     <header>
       <div className="inner-container">
-        <a href="/"><img src={logo} className='logo' alt="MOJ Logo" /></a>
+        <a href="/">
+          <div className="logo">&nbsp;</div>
+        </a>
        </div>
     </header>
   );

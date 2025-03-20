@@ -3,6 +3,30 @@
   border-radius: 0 !important;
   box-shadow: none !important;
   height: 100%;
+  scrollbar-width: thin;
+  scrollbar-color: #43A6C6 var(--dark-grey);
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: var(--dark-grey);
+    border-radius: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: #1e5631;
+    border-radius: 4px;
+  }
+
+  /* Rest of your existing styles */
+  div.MuiCardContent-root{
+    background-color: var(--bgLightCobalt);
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
 
   div.MuiCardContent-root{
     background-color: var(--bgLightCobalt);
@@ -57,5 +81,12 @@
         }
       }
     }
+  }
+}
+.light-theme .summaryCardActions {
+  scrollbar-color: var(--blue) var(--grey);
+  
+  &::-webkit-scrollbar-track {
+    background: var(--grey);
   }
 }

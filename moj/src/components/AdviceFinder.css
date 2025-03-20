@@ -1,0 +1,208 @@
+/* AdviceFinder Component Styling */
+
+.advice-finder-container {
+    padding: 20px;
+    color: var(--white);
+  }
+  
+  .advice-finder-container h4,
+  .advice-finder-container h6,
+  .advice-finder-container p {
+    color: var(--white);
+  }
+  
+  .advice-finder-container .search-form {
+    margin-top: 24px;
+    padding: 24px;
+    border: 1px solid var(--dark-grey);
+    border-radius: 4px;
+    background-color: var(--dark-grey);
+  }
+  
+  .advice-finder-container .slider-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  
+  .advice-finder-container .slider-value {
+    margin-left: 16px;
+    min-width: 60px;
+    color: var(--white);
+  }
+  
+  .advice-finder-container .search-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  
+  .advice-finder-container .results-header {
+    margin: 32px 0 16px 0;
+    font-weight: 600;
+    color: var(--white);
+  }
+  
+  .advice-finder-container .result-card {
+    height: 100%;
+    background-color: var(--black);
+    color: var(--white);
+    border: 1px solid var(--dark-grey);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .advice-finder-container .result-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .advice-finder-container .result-card h3 {
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--white);
+  }
+  
+  .advice-finder-container .result-distance {
+    margin-bottom: 12px;
+    color: var(--white);
+    opacity: 0.8;
+  }
+  
+  .advice-finder-container .new-search-btn {
+    margin-top: 24px;
+  }
+  
+  /* Material UI Text Field Overrides for Dark Theme */
+  .advice-finder-container .MuiTextField-root .MuiOutlinedInput-root fieldset {
+    border-color: var(--white);
+  }
+  
+  .advice-finder-container .MuiTextField-root .MuiOutlinedInput-root:hover fieldset {
+    border-color: var(--white);
+  }
+  
+  .advice-finder-container .MuiTextField-root .MuiOutlinedInput-root.Mui-focused fieldset {
+    border-color: var(--white);
+  }
+  
+  .advice-finder-container .MuiTextField-root .MuiOutlinedInput-root input {
+    color: var(--white);
+  }
+  
+  .advice-finder-container .MuiTextField-root .MuiInputLabel-root {
+    color: var(--white);
+  }
+  
+  .advice-finder-container .MuiTextField-root .MuiInputLabel-root.Mui-focused {
+    color: var(--white);
+  }
+  
+  /* Slider Styling for Dark Theme */
+  .advice-finder-container .MuiSlider-root {
+    color: var(--white);
+  }
+  
+  /* Button Styling */
+  .advice-finder-container .MuiButton-contained {
+    background-color: var(--blue);
+    color: var(--white);
+    text-transform: none;
+  }
+  
+  .advice-finder-container .MuiButton-contained:hover {
+    background-color: var(--btnCobalt);
+  }
+  
+  .advice-finder-container .MuiButton-outlined {
+    border-color: var(--white);
+    color: var(--white);
+    text-transform: none;
+  }
+  
+  .advice-finder-container .MuiButton-outlined:hover {
+    border-color: var(--white);
+    background-color: rgba(255, 255, 255, 0.04);
+  }
+  
+  /* Light Theme Overrides */
+  .light-theme .advice-finder-container {
+    color: var(--black);
+  }
+  
+  .app-bar-advice-finder {
+    background-color: #d32f2f !important;
+  }
+
+  .light-theme .advice-finder-container h4,
+  .light-theme .advice-finder-container h6,
+  .light-theme .advice-finder-container p,
+  .light-theme .advice-finder-container .MuiTypography-root {
+    color: var(--black) !important;
+  }
+  
+  .light-theme .advice-finder-container .search-form {
+    background-color: var(--grey);
+    border-color: var(--grey);
+  }
+  
+  .light-theme .advice-finder-container .slider-value {
+    color: var(--black);
+  }
+  
+  .light-theme .advice-finder-container .MuiSlider-root {
+    color: var(--btnBlue);
+  }
+  
+  .light-theme .advice-finder-container .MuiTextField-root .MuiOutlinedInput-root {
+    background-color: var(--white);
+  }
+  
+  .light-theme .advice-finder-container .MuiTextField-root .MuiOutlinedInput-root fieldset {
+    border-color: var(--dark-grey);
+  }
+  
+  .light-theme .advice-finder-container .MuiTextField-root .MuiInputLabel-root {
+    color: var(--black);
+  }
+  
+  /* Fix for text color in light theme */
+  .light-theme .advice-finder-container .MuiTextField-root .MuiOutlinedInput-root input {
+    color: var(--black);
+  }
+  
+  .light-theme .advice-finder-container .MuiButton-contained {
+    background-color: var(--btnBlue);
+    color: var(--white) !important;
+  }
+  
+  .light-theme .advice-finder-container .MuiButton-outlined {
+    color: var(--btnBlue);
+    border-color: var(--btnBlue);
+  }
+  
+  .light-theme .advice-finder-container .result-card {
+    background-color: var(--white);
+    border-color: var(--grey);
+  }
+  
+  .light-theme .advice-finder-container .result-card h3,
+  .light-theme .advice-finder-container .result-card .MuiTypography-body2 {
+    color: var(--black) !important;
+  }
+  
+  .light-theme .advice-finder-container .result-distance {
+    color: var(--black);
+  }
+  
+  /* Responsive Styling */
+  @media (max-width: 600px) {
+    .advice-finder-container .search-actions {
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .advice-finder-container .search-actions button {
+      width: 100%;
+    }
+  }

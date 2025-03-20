@@ -53,9 +53,6 @@
   background: var(--grey);
 }
 
-.light-theme .caseSummary::-webkit-scrollbar-thumb {
-  background-color: var(--blue);
-}
 
 /* Light theme wrapper adjustments */
 .light-theme .caseSummaryWrapper {

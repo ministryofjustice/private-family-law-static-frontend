@@ -10,6 +10,7 @@
   --greenButton: #00703c;
 
   --btnBlue: #1D70B8;
+  --btnTeal: #008080;
   --btnGreen: #3F873A;
   --btnYellow: #BD8F05;
   --btnOrange: #CF6300;
@@ -21,6 +22,7 @@
 
   --bgLightCobalt: #DFE2EC;
   --bgLightGreen: #EEF7F3;
+  
 }
 
 body{
@@ -102,6 +104,12 @@ body{
 .pb-4 {
   padding-bottom: 40px !important;
 }
+.mh-300 {
+  min-height: 300px;
+}
+.mh-500 {
+  min-height: 500px;
+}
 
 .loadingPage {
   min-height: 500px;
@@ -143,6 +151,10 @@ p {
 }
 .xlargeText {
   font-size: 48px;
+}
+
+.iconWhite {
+  color: var(--white);
 }
 
 .title {
@@ -191,31 +203,28 @@ p {
   }
 }
 
-/* Support Tools */
-.supportTools{
-
-  button {
-    background-color: #cccccc;
-    margin: 0 0 5px;
-    width: 100%;
-  }
+.requirements-list {
+  list-style-type: disc !important;
 }
 
-.tabPanel {
-  color: var(--white);
-  padding: 0 0 60px 60px;
+.requirements-list li {
+  display: list-item !important;
+  list-style-type: disc !important;
 }
 
+/* Ensure proper colors in both themes */
+.requirements-list li {
+  color: var(--white) !important;
+}
 
 /* LIGHT THEME */
 .light-theme {
-
   background-color: var(--white) !important;
 
   /* Theme Switch */
   .themeSwitch {
     background: var(--white);
-
+    
     label {
       background: var(--white) !important;
 
@@ -233,9 +242,23 @@ p {
     }
   }
 
+  .file-requirements-content ul {
+    color: var(--black) !important;
+  }
+  
+  .file-requirements-content ul li {
+    color: var(--black) !important;
+  }
+
+  .btn-upload.cta-button {
+    color: var(--black) !important;
+    border-color: var(--black) !important;
+  }
+
   /* Back Link */
   .backBtn {
     color: var(--black);
+    background-color: transparent;
   }
 
   h1,
@@ -245,7 +268,8 @@ p {
   h5,
   h6,
   p,
-  a {
+  a,
+  ul li {
     color: var(--black) !important;
   }
 
@@ -256,6 +280,32 @@ p {
   .btn-upload {
     color: var(--black) !important;
     border-color: var(--black) !important;
+  }
+
+  .fileList li .MuiIconButton-root {
+    background-color: transparent !important;
+  }
+
+  .fileList li .MuiIconButton-root:hover {
+    background-color: rgba(0, 0, 0, 0.1) !important;
+  }
+  /* Uploaded file list */
+  .fileList li {
+    border-bottom: 1px solid var(--black);
+    color: var(--black);
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 400px;
+
+    svg {
+      color: var(--black);
+    }
+  }
+  
+  .tabPanel {
+    color: var(--black) !important;
+    padding: 0 0 0 60px;
   }
 
   .caseSummary {
@@ -269,3 +319,4 @@ p {
     border-bottom: 1px solid var(--black);
   }
 }
+

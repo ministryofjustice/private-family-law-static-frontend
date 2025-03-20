@@ -7,13 +7,13 @@ const GoBackButton = () => {
   const location = useLocation();
   
   // List of base routes that should navigate to home
-  const routesToHome = ['/file-upload', '/dashboard'];
+  const routesToHome = ['/file-upload', '/case-details'];
 
   const handleGoBack = () => {
     // Check if we're in a service page and have a case ID
     if (location.pathname.includes('/service/') && caseId) {
       // Navigate directly to the dashboard with the case ID
-      navigate(`/dashboard/${caseId}`);
+      navigate(`/case-details/${caseId}`);
     } else {
       // Check if current path matches any routesToHome base path
       const isRouteToHome = routesToHome.some(route => 

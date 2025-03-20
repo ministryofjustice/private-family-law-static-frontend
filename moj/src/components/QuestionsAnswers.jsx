@@ -2,7 +2,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { Button, IconButton, Tooltip } from '@mui/material';
+import { Button, IconButton, Tooltip, CircularProgress } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import ReactMarkdown from 'react-markdown';
 import { renderToStaticMarkup } from 'react-dom/server';
@@ -14,6 +14,7 @@ export default function QuestionsAnswers({ queries: initialQueries, caseId, onQu
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [copySuccess, setCopySuccess] = React.useState('');
   const [copyId, setCopyId] = React.useState(null);
+  const [pendingQueries, setPendingQueries] = React.useState([]);
   
   // Create refs for each answer container
   const answerRefs = React.useRef({});
@@ -26,7 +27,24 @@ export default function QuestionsAnswers({ queries: initialQueries, caseId, onQu
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!question.trim()) return;
+    
+    // Generate a temporary ID for the pending query
+    const tempId = `temp-${Date.now()}`;
+    
+    // Add the question to pendingQueries immediately
+    const newPendingQuery = {
+      trace_id: tempId,
+      query: question,
+      isPending: true,
+      timestamp: new Date().toISOString()
+    };
+    
+    setPendingQueries(prev => [...prev, newPendingQuery]);
     setIsSubmitting(true);
+    
+    // Clear the input field immediately
+    setQuestion('');
+    
     try {
       const response = await fetch('/api/cases/query', {
         method: 'POST',
@@ -35,23 +53,32 @@ export default function QuestionsAnswers({ queries: initialQueries, caseId, onQu
         },
         body: JSON.stringify({
           caseId: caseId,
-          query: question,
-          timestamp: new Date().toISOString()
+          query: newPendingQuery.query,
+          timestamp: newPendingQuery.timestamp
         })
       });
+      
       if (!response.ok) {
         throw new Error('Failed to submit query');
       }
+      
       const result = await response.json();
       
-      // Update local state
+      // Remove from pending queries
+      setPendingQueries(prev => prev.filter(q => q.trace_id !== tempId));
+      
+      // Update local state with the real result
       setQueries(prevQueries => [...prevQueries, result]);
+      
       // Update parent state
       onQueryAdded(result);
       
-      setQuestion('');
     } catch (error) {
       console.error('Error submitting query:', error);
+      // Keep the question but mark it as errored
+      setPendingQueries(prev => 
+        prev.map(q => q.trace_id === tempId ? {...q, error: true} : q)
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -160,6 +187,11 @@ export default function QuestionsAnswers({ queries: initialQueries, caseId, onQu
     }
   };
 
+  // Combine regular queries and pending queries for display
+  const allQueries = React.useMemo(() => {
+    return [...queries, ...pendingQueries];
+  }, [queries, pendingQueries]);
+
   return (
     <>
     <div className="questionArea mt-4 pt-4">
@@ -173,24 +205,33 @@ export default function QuestionsAnswers({ queries: initialQueries, caseId, onQu
         onSubmit={handleSubmit}
       >
         <ul className="questionAnswerList">
-          {queries && queries.map((item) => (
-            <li key={item.trace_id}>
+          {allQueries && allQueries.map((item, index) => (
+            <li key={item.trace_id || `query-${index}`}>
               <div className="question">
                 {item.query}
               </div>
               <div className="answer">
-                <div className="answerHeader">
-                  <Tooltip title={copySuccess && copyId === item.trace_id ? copySuccess : "Copy to clipboard"}>
-                    <IconButton 
-                      size="small" 
-                      onClick={() => handleCopy(item.result, item.trace_id)}
-                      className="copyButton"
-                    >
-                      <ContentCopyIcon fontSize="small" />
-                    </IconButton>
-                  </Tooltip>
-                </div>
-                <ReactMarkdown>{item.result}</ReactMarkdown>
+                {!item.isPending ? (
+                  <>
+                    <div className="answerHeader">
+                      <Tooltip title={copySuccess && copyId === item.trace_id ? copySuccess : "Copy to clipboard"}>
+                        <IconButton 
+                          size="small" 
+                          onClick={() => handleCopy(item.result, item.trace_id)}
+                          className="copyButton"
+                        >
+                          <ContentCopyIcon fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                    </div>
+                    <ReactMarkdown>{item.result}</ReactMarkdown>
+                  </>
+                ) : (
+                  <div className="pendingAnswer">
+                    <CircularProgress size={24} />
+                    <span className="ml-2">Retrieving answer...</span>
+                  </div>
+                )}
               </div>
             </li>
           ))}

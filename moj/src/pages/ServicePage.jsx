@@ -8,44 +8,34 @@ import Container from '@mui/material/Container';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import IconButton from '@mui/material/IconButton';
 
-// Import the service colors from Dashboard
-import { serviceColors } from '../utils/constants';
-
 // Import service components
 import AdviceFinder from '../components/AdviceFinder';
 import BetterOffCalculator from '../components/BetterOffCalculator';
+import AudioUploadComponent from '../components/WyserAssist';
+import GoBackButton from '../components/GoBackButton'; // Import the GoBackButton component
 
-// Service configuration with titles, colors, and components
+// Import CSS files for each service
+import '../components/AdviceFinder.css';
+import '../components/BetterOffCalculator.css';
+import '../components/WyserAssist.css';
+import './ServicePage.css';
+
+// Service configuration with titles and components
 const serviceConfig = {
   'advice-finder': {
     title: 'Advice Finder',
-    color: serviceColors.adviceFinder,
+    appBarClass: 'app-bar-advice-finder',
     component: AdviceFinder
   },
   'better-off': {
     title: 'Better Off Calculator',
-    color: serviceColors.betterOff,
+    appBarClass: 'app-bar-better-off',
     component: BetterOffCalculator
   },
-  'service-3': {
-    title: 'Service 3',
-    color: serviceColors.service3,
-    component: () => <div>Service 3 Content</div>
-  },
-  'service-4': {
-    title: 'Service 4',
-    color: serviceColors.service4,
-    component: () => <div>Service 4 Content</div>
-  },
-  'service-5': {
-    title: 'Service 5',
-    color: serviceColors.service5,
-    component: () => <div>Service 5 Content</div>
-  },
-  'service-6': {
-    title: 'Service 6',
-    color: serviceColors.service6,
-    component: () => <div>Service 6 Content</div>
+  'transcribe': {
+    title: 'Transcribe',
+    appBarClass: 'app-bar-transcribe',
+    component: AudioUploadComponent
   }
 };
 
@@ -57,7 +47,7 @@ const ServicePage = () => {
   // Get service config or use fallback values
   const service = serviceConfig[serviceName] || {
     title: 'Unknown Service',
-    color: '#616161',
+    appBarClass: '',
     component: () => <div>Service not found</div>
   };
   
@@ -66,31 +56,25 @@ const ServicePage = () => {
   
   // Custom back handler specifically for service pages
   const handleBackToDashboard = () => {
-    navigate(`/dashboard/${caseId}`);
+    navigate(`/case-details/${caseId}`);
   };
   
   return (
     <>
-      {/* Colored AppBar that matches the service button color */}
+      <Box sx={{ mb: 2 }}>
+          <GoBackButton />
+      </Box>
       <AppBar 
         position="static" 
-        sx={{ 
-          backgroundColor: service.color,
-          marginBottom: 4
-        }}
+        className={`serviceAppBar ${service.appBarClass}`}
+        style={{ marginBottom: '32px' }}
       >
         <Toolbar>
-          {/* Custom back button that goes directly to dashboard */}
-          <IconButton
-            color="inherit"
-            aria-label="back to dashboard"
-            onClick={handleBackToDashboard}
-            edge="start"
-            sx={{ mr: 2 }}
+          <Typography 
+            variant="h6" 
+            component="div" 
+            style={{ flexGrow: 1, color: 'white' }}
           >
-            <ArrowBackIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {service.title}
           </Typography>
         </Toolbar>
@@ -98,7 +82,6 @@ const ServicePage = () => {
       
       <Container maxWidth="lg">
         <Box sx={{ mb: 4 }}>
-          {/* This will render the specific service component */}
           <ServiceComponent caseId={caseId} />
         </Box>
       </Container>

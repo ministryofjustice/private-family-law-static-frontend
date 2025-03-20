@@ -9,13 +9,10 @@ import {
   Alert,
   CircularProgress,
   TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Slider
 } from '@mui/material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import './AdviceFinder.css'; // Import the new CSS file
 
 const AdviceFinder = ({ caseId }) => {
   // States
@@ -85,7 +82,7 @@ const AdviceFinder = ({ caseId }) => {
   };
 
   return (
-    <Box>
+    <Box className="advice-finder-container">
       <Typography variant="h4" gutterBottom>
         Advice Near You
       </Typography>
@@ -95,7 +92,9 @@ const AdviceFinder = ({ caseId }) => {
       
       {!showSearchForm && !hasSearched ? (
         <Button 
-          variant="contained" 
+          variant="outlined" 
+          className="btn-upload"
+          color="primary"
           startIcon={<LocationOnIcon />}
           onClick={handleShowSearchForm}
         >
@@ -104,7 +103,7 @@ const AdviceFinder = ({ caseId }) => {
       ) : null}
       
       {showSearchForm && (
-        <Box sx={{ mt: 3, p: 3, border: '1px solid #e0e0e0', borderRadius: 1 }}>
+        <Box className="search-form">
           <Typography variant="h6" gutterBottom>
             Search for Advice Services
           </Typography>
@@ -116,38 +115,13 @@ const AdviceFinder = ({ caseId }) => {
             placeholder="e.g. EC3R 6DT"
             value={townOrPostcode}
             onChange={(e) => setTownOrPostcode(e.target.value)}
-            sx={{ 
-              mb: 2,
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  borderColor: 'var(--white)',
-                },
-                '&:hover fieldset': {
-                  borderColor: 'var(--white)',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: 'var(--white)',
-                },
-                '& input': {
-                  color: 'var(--white)',
-                },
-              },
-              '& .MuiInputLabel-root': {
-                color: 'var(--white)',
-                '&.Mui-focused': {
-                  color: 'var(--white)',
-                },
-              },
-              '& .MuiFormHelperText-root': {
-                color: 'var(--white)',
-              },
-            }}
+            sx={{ mb: 2 }}
           />
           
           <Typography variant="body2" sx={{ mb: 2 }}>
             Search radius (miles):
           </Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+          <Box className="slider-container">
             <Slider
               value={searchRadius}
               onChange={(e, newValue) => setSearchRadius(newValue)}
@@ -157,17 +131,23 @@ const AdviceFinder = ({ caseId }) => {
               valueLabelDisplay="auto"
               sx={{ mr: 2, flex: 1 }}
             />
-            <Typography variant="body2">
+            <Typography variant="body2" className="slider-value">
               {searchRadius} miles
             </Typography>
           </Box>
           
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, mt: 2 }}>
-            <Button onClick={handleCancelSearch} type="button">
+          <Box className="search-actions">
+            <Button 
+              variant="outlined" 
+              className="btn-upload"
+              color="primary"
+              onClick={handleCancelSearch} type="button">
               Cancel
             </Button>
             <Button 
-              variant="contained" 
+              variant="outlined" 
+              className="btn-upload"
+              color="primary" 
               onClick={handleSearch} 
               type="button"
               disabled={isSearching}
@@ -199,29 +179,24 @@ const AdviceFinder = ({ caseId }) => {
       
       {adviceResults.length > 0 && !isSearching && (
         <Box sx={{ mt: 4 }}>
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="h6" className="results-header">
             Found {adviceResults.length} advice service{adviceResults.length !== 1 ? 's' : ''} near {townOrPostcode}
           </Typography>
           
           <Grid container spacing={3}>
             {adviceResults.map((result) => (
               <Grid item xs={12} md={6} key={result.ResultID || `result-${Math.random()}`}>
-                <Card sx={{ 
-                  height: '100%', 
-                  backgroundColor: 'var(--black)',
-                  color: 'var(--white)',
-                  border: '1px solid var(--dark-grey)'
-                }}>
+                <Card className="result-card">
                   <CardContent>
-                    <Typography variant="h6" component="h3" gutterBottom sx={{ color: 'var(--white) !important' }}>
+                    <Typography variant="h6" component="h3" gutterBottom>
                       {result.AgencyName || 'Unknown Agency'}
                     </Typography>
-                    <Typography variant="body2" color="var(--white)" gutterBottom>
+                    <Typography variant="body2" className="result-distance" gutterBottom>
                       {typeof result.DistanceFromPostcode === 'number' 
                         ? `${result.DistanceFromPostcode.toFixed(1)} miles away`
                         : 'Distance unknown'}
                     </Typography>
-                    <Typography variant="body2" sx={{ color: 'var(--white) !important' }}>
+                    <Typography variant="body2">
                       {result.ServiceDescription || 'No description available'}
                     </Typography>
                   </CardContent>
@@ -235,6 +210,7 @@ const AdviceFinder = ({ caseId }) => {
               variant="outlined" 
               onClick={handleNewSearch}
               type="button"
+              className="new-search-btn"
             >
               New Search
             </Button>

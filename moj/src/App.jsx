@@ -3,13 +3,14 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
-import CaseSummary from './components/CaseSummary';
+import ToggleClassSwitch from './components/ChangeTheme';
 
 import Home from './pages/Home';
 import FileUpload from './pages/FileUpload';
-import Dashboard from './pages/Dashboard'; // Renamed from TabPanel to Dashboard
 import ServicePage from './pages/ServicePage'; // New component
 import LoadingPage from './pages/LoadingPage';
+import CaseDetails from './pages/CaseDetails';
+import ParentPlanner from './pages/ParentPlanner';
 import Pathway from './pages/Pathway';
 import NoPage from './pages/NoPage';
 
@@ -68,6 +69,7 @@ export default function App() {
   return (
     <>
       <Header />
+      <ToggleClassSwitch />
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Box sx={{ flexGrow: 1 }} className="main">
@@ -79,11 +81,15 @@ export default function App() {
               <Route path="/file-upload/:caseId" element={<FileUpload />} />
               
               {/* Updated routes for case dashboard and services */}
-              <Route path="/dashboard/:caseId" element={<Dashboard />} />
-              <Route path="/dashboard/:caseId/service/:serviceName" element={<ServicePage />} />
+              <Route path="/case-details/:caseId" element={<CaseDetails />} />
+              <Route path="/case-details/:caseId/service/:serviceName" element={<ServicePage />} />
               
               <Route path="/loading-page" element={<LoadingPage />} />
-              <Route path="/case-summary" element={<CaseSummary />} />
+
+        
+              <Route path="/parent-planner" element={<ParentPlanner />} />
+
+
               <Route path="/pathway/:caseId" element={<Pathway />} />
               <Route path="/pathway" element={<Pathway />} />
               <Route path="*" element={<NoPage />} />
