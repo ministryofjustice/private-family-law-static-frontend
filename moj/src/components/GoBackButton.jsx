@@ -21,7 +21,7 @@ const GoBackButton = () => {
       );
 
       if (isRouteToHome) {
-        navigate('/home');
+        navigate('/');
       } else {
         // Otherwise use standard back navigation
         navigate(-1);

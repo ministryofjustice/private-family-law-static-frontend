@@ -311,7 +311,6 @@ p {
   .caseSummary {
       background-color: var(--white) !important;
       color: var(--black) !important;
-      border-bottom: 1px solid var(--black) !important;
   }
   .successfulCases {
     background-color: var(--white) !important;

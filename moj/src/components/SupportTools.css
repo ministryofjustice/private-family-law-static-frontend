@@ -118,11 +118,11 @@
     position: relative;
   
     &:hover {
-      background-color: #008080 !important;
+      background-color: #1acfcf !important;
   
       .tooltip {
         display: block;
-        background-color: #008080;
+        background-color: #1acfcf;
       }
     }
   }

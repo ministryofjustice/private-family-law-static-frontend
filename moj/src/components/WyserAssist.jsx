@@ -449,7 +449,7 @@ const WyserAssist = ({ caseId }) => {
             Transcribe your audio files and add them to your case documents
         </Typography>
         <Typography variant="body1" paragraph>
-            Upload audio recordings for transcription (Conversations from 18+ year olds only). 
+          Welcome to our audio transcription tool. Upload audio recordings to update your case records quickly and easily. Ensure all conversation participants are aged 18 and above for privacy and legal compliance.
         </Typography>
         
         {/* Upload Card */}
