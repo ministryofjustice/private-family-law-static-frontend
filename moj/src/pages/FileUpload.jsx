@@ -197,8 +197,8 @@ export default function FileUpload() {
             <p>You can use our new AI dashboard to find information about your case. By uploading your case file, our AI tool will generate a comprehensive case summary, featuring information from similar cases that match your file.</p>
             <p>Additionally, you can find your action list, submitted documents, and support tools. The AI Q&A tool is also available to assist with any questions you may have.</p>
             
-            <h3 className='mt-3'>Upload your file</h3>
-            <p>{existingCaseId ? 'Upload additional files to your existing case' : 'Your document will upload when you click "Continue".'}</p>
+            <h3 className='mt-3'>Upload your files</h3>
+            <p>{existingCaseId ? 'Upload additional files to your existing case' : 'Your documents will upload when you click "Continue".'}</p>
 
             <Button className="btn-upload cta-button"
               component="label"
