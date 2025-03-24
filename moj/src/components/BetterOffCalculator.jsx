@@ -224,41 +224,13 @@ const BetterOffCalculator = ({ caseId }) => {
                 <Typography variant="h6" gutterBottom sx={{ color: textColor }}>
                   Eligible Total
                 </Typography>
-                <Typography variant="h4" sx={{ color: textColor }}>
-                  £{betterOffData.output_eligible_total_result?.toFixed(2) || '0.00'} per month
+                <Typography variant="h4" sx={{ color: 'var(--green) !important' }}>
+                  £{(betterOffData.output_eligible_total_result + betterOffData.hb_sizecriteria_lha_entitled + 
+                    betterOffData.cts_liability_postsingleperson).toFixed(2) || '0.00'} per month
                 </Typography>
               </CardContent>
             </Card>
           </Grid>
-          
-          {/* Difference calculation */}
-          {betterOffData.income_earnings_net !== undefined && betterOffData.output_eligible_total_result !== undefined && (
-            <Grid item xs={12}>
-              <Card sx={{ 
-                ...cardStyles,
-                bgcolor: isLightTheme ? 'var(--white)' : 'var(--black)',
-                borderColor: betterOffData.output_eligible_total_result > betterOffData.income_earnings_net ? 'var(--green)' : 'var(--btnMaroon)'
-              }}
-              className={`difference-card ${betterOffData.output_eligible_total_result > betterOffData.income_earnings_net ? 'positive-difference' : 'negative-difference'}`}
-              >
-                <CardContent>
-                  <Typography variant="h6" gutterBottom sx={{ color: textColor }}>
-                    Difference with Eligible Benefits
-                  </Typography>
-                  <Typography 
-                    variant="h4" 
-                    sx={{ 
-                      color: betterOffData.output_eligible_total_result > betterOffData.income_earnings_net ? 'var(--green) !important' : 'var(--btnMaroon) !important' 
-                    }}
-                    className={betterOffData.output_eligible_total_result > betterOffData.income_earnings_net ? 'positive-result' : 'negative-result'}
-                  >
-                    {betterOffData.output_eligible_total_result > betterOffData.income_earnings_net ? '+' : ''}
-                    £{(betterOffData.output_eligible_total_result - betterOffData.income_earnings_net).toFixed(2)} per month
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          )}
         </Grid>
         
         {/* Additional Details */}
@@ -300,9 +272,7 @@ const BetterOffCalculator = ({ caseId }) => {
                     Universal Credit Allowance:
                   </Typography>
                   <Typography variant="body1" fontWeight="bold" sx={{ color: textColor }}>
-                    £{betterOffData.universalcredit_takehomeincome && betterOffData.output_eligible_total_result 
-                        ? (betterOffData.universalcredit_takehomeincome - betterOffData.output_eligible_total_result).toFixed(2) 
-                        : '0.00'}
+                    £{(betterOffData.universalcredit_takehomeincome - betterOffData.income_earnings_net).toFixed(2)} per month
                   </Typography>
                 </Box>
               </CardContent>
@@ -340,14 +310,6 @@ const BetterOffCalculator = ({ caseId }) => {
                     {betterOffData.isPensionerHousehold ? 'Yes' : 'No'}
                   </Typography>
                 </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                  <Typography variant="body1" sx={{ color: textColor }}>
-                    Eligible Total:
-                  </Typography>
-                  <Typography variant="body1" fontWeight="bold" sx={{ color: textColor }}>
-                    £{betterOffData.output_eligible_total_result?.toFixed(2) || '0.00'}
-                  </Typography>
-                </Box>
               </CardContent>
             </Card>
           </Grid>
@@ -365,8 +327,9 @@ const BetterOffCalculator = ({ caseId }) => {
                   For a more detailed breakdown of your benefits calculation, please visit the full Better Off Calculator.
                 </Typography>
                 <Button 
-                  variant="contained" 
+                  variant="outlined" 
                   color="primary"
+                  className="btn-upload"
                   endIcon={<OpenInNewIcon />}
                   component={Link}
                   href={betterOffData.full_calc_link || "https://betteroffcalculator.co.uk/"}
@@ -384,6 +347,8 @@ const BetterOffCalculator = ({ caseId }) => {
         <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
           <Button 
             variant="outlined" 
+            color="primary"
+            className="btn-upload"
             onClick={() => setBetterOffData(null)} 
             size="large"
             sx={{ 

@@ -355,7 +355,7 @@ const PathwayProgress = ({
                             {/* Completed Documents */}
                             {completedDocs.length > 0 && (
                               <Box sx={{ mb: 2 }}>
-                                <Typography variant="subtitle2" sx={{ fontWeight: 'bold', mb: 1, color: 'text.primary' }}>
+                                <Typography variant="smallText" sx={{ fontWeight: 'bold', mb: 1, color: 'text.primary' }}>
                                   Completed Documents
                                 </Typography>
                                 <List dense>

@@ -327,7 +327,7 @@ export default function CaseDetails() {
           bottom: 0,
           right: 0, // Align to right edge
           margin: '0 20px', // Add some margin from the edge
-          width: '500px', // Controlled width - adjust as needed
+          width: '700px', // Controlled width - adjust as needed
           maxWidth: 'calc(100vw - 40px)', // Ensure it doesn't overflow screen
           zIndex: 1000,
           height: qaMinimized ? '60px' : '59vh',

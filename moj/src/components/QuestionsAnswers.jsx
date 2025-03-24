@@ -203,7 +203,7 @@ export default function QuestionsAnswers({ queries: initialQueries, caseId, onQu
   };
 
   return (
-    <div className="questionArea pt-1">
+    <div className="questionArea pt-1" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <Box
         component="form"
         sx={{ 
@@ -213,6 +213,7 @@ export default function QuestionsAnswers({ queries: initialQueries, caseId, onQu
           },
           display: 'flex',
           flexDirection: 'column',
+          height: '100%', // Make the box take full height
         }}
         noValidate
         autoComplete="off"
@@ -222,10 +223,11 @@ export default function QuestionsAnswers({ queries: initialQueries, caseId, onQu
         <Box 
           ref={questionListRef}
           sx={{ 
-            maxHeight: '40vh', 
-            overflowY: 'auto',
+            flexGrow: 1, // This will make it take up all available space
+            overflowY: allQueries.length > 0 ? 'auto' : 'hidden', // Only show scrollbar when needed
             mb: 2,
-            pr: 1 // Add some padding for scrollbar
+            pr: 1, // Add some padding for scrollbar
+            minHeight: 0 // This prevents flexbox children from expanding beyond container
           }}
         >
           <ul className="questionAnswerList">
@@ -264,22 +266,24 @@ export default function QuestionsAnswers({ queries: initialQueries, caseId, onQu
           </ul>
         </Box>
         
-        {/* Compact input area */}
-        <Box className="input-container">
+        {/* Input area anchored at the bottom */}
+        <Box className="input-container" sx={{ marginTop: 'auto' }}>
           <TextField
             id="question-input"
             label="Enter your question"
+            placeholder="Please type your query"
             multiline
             minRows={1}
-            maxRows={4}
+            maxRows={3}
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             onKeyDown={handleKeyPress}
             disabled={isSubmitting}
             sx={{
               '& .MuiInputBase-root': {
-                minHeight: '75px',
-                alignItems: 'center'
+                minHeight: '50px', // Reduced from 75px
+                alignItems: 'flex-start', // Changed from center
+                padding: '8px 14px' // Adjust padding to be more compact
               },
               '& .MuiOutlinedInput-root': {
                 paddingBottom: 0,
@@ -292,7 +296,7 @@ export default function QuestionsAnswers({ queries: initialQueries, caseId, onQu
             type="submit"
             disabled={isSubmitting || !question.trim()}
             sx={{ 
-              height: '75px',
+              height: '50px', // Reduced from 75px
               opacity: question.trim() ? 1 : 0.7,
             }}
           >

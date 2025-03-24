@@ -151,7 +151,7 @@ const AdviceFinder = ({ caseId }) => {
               onClick={handleSearch} 
               type="button"
               disabled={isSearching}
-              startIcon={isSearching ? <CircularProgress size={20} /> : <LocationOnIcon />}
+              startIcon={<LocationOnIcon />}
             >
               {isSearching ? 'Searching...' : 'Search'}
             </Button>
