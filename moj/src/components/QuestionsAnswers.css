@@ -1,5 +1,8 @@
 .questionArea {
   color: var(--white);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   
   label,
   textarea {
@@ -38,7 +41,9 @@
   }
 
   .questionAnswerList {
-    margin: 15px 0 30px;
+    margin: 15px 0 20px; /* Reduced bottom margin */
+    padding: 0; /* Remove default padding */
+    min-height: 0; /* Prevents flexbox expansion issues */
 
     li {
       margin: 0 0 20px 15px;
@@ -78,7 +83,8 @@
   .input-container {
     display: flex;
     align-items: flex-end;
-    margin-bottom: 16px;
+    margin-bottom: 10px; /* Reduced margin */
+    margin-top: auto; /* Push to bottom */
   }
   
   .input-container .MuiTextField-root {
@@ -89,7 +95,7 @@
   
   /* Fix vertical alignment issues with the text field */
   .input-container .MuiOutlinedInput-root {
-    min-height: 75px;
+    min-height: 50px; /* Reduced height */
     margin-bottom: 0;
     padding-bottom: 0;
   }
@@ -103,6 +109,7 @@
 
 }
 
+/* The rest of your CSS stays the same */
 .floating-qa-header .MuiTypography-root {
   color: var(--white, #fff) !important; /* Using !important to override MUI styles */
 }
@@ -233,9 +240,9 @@
 }
 
 .floating-qa-header {
-  background-color: var(--dark-grey, #333);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  cursor: pointer;
+  background-color: var(--blue, #1976d2);
+  color: var(--white, #fff);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .light-theme .floating-qa-panel {

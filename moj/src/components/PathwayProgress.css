@@ -39,7 +39,6 @@
     }
   }
 
-  
   .MuiStepConnector-line {
     border-left: 4px solid var(--black);
     margin: -12px 0;
@@ -198,4 +197,81 @@
     border-radius: 5px;
     color: var(--white);
   }
+}
+
+
+/* Light Theme Fixes for Vertical Stepper */
+
+/* Ensure step icons are visible in light theme */
+.light-theme .verticalStepper .MuiStepLabel-iconContainer {
+  background-color: var(--black);
+  border: 1px solid var(--black);
+}
+
+/* Fix checkmark (completed) step icon in light theme */
+.light-theme .verticalStepper .MuiStepLabel-iconContainer.Mui-completed::before {
+  content: '';
+  background: url(../assets/tick.svg) no-repeat 0 0 / 23px auto;
+  height: 100%;
+  width: 100%;
+  z-index: 100;
+  top: 8px;
+  left: 5px;
+  border-radius: 0;
+}
+
+/* Fix active step icon in light theme */
+.light-theme .verticalStepper .MuiStepLabel-iconContainer.Mui-active {
+  background-color: var(--white);
+  border: 1px solid var(--black);
+}
+
+.light-theme .verticalStepper .MuiStepLabel-iconContainer.Mui-active::before {
+  background-color: var(--black);
+}
+
+/* Fix disabled step icon in light theme */
+.light-theme .verticalStepper .MuiStepLabel-iconContainer.Mui-disabled {
+  background-color: #cccccc;
+  border: 1px solid var(--black);
+}
+
+.light-theme .verticalStepper .MuiStepLabel-iconContainer.Mui-disabled::before {
+  background-color: #a7a7a7;
+}
+
+/* Fix step connectors in light theme */
+.light-theme .verticalStepper .MuiStepConnector-line {
+  border-left: 4px solid var(--black);
+}
+
+.light-theme .verticalStepper .MuiStep-root .MuiStepContent-root {
+  border-left: 4px solid var(--black);
+}
+
+/* Force step label text to be black in light theme */
+.light-theme .verticalStepper .MuiStepLabel-label {
+  color: var(--black) !important;
+}
+
+/* Fix for typography in step content (including "Completed Documents" heading) */
+.light-theme .verticalStepper .MuiStepContent-root .MuiTypography-root,
+.light-theme .verticalStepper .MuiStepContent-root .MuiTypography-subtitle2,
+.light-theme .verticalStepper .MuiStepContent-root .MuiTypography-body2 {
+  color: var(--black) !important;
+}
+
+/* Higher specificity for subtitle2 which is often used for section headers */
+.light-theme .verticalStepper .MuiStepContent-root .MuiTypography-subtitle2[class*="fontWeight-bold"] {
+  color: var(--black) !important;
+}
+
+/* Ensure check icons have appropriate color in light theme */
+.light-theme .verticalStepper .MuiSvgIcon-root[data-testid="CheckCircleIcon"] {
+  color: var(--greenButton) !important;
+}
+
+/* Fix error icons in light theme */
+.light-theme .verticalStepper .MuiSvgIcon-root[data-testid="ErrorIcon"] {
+  color: var(--btnRed) !important;
 }
