@@ -7,6 +7,14 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid2';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
+import Fab from '@mui/material/Fab';
+import ChatIcon from '@mui/icons-material/Chat';
+import CloseIcon from '@mui/icons-material/Close';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { IconButton } from '@mui/material';
+
 
 import GoBackButton from '../components/GoBackButton';
 import SupportTools from '../components/SupportTools'; // Import the new component
@@ -23,6 +31,20 @@ export default function CaseDetails() {
   const [pathwayData, setPathwayData] = useState(null);
   const [loadingPathway, setLoadingPathway] = useState(false);
   const [pathwayError, setPathwayError] = useState(null);
+  const [qaVisible, setQaVisible] = useState(true);
+  const [qaMinimized, setQaMinimized] = useState(true);
+  const containerRef = React.useRef(null);
+  const [containerWidth, setContainerWidth] = useState(null);
+
+  // Add this function to toggle the Q&A visibility
+  const toggleQaVisibility = () => {
+    setQaVisible(!qaVisible);
+  };
+
+  // Add this function to toggle minimized state
+  const toggleQaMinimized = () => {
+    setQaMinimized(!qaMinimized);
+  };
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: '',
@@ -61,6 +83,34 @@ export default function CaseDetails() {
     }
   };
   
+  useEffect(() => {
+    const updateContainerWidth = () => {
+      // Try to get the contentArea element specifically
+      const contentArea = document.querySelector('.contentArea');
+      if (contentArea) {
+        setContainerWidth(contentArea.offsetWidth);
+      } else if (containerRef.current) {
+        // Fallback to the container width
+        setContainerWidth(containerRef.current.offsetWidth);
+      }
+    };
+    
+    // Initial measurement
+    updateContainerWidth();
+    
+    // Update on window resize and after a short delay for layout to complete
+    window.addEventListener('resize', updateContainerWidth);
+    
+    // Also measure after a slight delay to ensure all components are rendered
+    const timeoutId = setTimeout(updateContainerWidth, 500);
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', updateContainerWidth);
+      clearTimeout(timeoutId);
+    };
+  }, []);
+
   // Simplify the useEffect
   useEffect(() => {
     if (caseId) {
@@ -132,7 +182,14 @@ export default function CaseDetails() {
     <>
       <GoBackButton />
 
-      <Box className="caseDetailsWrapper" sx={{ flexGrow: 1 }}>
+      <Box 
+        ref={containerRef} // Add the ref here
+        className="caseDetailsWrapper" 
+        sx={{ 
+          flexGrow: 1,
+          paddingBottom: qaMinimized ? '60px' : '70vh', // Keep this to prevent content from being hidden
+        }}
+      >
         <Grid className="container" container spacing={2}>
           <Grid size={{ xs: 12, lg: 12 }}>
             <h2>Your case details</h2>
@@ -238,19 +295,106 @@ export default function CaseDetails() {
                   })()}
                 </Grid>
               </Grid>
-              <Grid className="container" container spacing={4}>
-                <Grid size={{ xs: 12, lg: 8 }}>
-                <QuestionsAnswers 
-                  queries={caseData?.queries} 
-                  caseId={caseId} 
-                  onQueryAdded={updateCaseData}
-                />
-                </Grid>
-              </Grid>
+              
             </Grid>
           </Grid>
         </Grid>
+        {!qaVisible && (
+      <Fab
+        color="primary"
+        aria-label="chat"
+        sx={{
+          position: 'fixed', // Keep as fixed
+          bottom: 20,
+          right: 20,
+          zIndex: 1050,
+        }}
+        onClick={toggleQaVisibility}
+      >
+        <ChatIcon />
+      </Fab>
+    )}
+
+    {/* Floating Q&A Panel - Keep as fixed but constrain width */}
+    <Slide direction="up" in={qaVisible} mountOnEnter unmountOnExit>
+      <Box
+        className={`floating-qa-panel ${qaVisible ? 'entering' : ''}`}
+        sx={{
+          position: 'fixed',
+          bottom: 0,
+          left: '68%',
+          transform: 'translateX(-50%)',
+          width: '800px', // Fixed width
+          maxWidth: '95%', // Ensure it doesn't go off-screen on mobile
+          zIndex: 1000,
+          height: qaMinimized ? '60px' : '70vh',
+          borderTopLeftRadius: '12px',
+          borderTopRightRadius: '12px',
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+        }}
+      >
+        {/* Header bar with title and controls */}
+        <Box
+          className="floating-qa-header"
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: '12px 20px',
+            minHeight: '60px',
+          }}
+          onClick={toggleQaMinimized}
+        >
+          <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
+            Query your documents
+          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <IconButton 
+              size="small" 
+              sx={{ color: 'inherit', mr: 1 }}
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleQaMinimized();
+              }}
+            >
+              {qaMinimized ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            </IconButton>
+            <IconButton 
+              size="small" 
+              sx={{ color: 'inherit' }}
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleQaVisibility();
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+          </Box>
+        </Box>
+        
+        {/* Main content area */}
+        {!qaMinimized && (
+          <Box
+            className="qa-scrollable-area floating-context"
+            sx={{
+              flexGrow: 1,
+              p: 2,
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            <QuestionsAnswers 
+              queries={caseData?.queries} 
+              caseId={caseId} 
+              onQueryAdded={updateCaseData}
+            />
+          </Box>
+        )}
       </Box>
+    </Slide>
+    </Box>
 
       {/* Add Snackbar for notifications */}
       <Snackbar 

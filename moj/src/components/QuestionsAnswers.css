@@ -65,6 +65,21 @@
   }
 }
 
+.floating-qa-header .MuiTypography-root {
+  color: var(--white, #fff) !important; /* Using !important to override MUI styles */
+}
+
+.floating-qa-header .MuiIconButton-root {
+  color: var(--white, #fff) !important;
+}
+
+.floating-qa-header {
+  background-color: var(--dark-grey, #333);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+
+
 /* Light theme adjustments */
 .light-theme {
   .questionArea {
@@ -86,6 +101,20 @@
       }
     }
 
+
+    .floating-qa-header .MuiIconButton-root {
+      color: var(--white, #fff) !important;
+    }
+
+    .floating-qa-header .MuiTypography-root {
+      color: var(--white, #fff) !important;
+    }
+
+    .floating-qa-header {
+      background-color: var(--blue, #1976d2); /* Blue background */
+      color: var(--white, #fff); /* White text */
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
     /* Add specific styling for copy buttons */
     .copyButton {
       background-color: transparent;
@@ -141,4 +170,105 @@
 .pendingAnswer span {
   animation: pulse 1.5s infinite;
   color: #ffffff;
+}
+
+/* New styles for floating panel */
+.floating-qa-panel {
+  /* Default dark theme for the floating panel */
+  background-color: var(--dark-grey, #333);
+  color: var(--white, #fff);
+  transition: max-height 0.3s ease-in-out, opacity 0.3s ease;
+  box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.floating-qa-header {
+  background-color: var(--dark-grey, #333);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+
+.light-theme .floating-qa-panel {
+  background-color: var(--white, #fff);
+  color: var(--black, #000);
+  box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.light-theme .floating-qa-header {
+  background-color: var(--blue, #1976d2);
+  color: var(--white, #fff);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Scrollable area for questions and answers */
+.qa-scrollable-area {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #1e5631 var(--dark-grey);
+}
+
+.qa-scrollable-area::-webkit-scrollbar {
+  width: 8px;
+}
+
+.qa-scrollable-area::-webkit-scrollbar-track {
+  background: var(--dark-grey);
+  border-radius: 4px;
+}
+
+.qa-scrollable-area::-webkit-scrollbar-thumb {
+  background-color: #1e5631;
+  border-radius: 4px;
+}
+
+.light-theme .qa-scrollable-area {
+  scrollbar-color: var(--blue) var(--grey);
+}
+
+.light-theme .qa-scrollable-area::-webkit-scrollbar-track {
+  background: var(--grey);
+}
+
+.light-theme .qa-scrollable-area::-webkit-scrollbar-thumb {
+  background-color: var(--blue);
+}
+
+/* Animation for the floating panel */
+@keyframes slideIn {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.floating-qa-panel.entering {
+  animation: slideIn 0.3s forwards;
+}
+
+/* Adjust styles for the floating context */
+.floating-context .questionAnswerList li {
+  margin: 0 0 15px 0;
+  list-style-type: none;
+}
+
+.floating-context .question {
+  font-size: 18px !important;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 8px 12px;
+  border-radius: 8px 8px 0 0;
+}
+
+.light-theme .floating-context .question {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.floating-context .answer {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 10px 12px;
+  border-radius: 0 0 8px 8px;
+}
+
+.light-theme .floating-context .answer {
+  background-color: rgba(0, 0, 0, 0.02);
 }
