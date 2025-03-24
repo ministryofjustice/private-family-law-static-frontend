@@ -1,5 +1,4 @@
 .questionArea {
-  border-top: 1px solid var(--white);
   color: var(--white);
   
   label,
@@ -20,7 +19,7 @@
   textarea {
     width: 100%;
     scrollbar-width: thin;
-    scrollbar-color: #1e5631 var(--dark-grey);
+    scrollbar-color: #43A6C6 var(--dark-grey);
   }
   
   /* Custom scrollbar styling */
@@ -34,7 +33,7 @@
   }
   
   textarea::-webkit-scrollbar-thumb {
-    background-color: #1e5631;
+    background-color: #43A6C6;
     border-radius: 4px;
   }
 
@@ -48,21 +47,60 @@
       .question {
         font-family: GDSTransportBold;
         font-size: 24px;
+        border-bottom: 1px solid #e0e0e0
       }
     }
   }
 
+  /* Updated button styles */
   button {
-    background-color: #c3c3c3;
-    color: var(--black);
+    background-color: #43A6C6; /* Brighter blue color for better visibility */
+    color: var(--white); /* White text for better contrast */
     text-transform: none;
-    float: right;
+    min-width: 90px; /* Ensure button has enough width */
     
     &:hover {
-      background-color: #a3a3a3;
-      color: var(--black);
+      background-color: #3995b5; /* Slightly darker on hover */
+      color: var(--white);
+    }
+    
+    &:disabled {
+      background-color: #2a5a6b; /* Darker but still visible when disabled */
+      color: rgba(255, 255, 255, 0.5); /* Semi-transparent white */
     }
   }
+  
+  /* Remove float: right as we're using flexbox alignment now */
+  button {
+    float: none;
+  }
+
+  .input-container {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 16px;
+  }
+  
+  .input-container .MuiTextField-root {
+    flex-grow: 1;
+    margin-right: 16px;
+    margin-bottom: 0; /* Override default Material UI margin */
+  }
+  
+  /* Fix vertical alignment issues with the text field */
+  .input-container .MuiOutlinedInput-root {
+    min-height: 75px;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  
+  /* Ensure both elements align at the bottom perfectly */
+  .input-container .MuiButton-root,
+  .input-container .MuiOutlinedInput-root {
+    margin-bottom: 0;
+    vertical-align: bottom;
+  }
+
 }
 
 .floating-qa-header .MuiTypography-root {
@@ -83,7 +121,6 @@
 /* Light theme adjustments */
 .light-theme {
   .questionArea {
-    border-top: 1px solid var(--black);
     color: var(--black);
   
     label,
@@ -101,6 +138,20 @@
       }
     }
 
+    button {
+      background-color: var(--blue);
+      color: var(--white);
+      
+      &:hover {
+        background-color: var(--blue-hover, #3b8cb9);
+        color: var(--white);
+      }
+      
+      &:disabled {
+        background-color: #a0a0a0; /* Gray when disabled in light theme */
+        color: rgba(255, 255, 255, 0.7);
+      }
+    }
 
     .floating-qa-header .MuiIconButton-root {
       color: var(--white, #fff) !important;
@@ -203,7 +254,7 @@
 .qa-scrollable-area {
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: #1e5631 var(--dark-grey);
+  scrollbar-color: #43A6C6 var(--dark-grey);
 }
 
 .qa-scrollable-area::-webkit-scrollbar {
@@ -216,8 +267,8 @@
 }
 
 .qa-scrollable-area::-webkit-scrollbar-thumb {
-  background-color: #1e5631;
-  border-radius: 4px;
+  background-color: #43A6C6;
+    border-radius: 4px;
 }
 
 .light-theme .qa-scrollable-area {
@@ -271,4 +322,28 @@
 
 .light-theme .floating-context .answer {
   background-color: rgba(0, 0, 0, 0.02);
+}
+
+.answer {
+  position: relative;
+}
+
+.answerHeader {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
+}
+
+.copyButton {
+  padding: 4px !important;
+  /* Make the button smaller */
+  min-width: 40px !important;
+  width: 28px !important;
+  height: 40px !important;
+}
+
+/* Ensure the answer content has enough right padding to not go under the button */
+.answer .markdown-content {
+  padding-right: 40px;
 }
