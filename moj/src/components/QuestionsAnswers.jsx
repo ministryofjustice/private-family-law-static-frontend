@@ -1,4 +1,4 @@
-// QuestionsAnswers.js
+// QuestionsAnswers.js - Fixed the reference error
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -18,11 +18,26 @@ export default function QuestionsAnswers({ queries: initialQueries, caseId, onQu
   
   // Create refs for each answer container
   const answerRefs = React.useRef({});
+  // Ref for the question list container
+  const questionListRef = React.useRef(null);
+
+  // Combine regular queries and pending queries for display
+  // Define allQueries before any useEffect that depends on it
+  const allQueries = React.useMemo(() => {
+    return [...queries, ...pendingQueries];
+  }, [queries, pendingQueries]);
 
   // Update queries when initialQueries changes
   React.useEffect(() => {
     setQueries(initialQueries || []);
   }, [initialQueries]);
+
+  // Scroll to bottom when new queries are added
+  React.useEffect(() => {
+    if (questionListRef.current) {
+      questionListRef.current.scrollTop = questionListRef.current.scrollHeight;
+    }
+  }, [allQueries]); // Now allQueries is defined before this useEffect
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -187,56 +202,68 @@ export default function QuestionsAnswers({ queries: initialQueries, caseId, onQu
     }
   };
 
-  // Combine regular queries and pending queries for display
-  const allQueries = React.useMemo(() => {
-    return [...queries, ...pendingQueries];
-  }, [queries, pendingQueries]);
-
   return (
-    <>
-    <div className="questionArea mt-4 pt-4">
-      <h2 className='largeText'>How can I assist you?</h2>
-                        
+    <div className="questionArea pt-1">
       <Box
         component="form"
-        sx={{ '& .MuiTextField-root': { mb: 4, width:'100%' } }}
+        sx={{ 
+          '& .MuiTextField-root': { 
+            mb: 2, // Reduced margin for compact floating display
+            width:'100%' 
+          },
+          display: 'flex',
+          flexDirection: 'column',
+        }}
         noValidate
         autoComplete="off"
         onSubmit={handleSubmit}
       >
-        <ul className="questionAnswerList">
-          {allQueries && allQueries.map((item, index) => (
-            <li key={item.trace_id || `query-${index}`}>
-              <div className="question">
-                {item.query}
-              </div>
-              <div className="answer">
-                {!item.isPending ? (
-                  <>
-                    <div className="answerHeader">
-                      <Tooltip title={copySuccess && copyId === item.trace_id ? copySuccess : "Copy to clipboard"}>
-                        <IconButton 
-                          size="small" 
-                          onClick={() => handleCopy(item.result, item.trace_id)}
-                          className="copyButton"
-                        >
-                          <ContentCopyIcon fontSize="small" />
-                        </IconButton>
-                      </Tooltip>
+        {/* Question/Answer list with scroll capability */}
+        <Box 
+          ref={questionListRef}
+          sx={{ 
+            maxHeight: '40vh', 
+            overflowY: 'auto',
+            mb: 2,
+            pr: 1 // Add some padding for scrollbar
+          }}
+        >
+          <ul className="questionAnswerList">
+            {allQueries && allQueries.map((item, index) => (
+              <li key={item.trace_id || `query-${index}`}>
+                <div className="question">
+                  {item.query}
+                </div>
+                <div className="answer">
+                  {!item.isPending ? (
+                    <>
+                      <div className="answerHeader">
+                        <Tooltip title={copySuccess && copyId === item.trace_id ? copySuccess : "Copy to clipboard"}>
+                          <IconButton 
+                            size="small" 
+                            onClick={() => handleCopy(item.result, item.trace_id)}
+                            className="copyButton"
+                          >
+                            <ContentCopyIcon fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
+                      </div>
+                      <ReactMarkdown>{item.result}</ReactMarkdown>
+                    </>
+                  ) : (
+                    <div className="pendingAnswer">
+                      <CircularProgress size={24} />
+                      <span className="ml-2">Retrieving answer...</span>
                     </div>
-                    <ReactMarkdown>{item.result}</ReactMarkdown>
-                  </>
-                ) : (
-                  <div className="pendingAnswer">
-                    <CircularProgress size={24} />
-                    <span className="ml-2">Retrieving answer...</span>
-                  </div>
-                )}
-              </div>
-            </li>
-          ))}
-        </ul>
-        <div>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </Box>
+        
+        {/* Compact input area */}
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <TextField
             id="question-input"
             label="Enter your question"
@@ -247,17 +274,16 @@ export default function QuestionsAnswers({ queries: initialQueries, caseId, onQu
             onKeyDown={handleKeyPress}
             disabled={isSubmitting}
           />
-        </div>
-        <Button
-          variant="contained"
-          sx={{ mt: 0, mr: 0 }}
-          type="submit"
-          disabled={isSubmitting || !question.trim()}
-        >
-          Submit
-        </Button>
+          <Button
+            variant="contained"
+            sx={{ alignSelf: 'flex-end', mt: 2 }}
+            type="submit"
+            disabled={isSubmitting || !question.trim()}
+          >
+            Submit
+          </Button>
+        </Box>
       </Box>
     </div>
-    </>
   );
 }

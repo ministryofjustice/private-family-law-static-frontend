@@ -47,16 +47,18 @@
 /* Light theme scrollbar adjustments */
 .light-theme .caseSummary {
   scrollbar-color: var(--blue) var(--grey);
+  background-color: var(--white) !important;
+  color: var(--black) !important;
 }
 
 .light-theme .caseSummary::-webkit-scrollbar-track {
   background: var(--grey);
 }
 
-
-/* Light theme wrapper adjustments */
+/* Light theme wrapper adjustments - only override what needs to change */
 .light-theme .caseSummaryWrapper {
   background-color: var(--white) !important;
   color: var(--black) !important;
   border-bottom: 1px solid var(--black);
+  /* Removed duplicated padding and margin properties */
 }

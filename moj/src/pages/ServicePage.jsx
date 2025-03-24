@@ -5,14 +5,14 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import IconButton from '@mui/material/IconButton';
+import Grid from '@mui/material/Grid2';
 
 // Import service components
 import AdviceFinder from '../components/AdviceFinder';
 import BetterOffCalculator from '../components/BetterOffCalculator';
 import AudioUploadComponent from '../components/WyserAssist';
-import GoBackButton from '../components/GoBackButton'; // Import the GoBackButton component
+import GoBackButton from '../components/GoBackButton';
+import SupportTools from '../components/SupportTools'; // Import the SupportTools component
 
 // Import CSS files for each service
 import '../components/AdviceFinder.css';
@@ -33,7 +33,7 @@ const serviceConfig = {
     component: BetterOffCalculator
   },
   'transcribe': {
-    title: 'Transcribe',
+    title: 'Transcribe Hearings',
     appBarClass: 'app-bar-transcribe',
     component: AudioUploadComponent
   }
@@ -54,37 +54,44 @@ const ServicePage = () => {
   // Get the component to render
   const ServiceComponent = service.component;
   
-  // Custom back handler specifically for service pages
-  const handleBackToDashboard = () => {
-    navigate(`/case-details/${caseId}`);
-  };
-  
   return (
     <>
-      <Box sx={{ mb: 2 }}>
-          <GoBackButton />
+      <GoBackButton />
+
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar 
+          position="static" 
+          className={`serviceAppBar ${service.appBarClass}`}
+          style={{ marginBottom: '32px' }}
+        >
+          <Toolbar>
+            <Typography 
+              variant="h6" 
+              component="div" 
+              style={{ flexGrow: 1, color: 'white' }}
+            >
+              {service.title}
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        
+        {/* Main layout with support services on the left */}
+        <Grid container spacing={3}>
+          {/* Left sidebar for Support Tools */}
+          <Grid size={{ xs: 12, md: 3, lg: 2 }}>
+            <SupportTools />
+          </Grid>
+          
+          {/* Main content area */}
+          <Grid className="contentArea" size={{ xs: 12, md: 9, lg: 10 }}>
+            <Container>
+              <Box sx={{ mb: 4 }}>
+                <ServiceComponent caseId={caseId} />
+              </Box>
+            </Container>
+          </Grid>
+        </Grid>
       </Box>
-      <AppBar 
-        position="static" 
-        className={`serviceAppBar ${service.appBarClass}`}
-        style={{ marginBottom: '32px' }}
-      >
-        <Toolbar>
-          <Typography 
-            variant="h6" 
-            component="div" 
-            style={{ flexGrow: 1, color: 'white' }}
-          >
-            {service.title}
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      
-      <Container maxWidth="lg">
-        <Box sx={{ mb: 4 }}>
-          <ServiceComponent caseId={caseId} />
-        </Box>
-      </Container>
     </>
   );
 };

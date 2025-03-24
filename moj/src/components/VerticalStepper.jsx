@@ -13,6 +13,14 @@ import './VerticalStepper.css';
 const VerticalStepper = ({ pathwayData, loadingPathway, caseId }) => {
   const navigate = useNavigate();
 
+  // Define the correct process order
+  const processOrder = [
+    "mediationProcess", // Mediation (1st)
+    "applicationProcess", // Application Submission Process (2nd)
+    "caseSetUpProcess", // Case Setup Phase (3rd)
+    "fhdraProcess" // FHDRA Phase (4th)
+  ];
+
   // Helper function to find the target step ID for a given process
   const findTargetStepForProcess = (processKey) => {
     // Check if the current process has an active step specified in current_phase
@@ -61,22 +69,14 @@ const VerticalStepper = ({ pathwayData, loadingPathway, caseId }) => {
   const handleNavigateToPathway = (processKey) => {
     const targetStepId = findTargetStepForProcess(processKey);
     
-    // Store the pathway data in sessionStorage so we can access it from the Pathway component
-    //try {
-    //  sessionStorage.setItem('pathwayData', JSON.stringify(pathwayData));
-    //} catch (e) {
-    //  console.error("Error storing pathway data in sessionStorage:", e);
-    //}
-    
     // Navigate to the pathway page with state
-    console.log(caseId);
     navigate(`/pathway/${caseId}`, { 
       state: { 
         caseId: caseId,
-        pathwayData:  pathwayData,
+        pathwayData: pathwayData,
         targetProcessKey: processKey,
         targetStepId: targetStepId,
-        hasPathwayData: true // Flag to indicate data is available in sessionStorage
+        hasPathwayData: true
       }
     });
   };
@@ -90,45 +90,86 @@ const VerticalStepper = ({ pathwayData, loadingPathway, caseId }) => {
       </Box>
     );
   }
+  
+  // Find the active process (In Progress)
+  const activeProcess = Object.entries(pathwayData.process_status)
+    .find(([_, process]) => process.status === "In Progress");
+    
+  const activeProcessKey = activeProcess ? activeProcess[0] : null;
+  const activeProcessIndex = activeProcessKey ? processOrder.indexOf(activeProcessKey) : -1;
+  
+  // Function to determine if a process should be displayed
+  const shouldDisplayProcess = (processKey) => {
+    const processStatus = pathwayData.process_status[processKey];
+    
+    if (!processStatus) return false;
+    
+    // If the process is already required, display it
+    if (processStatus.required === true) {
+      return true;
+    }
+    
+    // If it's in pending documents and the current process is "greater" (comes later)
+    const isPending = pathwayData.pending_documents.some(doc => doc.process_key === processKey);
+    
+    if (isPending) {
+      const processIndex = processOrder.indexOf(processKey);
+      // Show if this process comes before or is equal to the active process
+      return activeProcessIndex >= processIndex;
+    }
+    
+    return false;
+  };
 
-  // Extract steps from pathwayData
-  const processSteps = Object.entries(pathwayData.process_status)
-    .filter(([_, process]) => process.required === true)
-    .map(([processKey, process]) => {
+  // Get all process keys from the data
+  const allProcessKeys = processOrder.filter(key => pathwayData.process_status[key]);
+  
+  // Construct the steps array
+  const processSteps = allProcessKeys
+    .filter(shouldDisplayProcess)
+    .map(processKey => {
+      const process = pathwayData.process_status[processKey];
+      
+      // Check if there are any pending documents for this process
+      const hasPendingDocuments = pathwayData.pending_documents.some(
+        doc => doc.process_key === processKey
+      );
+      
+      // A process should not be marked as completed if it has pending documents
+      const isReallyCompleted = process.status === "Complete" && !hasPendingDocuments;
+      
       return {
         key: processKey,
         label: process.name,
         description: process.description || `Complete required documents for ${process.name}`,
-        status: process.status,
+        status: hasPendingDocuments ? "In Progress" : process.status, // Override status if pending
         percentage: process.percentage,
-        isActive: process.status === "In Progress",
-        isCompleted: process.status === "Complete"
+        isActive: process.status === "In Progress" || hasPendingDocuments, // Include both conditions
+        hasPendingDocuments,
+        isCompleted: isReallyCompleted,
+        order: processOrder.indexOf(processKey) // For sorting
       };
     })
-    .sort((a, b) => {
-      // Sort by status: completed first, then in progress, then pending
-      if (a.isCompleted && !b.isCompleted) return -1;
-      if (!a.isCompleted && b.isCompleted) return 1;
-      if (a.isActive && !b.isActive) return -1;
-      if (!a.isActive && b.isActive) return 1;
-      return 0;
-    });
+    .sort((a, b) => a.order - b.order); // Sort by the defined order
 
-  // Find the active step index
-  const activeStepIndex = processSteps.findIndex(step => step.isActive);
+  // Find the first index with pending docs to set as active in stepper
+  const firstPendingIndex = processSteps.findIndex(step => step.hasPendingDocuments);
+  const firstActiveIndex = processSteps.findIndex(step => step.isActive);
   
-  // If no step is active, set to the first incomplete step
-  const effectiveActiveStep = activeStepIndex >= 0 ? 
-    activeStepIndex : 
-    processSteps.findIndex(step => !step.isCompleted);
+  // Use the first pending or active index, fallback to first incomplete
+  const effectiveActiveStep = firstPendingIndex >= 0 ? 
+    firstPendingIndex : 
+    (firstActiveIndex >= 0 ? 
+      firstActiveIndex : 
+      processSteps.findIndex(step => !step.isCompleted));
 
   return (
     <Box className="verticalStepper mt-4 pb-4 sticky">
       <h3 className="mb-2">Your next steps</h3>
       
       <Stepper className="verticalStepperSteps" activeStep={effectiveActiveStep} orientation="vertical">
-        {processSteps.map((step, index) => (
-          <Step key={step.key}>
+        {processSteps.map((step) => (
+          <Step key={step.key} expanded={true} active={step.isActive}>
             <StepLabel>
               {step.label}
             </StepLabel>
@@ -142,8 +183,8 @@ const VerticalStepper = ({ pathwayData, loadingPathway, caseId }) => {
                 </Typography>
               )}
               
-              {/* Only show the button for the active step */}
-              {index === effectiveActiveStep && (
+              {/* Show buttons for any step that is active or has pending documents */}
+              {(step.isActive || step.hasPendingDocuments) && (
                 <Box sx={{ mb: 2 }}>
                   <Button 
                     onClick={() => handleNavigateToPathway(step.key)} 
