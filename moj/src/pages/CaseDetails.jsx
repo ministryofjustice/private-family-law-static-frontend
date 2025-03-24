@@ -231,17 +231,34 @@ export default function CaseDetails() {
               
               {/* Case Details and Pathway */}
               <Grid size={{ xs: 12 }} container spacing={3}>
-                <Grid size={{ xs: 12, lg: 8 }}>
+                {/* Left column for Case Summary and Successful Cases */}
+                <Grid size={{ xs: 12, lg: 8 }} container direction="column" spacing={3}>
                   {/* Case Summary */}
-                  {(() => {
-                    try {
-                      return <CaseSummary caseSummary={caseData?.case_summary}/>;
-                    } catch (error) {
-                      console.error('Error rendering CaseSummary:', error);
-                      return <div>Error loading case summary</div>;
-                    }
-                  })()}
+                  <Grid size={{ xs: 12 }}>
+                    {(() => {
+                      try {
+                        return <CaseSummary caseSummary={caseData?.case_summary}/>;
+                      } catch (error) {
+                        console.error('Error rendering CaseSummary:', error);
+                        return <div>Error loading case summary</div>;
+                      }
+                    })()}
+                  </Grid>
+                  
+                  {/* Successful Cases - Now directly below Case Summary */}
+                  <Grid size={{ xs: 12 }}>
+                    {(() => {
+                      try {
+                        return <SuccessfulCases caseSummary={caseData?.case_summary} caseId={caseId}/>;
+                      } catch (error) {
+                        console.error('Error rendering SuccessfulCases:', error);
+                        return <div>Error loading successful cases</div>;
+                      }
+                    })()}
+                  </Grid>
                 </Grid>
+                
+                {/* Right column for Vertical Stepper */}
                 <Grid size={{ xs: 12, lg: 4 }}>
                   {(() => {
                     try {
@@ -257,21 +274,7 @@ export default function CaseDetails() {
                   })()}
                 </Grid>
               </Grid>
-              
-              {/* Successful Cases - Now in its own grid container */}
-              <Grid size={{ xs: 12 }} container spacing={3}>
-                <Grid size={{ xs: 12, lg: 8 }}>
-                  {(() => {
-                    try {
-                      return <SuccessfulCases caseSummary={caseData?.case_summary} caseId={caseId}/>;
-                    } catch (error) {
-                      console.error('Error rendering SuccessfulCases:', error);
-                      return <div>Error loading successful cases</div>;
-                    }
-                  })()}
-                </Grid>
-              </Grid>
-              
+
               {/* Video Gallery */}
               <Grid size={{ xs: 12 }} container spacing={3}>
                 <Grid size={{ xs: 12, lg: 8 }}>
@@ -322,19 +325,22 @@ export default function CaseDetails() {
         sx={{
           position: 'fixed',
           bottom: 0,
-          left: '68%',
-          transform: 'translateX(-50%)',
-          width: '800px', // Fixed width
-          maxWidth: '95%', // Ensure it doesn't go off-screen on mobile
+          right: 0, // Align to right edge
+          margin: '0 20px', // Add some margin from the edge
+          width: '500px', // Controlled width - adjust as needed
+          maxWidth: 'calc(100vw - 40px)', // Ensure it doesn't overflow screen
           zIndex: 1000,
-          height: qaMinimized ? '60px' : '70vh',
+          height: qaMinimized ? '60px' : '59vh',
           borderTopLeftRadius: '12px',
           borderTopRightRadius: '12px',
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
+          // Optional: add a shadow for better visibility
+          boxShadow: '0px -4px 10px rgba(0, 0, 0, 0.2)',
         }}
       >
+        {/* Rest of your slide content remains the same */}
         {/* Header bar with title and controls */}
         <Box
           className="floating-qa-header"

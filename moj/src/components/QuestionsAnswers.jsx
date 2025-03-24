@@ -1,8 +1,8 @@
-// QuestionsAnswers.js - Fixed the reference error
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Button, IconButton, Tooltip, CircularProgress } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import ReactMarkdown from 'react-markdown';
 import { renderToStaticMarkup } from 'react-dom/server';
@@ -248,7 +248,9 @@ export default function QuestionsAnswers({ queries: initialQueries, caseId, onQu
                           </IconButton>
                         </Tooltip>
                       </div>
-                      <ReactMarkdown>{item.result}</ReactMarkdown>
+                      <div className="markdown-content">
+                        <ReactMarkdown>{item.result}</ReactMarkdown>
+                      </div>
                     </>
                   ) : (
                     <div className="pendingAnswer">
@@ -263,24 +265,38 @@ export default function QuestionsAnswers({ queries: initialQueries, caseId, onQu
         </Box>
         
         {/* Compact input area */}
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+        <Box className="input-container">
           <TextField
             id="question-input"
             label="Enter your question"
             multiline
-            rows={4}
+            minRows={1}
+            maxRows={4}
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             onKeyDown={handleKeyPress}
             disabled={isSubmitting}
+            sx={{
+              '& .MuiInputBase-root': {
+                minHeight: '75px',
+                alignItems: 'center'
+              },
+              '& .MuiOutlinedInput-root': {
+                paddingBottom: 0,
+              },
+              mb: 0 // Remove bottom margin
+            }}
           />
           <Button
             variant="contained"
-            sx={{ alignSelf: 'flex-end', mt: 2 }}
             type="submit"
             disabled={isSubmitting || !question.trim()}
+            sx={{ 
+              height: '75px',
+              opacity: question.trim() ? 1 : 0.7,
+            }}
           >
-            Submit
+            <SendIcon />
           </Button>
         </Box>
       </Box>
