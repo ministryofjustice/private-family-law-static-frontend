@@ -224,13 +224,7 @@ export default function FileUpload() {
               />
             </Button>
             {errorMessage && (
-              <div className="error-message" style={{ 
-                color: '#d32f2f',
-                marginTop: '10px',
-                padding: '8px',
-                backgroundColor: '#fdeded',
-                borderRadius: '4px'
-              }}>
+              <div className="error-message">
                 {errorMessage}
               </div>
             )}
@@ -240,27 +234,23 @@ export default function FileUpload() {
                 className="file-requirements-header" 
                 onClick={toggleRequirements}
                 style={{ 
-                  cursor: 'pointer', 
+                  cursor: 'pointer',
                   display: 'flex', 
                   alignItems: 'center',
                   color: '#0072ce',
                   marginBottom: '10px'
                 }}
               >
+                <p>File upload requirements</p>
                 {showRequirements ? 
                   <KeyboardArrowUpIcon style={{ marginRight: '5px' }} /> : 
                   <KeyboardArrowDownIcon style={{ marginRight: '5px' }} />
                 }
-                <span style={{ fontWeight: 500 }}>File upload requirements</span>
               </div>
               
               {showRequirements && (
                 <div className="file-requirements-content" style={{ marginLeft: '20px' }}>
-                  <ul className="requirements-list" style={{ 
-                    paddingLeft: '20px', 
-                    margin: '10px 0',
-                    listStyleType: 'disc' 
-                  }}>
+                  <ul>
                     <li>File formats: {Object.values(FILE_TYPE_DISPLAY).join(', ')}</li>
                     <li>File size per document: up to 20 megabytes (MB)</li>
                     <li>Files cannot be password protected</li>

@@ -19,6 +19,7 @@
   --btnPurple: #7928A9;
   --btnCobalt: #2E4390;
   --btnRed: #d32f2f;
+  --error: var(--btnRed);
 
   --bgLightCobalt: #DFE2EC;
   --bgLightGreen: #EEF7F3;
@@ -184,13 +185,31 @@ p {
   text-transform: none !important;
 }
 
+.error-message {
+  border: 3px solid var(--error);
+  border-radius: 4px;
+  color: var(--error);
+  font-family: GDSTransportBold;
+  margin: 15px 0 0 0;
+  padding: 10px;
+  background: var(--white);
+  max-width: 500px;
+  width: 100%;
+}
+
+.cta-button {
+  text-transform: none !important;
+  font-family: GDSTransportBold !important;
+  letter-spacing: 1px !important;
+}
+
 /* Uploaded file list */
 .fileList li {
   border-bottom: 1px solid var(--white);
   margin: 0;
   padding: 0;
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
 
   svg {
     color: var(--white);
@@ -202,19 +221,28 @@ p {
     }
   }
 }
+.file-requirements-container {
+  .file-requirements-header {
+    svg {
+      fill: var(--white);
+      position: relative;
+      top: -5px;
+    }
+    p{
+      color: var(--white);
+      text-decoration: underline;
+    }
+  }
+  .file-requirements-content {
+    ul {
+      padding-bottom: 30px;
 
-.requirements-list {
-  list-style-type: disc !important;
-}
-
-.requirements-list li {
-  display: list-item !important;
-  list-style-type: disc !important;
-}
-
-/* Ensure proper colors in both themes */
-.requirements-list li {
-  color: var(--white) !important;
+      li {
+        margin: 0 0 7px 0;
+        list-style: disc;
+      }
+    }
+  }
 }
 
 /* LIGHT THEME */
@@ -240,14 +268,6 @@ p {
         opacity: 1;
       }
     }
-  }
-
-  .file-requirements-content ul {
-    color: var(--black) !important;
-  }
-  
-  .file-requirements-content ul li {
-    color: var(--black) !important;
   }
 
   .btn-upload.cta-button {
@@ -282,6 +302,10 @@ p {
     border-color: var(--black) !important;
   }
 
+  .fileList {
+    background-color: var(--white) !important;
+  }
+
   .fileList li .MuiIconButton-root {
     background-color: transparent !important;
   }
@@ -289,17 +313,25 @@ p {
   .fileList li .MuiIconButton-root:hover {
     background-color: rgba(0, 0, 0, 0.1) !important;
   }
+
   /* Uploaded file list */
   .fileList li {
     border-bottom: 1px solid var(--black);
     color: var(--black);
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    max-width: 400px;
 
     svg {
       color: var(--black);
+    }
+  }
+
+  .file-requirements-container {
+    .file-requirements-header {
+      svg {
+        fill: var(--black);
+      }
+      p{
+        color: var(--black);
+      }
     }
   }
   
