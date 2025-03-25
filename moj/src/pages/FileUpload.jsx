@@ -46,6 +46,7 @@ export default function FileUpload() {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showRequirements, setShowRequirements] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   
   // Handle file deletion
   const handleDeleteFile = (fileName) => {
@@ -158,10 +159,11 @@ export default function FileUpload() {
   
   const handleContinue = async () => {
     if (selectedFiles.length === 0) {
-      alert('Please select files first');
+      setErrorMessage('Please select files before continuing.');
       return;
     }
-  
+    
+    setErrorMessage('');
     setIsLoading(true);
     
     // Navigate to loading page first
@@ -175,7 +177,7 @@ export default function FileUpload() {
       setIsLoading(false);
       navigate(`/case-details/${caseId}`);
     } catch (error) {
-      alert('Failed to process files. Please try again.');
+      setErrorMessage('Failed to process files. Please try again.');
       navigate(-1);
     } finally {
       setIsLoading(false);
@@ -215,7 +217,17 @@ export default function FileUpload() {
                 accept={ALLOWED_FILE_TYPES.join(',')}
               />
             </Button>
-
+            {errorMessage && (
+              <div className="error-message" style={{ 
+                color: '#d32f2f',
+                marginTop: '10px',
+                padding: '8px',
+                backgroundColor: '#fdeded',
+                borderRadius: '4px'
+              }}>
+                {errorMessage}
+              </div>
+            )}
             {/* File Requirements Section */}
             <div className="file-requirements-container mt-3">
               <div 
