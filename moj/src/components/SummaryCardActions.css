@@ -3,31 +3,10 @@
   border-radius: 0 !important;
   box-shadow: none !important;
   height: 100%;
-  scrollbar-width: thin;
-  scrollbar-color: #43A6C6 var(--dark-grey);
 
-  &::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  &::-webkit-scrollbar-track {
-    background: var(--dark-grey);
-    border-radius: 4px;
-  }
-  
-  &::-webkit-scrollbar-thumb {
-    background-color: #1e5631;
-    border-radius: 4px;
-  }
+  /* Scrollbar styling moved to ul.actions-list */
 
   /* Rest of your existing styles */
-  div.MuiCardContent-root{
-    background-color: var(--bgLightCobalt);
-    margin: 0;
-    padding: 0;
-    height: 100%;
-  }
-
   div.MuiCardContent-root{
     background-color: var(--bgLightCobalt);
     margin: 0;
@@ -42,9 +21,29 @@
     padding: 5px 20px
   }
 
-  ul {
+  ul.actions-list {
     margin: 0;
     padding: 25px 15px;
+    max-height: 240px; /* Adjust as needed */
+    overflow-y: auto;
+    
+    /* Apply scrollbar styling to the ul instead */
+    scrollbar-width: thin;
+    scrollbar-color: #43A6C6 var(--dark-grey);
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: var(--dark-grey);
+      border-radius: 4px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background-color: #1e5631;
+      border-radius: 4px;
+    }
 
     li {
       margin: 0 0 15px 0;
@@ -83,10 +82,13 @@
     }
   }
 }
+
 .light-theme .summaryCardActions {
-  scrollbar-color: var(--blue) var(--grey);
-  
-  &::-webkit-scrollbar-track {
-    background: var(--grey);
+  ul.actions-list {
+    scrollbar-color: var(--blue) var(--grey);
+    
+    &::-webkit-scrollbar-track {
+      background: var(--grey);
+    }
   }
 }
