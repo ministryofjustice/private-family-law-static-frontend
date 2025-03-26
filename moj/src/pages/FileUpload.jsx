@@ -5,13 +5,12 @@ import Grid from '@mui/material/Grid2';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import GoBackButton from '../components/GoBackButton';
 import CircularProgress from '@mui/material/CircularProgress';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import '../App.css';
-
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -23,7 +22,6 @@ const VisuallyHiddenInput = styled('input')({
   whiteSpace: 'nowrap',
   width: 1,
 });
-
 const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB in bytes
 const ALLOWED_FILE_TYPES = [
   'application/msword', // doc
@@ -31,7 +29,6 @@ const ALLOWED_FILE_TYPES = [
   'application/pdf', // pdf
   'text/plain', // txt
 ];
-
 // Define a mapping of MIME types to readable file formats
 const FILE_TYPE_DISPLAY = {
   'application/msword': 'MS Word (DOC)',
@@ -39,13 +36,23 @@ const FILE_TYPE_DISPLAY = {
   'application/pdf': 'PDF',
   'text/plain': 'TXT',
 };
-
 export default function FileUpload() {
   const navigate = useNavigate();
   const { caseId: existingCaseId } = useParams(); // Get caseId from URL if present
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showRequirements, setShowRequirements] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const location = useLocation();
+  useEffect(() => {
+    // Check if we have an error message in the navigation state
+    if (location.state?.error) {
+      console.log(location.state.error);
+      setErrorMessage(location.state.error);
+      // Clear the navigation state after setting the error
+      window.history.replaceState({}, document.title);
+    }
+  }, [location]);
   
   // Handle file deletion
   const handleDeleteFile = (fileName) => {
@@ -158,10 +165,11 @@ export default function FileUpload() {
   
   const handleContinue = async () => {
     if (selectedFiles.length === 0) {
-      alert('Please select files first');
+      setErrorMessage('Please select files before continuing.');
       return;
     }
-  
+    
+    setErrorMessage('');
     setIsLoading(true);
     
     // Navigate to loading page first
@@ -175,17 +183,18 @@ export default function FileUpload() {
       setIsLoading(false);
       navigate(`/case-details/${caseId}`);
     } catch (error) {
-      alert('Failed to process files. Please try again.');
-      navigate(-1);
+      const backUrl = existingCaseId ? `/file-upload/${existingCaseId}` : '/file-upload';
+      navigate(backUrl, { 
+        state: { error: 'Failed to process files. Please try again.' },
+        replace: true
+      });
     } finally {
       setIsLoading(false);
     }
   };
-
   const toggleRequirements = () => {
     setShowRequirements(!showRequirements);
   };
-
   return (
     <div>
       <GoBackButton />
@@ -199,7 +208,6 @@ export default function FileUpload() {
             
             <h3 className='mt-3'>Upload your files</h3>
             <p>{existingCaseId ? 'Upload additional files to your existing case' : 'Your documents will upload when you click "Continue".'}</p>
-
             <Button className="btn-upload cta-button"
               component="label"
               role={undefined}
@@ -215,34 +223,34 @@ export default function FileUpload() {
                 accept={ALLOWED_FILE_TYPES.join(',')}
               />
             </Button>
-
+            {errorMessage && (
+              <div className="error-message">
+                {errorMessage}
+              </div>
+            )}
             {/* File Requirements Section */}
             <div className="file-requirements-container mt-3">
               <div 
                 className="file-requirements-header" 
                 onClick={toggleRequirements}
                 style={{ 
-                  cursor: 'pointer', 
+                  cursor: 'pointer',
                   display: 'flex', 
                   alignItems: 'center',
                   color: '#0072ce',
                   marginBottom: '10px'
                 }}
               >
+                <p>File upload requirements</p>
                 {showRequirements ? 
                   <KeyboardArrowUpIcon style={{ marginRight: '5px' }} /> : 
                   <KeyboardArrowDownIcon style={{ marginRight: '5px' }} />
                 }
-                <span style={{ fontWeight: 500 }}>File upload requirements</span>
               </div>
               
               {showRequirements && (
                 <div className="file-requirements-content" style={{ marginLeft: '20px' }}>
-                  <ul className="requirements-list" style={{ 
-                    paddingLeft: '20px', 
-                    margin: '10px 0',
-                    listStyleType: 'disc' 
-                  }}>
+                  <ul>
                     <li>File formats: {Object.values(FILE_TYPE_DISPLAY).join(', ')}</li>
                     <li>File size per document: up to 20 megabytes (MB)</li>
                     <li>Files cannot be password protected</li>
@@ -253,7 +261,6 @@ export default function FileUpload() {
                 </div>
               )}
             </div>
-
             <h3 className="mediumText mt-3">Uploaded files:</h3>
               <List className="fileList">
                 {selectedFiles.length > 0 ? (
