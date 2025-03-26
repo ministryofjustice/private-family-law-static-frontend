@@ -25,6 +25,10 @@
     scrollbar-color: #43A6C6 var(--dark-grey);
   }
   
+  .MuiSvgIcon-root {
+    color: var(--white) !important;
+  }
+
   /* Custom scrollbar styling */
   textarea::-webkit-scrollbar {
     width: 8px;
@@ -353,4 +357,9 @@
 /* Ensure the answer content has enough right padding to not go under the button */
 .answer .markdown-content {
   padding-right: 40px;
+}
+
+.floating-qa-header .MuiIconButton-root svg,
+.light-theme .floating-qa-header .MuiIconButton-root svg {
+  color: var(--white) !important;
 }

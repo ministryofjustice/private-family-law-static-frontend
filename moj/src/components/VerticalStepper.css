@@ -19,6 +19,12 @@
     text-transform: none;
     color: var(--white) !important;
   }
+  
+  .btn-upload {
+    background-color: var(--grey) !important;
+    color: var(--black) !important;
+    border-color: var(--black) !important;
+  }
 
   .Mui-completed,
   .MuiStepLabel-label {
@@ -161,8 +167,12 @@
         }
       }
     }
-  }
+  } 
+  
+}
 
-  
-  
+.light-theme .verticalStepper .btn-upload {
+  color: var(--black) !important;
+  border-color: var(--black) !important;
+  background-color: var(--grey) !important;
 }

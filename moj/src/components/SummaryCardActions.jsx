@@ -6,11 +6,10 @@ import CardContent from '@mui/material/CardContent';
 
 import './SummaryCardActions.css';
 
-// Custom styles for this component
+// Remove the overflow styling from cardContent
 const styles = {
   cardContent: {
-    maxHeight: '300px',
-    overflow: 'auto'
+    // maxHeight is now removed from here
   }
 };
 
@@ -98,7 +97,7 @@ export default function SummaryCardActions() {
     <Card className="summaryCardActions">
       <CardContent sx={styles.cardContent}>
         <h3>Actions</h3>
-        <ul>
+        <ul className="actions-list">
           {completedDocument && (
             <li className="taskCompleted">
               <div>

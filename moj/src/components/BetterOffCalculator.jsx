@@ -368,14 +368,7 @@ const BetterOffCalculator = ({ caseId }) => {
   };
   
   return (
-    <Box className="BetterOffCalculator">
-      <Typography variant="h4" gutterBottom sx={{ color: textColor }}>
-        Better Off Calculator
-      </Typography>
-      <Typography variant="body1" paragraph sx={{ color: textColor }}>
-        Use Policy in Practice's calculator to estimate your benefits entitlement and see if you could be better off.
-      </Typography>
-      
+    <Box className="BetterOffCalculator">      
       {!betterOffData && (
         <Card sx={{ ...cardStyles, mb: 4 }}>
           <CardContent>

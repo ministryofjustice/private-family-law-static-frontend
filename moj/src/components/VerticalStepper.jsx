@@ -179,7 +179,7 @@ const VerticalStepper = ({ pathwayData, loadingPathway, caseId }) => {
               {/* Show progress if available */}
               {step.percentage !== undefined && (
                 <Typography variant="body2" className="mt-2">
-                  Progress: {step.percentage}% complete
+                  Progress: {step.percentage.toFixed(0)}% complete
                 </Typography>
               )}
               
@@ -188,8 +188,9 @@ const VerticalStepper = ({ pathwayData, loadingPathway, caseId }) => {
                 <Box sx={{ mb: 2 }}>
                   <Button 
                     onClick={() => handleNavigateToPathway(step.key)} 
-                    variant="contained" 
-                    className="mt-4 cta-button"
+                    variant="outlined" 
+                    color="primary"
+                    className="btn-upload"
                   >
                     See steps
                   </Button>

@@ -16,8 +16,7 @@ import './SummaryCardDocuments.css';
 // Custom styles for this component
 const styles = {
   cardContent: {
-    maxHeight: '300px',
-    overflow: 'auto'
+    // Removed maxHeight and overflow from here
   },
   sortControl: {
     minWidth: 120,
@@ -135,7 +134,7 @@ export default function SummaryCardDocuments({ caseFiles }) {
             </Select>
           </FormControl>
         </Box>
-        <ul style={styles.documentsList}>
+        <ul className="documents-list" style={styles.documentsList}>
           {sortedFiles.map((file, index) => (
             <li key={index} style={styles.documentItem}>
               <div className={getDocumentClass(file.storedName)}>

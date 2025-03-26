@@ -200,12 +200,12 @@ export default function CaseDetails() {
         {/* Main layout with support services on the left */}
         <Grid container spacing={3}>
           {/* Left sidebar for Support Services - Now using the SupportTools component */}
-          <Grid size={{ xs: 12, md: 3, lg: 2 }}>
+          <Grid size={{ xs: 12, md: 3 }}>
             <SupportTools />
           </Grid>
           
           {/* Main content area */}
-          <Grid className="contentArea" size={{ xs: 12, md: 9, lg: 10 }}>
+          <Grid className="contentArea" size={{ xs: 12, md: 9 }}>
             <Grid container spacing={3}>
               {/* Case Summary Cards */}
               <Grid size={{ xs: 12, lg: 6 }}>
