@@ -190,7 +190,7 @@ const VerticalStepper = ({ pathwayData, loadingPathway, caseId }) => {
                     onClick={() => handleNavigateToPathway(step.key)} 
                     variant="outlined" 
                     color="primary"
-                    className="btn-upload"
+                    className="btn-upload mt-1"
                   >
                     See steps
                   </Button>
