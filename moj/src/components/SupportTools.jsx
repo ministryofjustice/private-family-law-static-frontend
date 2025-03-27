@@ -45,7 +45,7 @@ export default function SupportTools() {
           </div>
         </li>
         <li className='btn-teal wyserAssist'>
-          <a href="#" onClick={(e) => navigateToService(e, 'transcribe')}>Transcribe Hearings</a>
+          <a href="#" onClick={(e) => navigateToService(e, 'transcribe')}>Transcribe</a>
           <div className='tooltip'>
             Get AI-powered assistance with your case. Our transcription service allows you to upload audio files and add them to your case documents.
           </div>
