@@ -1,70 +1,200 @@
-# Getting Started with Create React App
+# MOJ Frontend Docker Container
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This README provides instructions for running the MOJ case evaluation frontend container outside of docker-compose.
 
-## Available Scripts
+## Prerequisites
 
-In the project directory, you can run:
+- Docker installed on your machine
+- The MOJ frontend source code
+- Backend service running on port 8000 (if required)
 
-### `npm start`
+## Directory Structure
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Ensure your directory structure looks like this:
+```
+.
+├── case-evaluation-frontend/
+│   └── moj/
+│       ├── Dockerfile
+│       ├── src/
+│       ├── public/
+│       └── package.json
+└── docker-compose.yml (reference)
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Running the Container
 
-### `npm test`
+### 1. Build the Docker Image
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Navigate to the root directory (where docker-compose.yml would normally be) and build the image:
 
-### `npm run build`
+```bash
+docker build -t moj-frontend ./case-evaluation-frontend/moj
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 2. Run the Container
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### Linux/macOS:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+docker run -it --rm \
+  -p 5173:5173 \
+  -v $(pwd)/case-evaluation-frontend/moj/src:/app/src \
+  -v $(pwd)/case-evaluation-frontend/moj/public:/app/public \
+  -v /app/node_modules \
+  -v /app/client/node_modules \
+  -e CHOKIDAR_USEPOLLING=true \
+  -e WATCHPACK_POLLING=true \
+  -e NODE_ENV=development \
+  -e VITE_APP_BASE_URL=http://localhost:8000 \
+  --name moj-frontend \
+  moj-frontend
+```
 
-### `npm run eject`
+#### Windows PowerShell:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```powershell
+docker run -it --rm `
+  -p 5173:5173 `
+  -v ${PWD}/case-evaluation-frontend/moj/src:/app/src `
+  -v ${PWD}/case-evaluation-frontend/moj/public:/app/public `
+  -v /app/node_modules `
+  -v /app/client/node_modules `
+  -e CHOKIDAR_USEPOLLING=true `
+  -e WATCHPACK_POLLING=true `
+  -e NODE_ENV=development `
+  -e VITE_APP_BASE_URL=http://localhost:8000 `
+  --name moj-frontend `
+  moj-frontend
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### Windows Command Prompt:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```cmd
+docker run -it --rm ^
+  -p 5173:5173 ^
+  -v %cd%/case-evaluation-frontend/moj/src:/app/src ^
+  -v %cd%/case-evaluation-frontend/moj/public:/app/public ^
+  -v /app/node_modules ^
+  -v /app/client/node_modules ^
+  -e CHOKIDAR_USEPOLLING=true ^
+  -e WATCHPACK_POLLING=true ^
+  -e NODE_ENV=development ^
+  -e VITE_APP_BASE_URL=http://localhost:8000 ^
+  --name moj-frontend ^
+  moj-frontend
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Command Explanation
 
-## Learn More
+- **`-it`**: Run in interactive mode with a TTY
+- **`--rm`**: Automatically remove the container when it stops
+- **`-p 5173:5173`**: Map port 5173 from container to host (Vite dev server)
+- **`-v $(pwd)/case-evaluation-frontend/moj/src:/app/src`**: Mount source code for hot-reloading
+- **`-v $(pwd)/case-evaluation-frontend/moj/public:/app/public`**: Mount public assets
+- **`-v /app/node_modules`**: Preserve container's node_modules
+- **`-v /app/client/node_modules`**: Preserve client's node_modules
+- **Environment variables**:
+  - `CHOKIDAR_USEPOLLING=true`: Enable file watching in Docker
+  - `WATCHPACK_POLLING=true`: Enable webpack file watching
+  - `NODE_ENV=development`: Set development environment
+  - `VITE_APP_BASE_URL=http://localhost:8000`: API endpoint URL
+- **`--name moj-frontend`**: Name the container for easy reference
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Accessing the Application
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Once the container is running, you can access the frontend at:
+```
+http://localhost:5173
+```
 
-### Code Splitting
+## Stopping the Container
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Press `Ctrl+C` in the terminal where the container is running, or in another terminal:
 
-### Analyzing the Bundle Size
+```bash
+docker stop moj-frontend
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Troubleshooting
 
-### Making a Progressive Web App
+### Port Already in Use
+If port 5173 is already in use, you can map to a different port:
+```bash
+docker run -it --rm -p 3000:5173 ... # Maps to port 3000 instead
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Volume Mount Issues on Windows
+If you're having issues with volume mounts on Windows, ensure:
+1. Docker Desktop has file sharing enabled for your drive
+2. Use forward slashes in paths, not backslashes
+3. Try using absolute paths if relative paths don't work
 
-### Advanced Configuration
+### Backend Connection Issues
+If the frontend can't connect to the backend:
+1. Ensure the backend is running on port 8000
+2. Check that `VITE_APP_BASE_URL` is correctly set
+3. Verify there are no firewall/security group restrictions
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Hot Reloading Not Working
+If changes aren't reflected immediately:
+1. Ensure `CHOKIDAR_USEPOLLING` and `WATCHPACK_POLLING` are set to `true`
+2. Check that volume mounts are correctly set up
+3. Try restarting the container
 
-### Deployment
+## Additional Commands
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### View Container Logs
+```bash
+docker logs moj-frontend
+```
 
-### `npm run build` fails to minify
+### Enter Container Shell
+```bash
+docker exec -it moj-frontend sh
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### List Running Containers
+```bash
+docker ps
+```
+
+### Remove the Image
+```bash
+docker rmi moj-frontend
+```
+
+## Feature Flags
+
+The application uses feature flags for controlling benefits functionality. You can control these flags via the browser console:
+
+### Setting Feature Flags
+
+Open your browser's developer console (F12) while the application is running and use these commands:
+
+```javascript
+// Enable static benefits mode
+window.setBenefitsFeature('static');
+
+// Enable dynamic benefits mode
+window.setBenefitsFeature('dynamic');
+
+// Clear override and use environment variable setting
+window.clearBenefitsFeature();
+```
+
+### How Feature Flags Work
+
+- **Static mode**: Uses predetermined benefits data
+- **Dynamic mode**: Fetches benefits data dynamically from the backend
+- **Clear**: Removes the override and falls back to the environment variable configuration
+
+The feature flag setting persists in your browser's local storage until you clear it or call `clearBenefitsFeature()`.
+
+## Notes
+
+- This setup is optimized for development with hot-reloading enabled
+- The container runs with nodemon and development settings
+- Make sure your backend service is accessible at the URL specified in `VITE_APP_BASE_URL`
+- All file changes in `src/` and `public/` directories will trigger automatic reloads
+- Feature flags are available for controlling application behavior during development

@@ -6,25 +6,65 @@ const StartPage = () => {
   const navigate = useNavigate();
 
   const handleStart = () => {
-    navigate('/calculate-benefits');
+    navigate('/risk-assessment'); // Navigate to the risk assessment page
   };
 
   return (
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-two-thirds">
-        <h1 className="govuk-heading-l">Check what benefits you could get</h1>
+        <h1 className="govuk-heading-l">Make child arrangements</h1>
         
         <p className="govuk-body-l">
-          Use this service to find out what benefits you might be eligible for.
+          You can choose how to make arragments for looking after your children if you separate from your partner.
         </p>
         
         <p className="govuk-body">
-          This service will ask you some questions about your circumstances to help determine 
-          which benefits you may be able to claim.
+          What you can do is different in {' '}
+          <a 
+            href="https://www.mygov.scot/support-after-separation"
+            className="govuk-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Scotland
+          </a> and {' '}
+          <a 
+            href="https://www.nidirect.gov.uk/information-and-services/going-court/family-courts"
+            className="govuk-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Northern Ireland
+          </a>.
         </p>
         
-        <p className="govuk-body">It takes around 5 minutes to complete.</p>
+        <p className="govuk-body">You and your ex-partner can usually avoid going to court hearings if you agree on:</p>
         
+        <ul className="govuk-list govuk-list--bullet">
+          <li>where the children will live</li>
+          <li>how much time they will spend with each parent</li>
+          <li>how you will financially support your children</li>
+        </ul>
+
+        <p className="govuk-body">You can use a legal advisor if you want to {' '}
+          <a 
+            href="https://www.gov.uk/arrange-child-maintenance-yourself/if-you-agree"
+            className="govuk-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            make your agreement legally binding
+          </a>.</p>
+
+          <p className="govuk-body">You can {' '}
+          <a 
+            href="https://www.gov.uk/child-maintenance-service"
+            className="govuk-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            agree on child maintenance
+          </a> at the same time or separately.</p>
         <button 
           className="govuk-button govuk-button--start" 
           data-module="govuk-button"
