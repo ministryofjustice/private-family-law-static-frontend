@@ -1,24 +1,31 @@
+# Use official Node.js runtime as base image
 FROM node:20-slim
 
+# Set working directory
 WORKDIR /app
 
-# Install nodemon globally
-RUN npm install -g nodemon
+# Copy package files
+COPY package*.json ./
 
-# Install concurrently globally
-RUN npm install -g concurrently
+# Install dependencies (production only)
+RUN npm ci --only=production
 
-# Copy package.json files first for better caching
-COPY ./package*.json ./
-
-# Install dependencies at each level
-RUN npm install
-
-# Don't copy source code - we'll mount it as a volume
-# This is just a fallback in case volume mount fails
+# Copy application code
 COPY . .
 
-EXPOSE 3000 3001
+# Create non-root user for security
+RUN groupadd -r nodejs && useradd -r -g nodejs nodejs
 
-# Use nodemon for server and react-scripts for client in dev mode
-CMD ["npm", "run", "dev"]
+# Change ownership of the app directory
+RUN chown -R nodejs:nodejs /app
+USER nodejs
+
+# Expose port
+EXPOSE 3000
+
+# Health check endpoint
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+  CMD curl -f http://localhost:3000/ || exit 1
+
+# Start the application in production mode
+CMD ["npm", "run", "start"]
