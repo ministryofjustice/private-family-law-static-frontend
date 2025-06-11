@@ -1,0 +1,22 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName="Home" %}
+
+{% block header %}
+<!-- Blank header with no service name for the start page -->
+{{ govukHeader() }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds" style="min-height: 500px;">
+
+    <h1 class="govuk-heading-xl">
+      Connecting Hub
+    </h1>
+    <p><a class="govuk-link" href="get-a-divorce">Start prototype</a></p>
+  </div>
+</div>
+
+{% endblock %}
