@@ -1,31 +1,34 @@
-# Use official Node.js runtime as base image
-FROM node:20-slim
+# Build the static assets
+FROM node:18-alpine AS builder
 
-# Set working directory
+# Set the working directory
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy package.json files first for better caching
+COPY ./package*.json ./
+COPY ./client/package*.json ./client/
 
-# Install dependencies (production only)
-RUN npm ci --only=production
+# Install dependencies at each level
+RUN npm install
+RUN cd client && npm install
 
-# Copy application code
+# Copy the application source code
 COPY . .
 
-# Create non-root user for security
-RUN groupadd -r nodejs && useradd -r -g nodejs nodejs
+# Run the build script
+RUN cd client && npm run build
 
-# Change ownership of the app directory
-RUN chown -R nodejs:nodejs /app
-USER nodejs
+# Serve the static assets NGINX
+FROM nginx:stable-alpine
 
-# Expose port
-EXPOSE 3000
+# Copy the NGINX configuration file
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Health check endpoint
-HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
-  CMD curl -f http://localhost:3000/ || exit 1
+# Copy the built static assets from the builder stage
+COPY --from=builder /app/client/build /usr/share/nginx/html
 
-# Start the application in production mode
-CMD ["npm", "run", "start"]
+# Expose port 80 for incoming HTTP traffic
+EXPOSE 80
+
+# Command to start NGINX in the foreground
+CMD ["nginx", "-g", "daemon off;"]
