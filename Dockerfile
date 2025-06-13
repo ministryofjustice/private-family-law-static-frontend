@@ -13,19 +13,25 @@ RUN npm ci --only=production
 # Copy application code
 COPY . .
 
-# Create non-root user for security
-RUN groupadd -r nodejs && useradd -r -g nodejs nodejs
+# Change ownership of the app directory to the built-in 'node' user
+RUN chown -R node:node /app
 
-# Change ownership of the app directory
-RUN chown -R nodejs:nodejs /app
-USER nodejs
+# Switch to the non-root user
+USER node
+
+# Don't force HTTPS
+ENV USE_HTTPS=false
 
 # Expose port
 EXPOSE 3000
 
+# Add timezone in UTC format
+RUN apt install tzdata
+RUN ln -fs /usr/share/zoneinfo/UTC /etc/localtime
+
 # Health check endpoint
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
-  CMD curl -f http://localhost:3000/ || exit 1
+  CMD node -e "require('http').get('http://localhost:3000', res => process.exit(res.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"
 
 # Start the application in production mode
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "serve"]
