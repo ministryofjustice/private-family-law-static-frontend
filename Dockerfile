@@ -25,6 +25,10 @@ ENV USE_HTTPS=false
 # Expose port
 EXPOSE 3000
 
+# Add timezone in UTC format
+RUN apt install tzdata
+RUN ln -fs /usr/share/zoneinfo/UTC /etc/localtime
+
 # Health check endpoint
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
   CMD node -e "require('http').get('http://localhost:3000', res => process.exit(res.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"
