@@ -1,0 +1,379 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+Child arrangements help finder​ – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+<!-- Blank header with no service name for the start page -->
+{{ govukHeader() }}
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<style>
+  a.no-style,
+  a.no-style:hover,
+  a.no-style:active {
+    text-decoration: none;
+  }
+
+  @media (min-width: 40.0625em) {
+    .gem-c-lead-paragraph {
+      font-size: 1.5rem;
+      line-height: 1.25;
+    }
+
+    .govuk-\!-margin-bottom-7 {
+      margin-bottom: 40px !important;
+    }
+  }
+
+  .browse__header-wrapper {
+    padding-bottom: 40px;
+    border-top: 1px solid #263135;
+    margin-top: -1px;
+  }
+
+  .browse__breadcrumb-wrapper .govuk-width-container {
+    position: relative;
+    margin-bottom: -10px;
+    padding-top: 10px;
+    border-top: 10px solid #1d70b8;
+  }
+
+  .browse__breadcrumb-wrapper,
+  .browse__header-wrapper {
+    background-color: #263135;
+  }
+
+  .govuk-breadcrumbs__link:link,
+  .govuk-breadcrumbs__link:visited {
+    color: #ffffff;
+  }
+
+  .browse__section {
+    margin-bottom: 60px;
+  }
+
+  .gem-c-heading--inverse .gem-c-heading__text {
+    color: #fff;
+  }
+
+  .gem-c-lead-paragraph--inverse {
+    color: #fff;
+  }
+
+  .browse__list>.browse__list-item {
+    margin-bottom: 25px;
+  }
+
+  .browse__section--top-border {
+    border-top: 1px solid #b1b4b6;
+    padding-top: 15px;
+  }
+
+
+  .flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  @media screen and (min-width: 900px) {
+    .flex-container.two-columns {
+      justify-content: space-between !important;
+    }
+
+    .two-columns .card {
+      flex-basis: 46.5% !important;
+      border: 0;
+      border-bottom: 1px solid #b1b4b6;
+      margin-bottom: 0;
+
+      .card-body {
+        a {
+          padding: 0 0 30px 0;
+
+          h3 {
+            color: #1d70b8;
+          }
+
+          &:hover {
+            h3 {
+              color: #003078;
+            }
+          }
+        }
+      }
+    }
+
+    .two-columns .card:nth-child(3n-1) {
+      margin-left: 0%;
+      margin-right: 0%;
+    }
+
+    .two-columns .card h3 a {
+      color: #1d70b8;
+      margin: 0 0 10px;
+      padding: 0;
+      text-decoration: underline;
+
+      &:hover {
+        color: #003078 !important;
+      }
+    }
+
+    .two-columns .card:hover {
+      background-color: #fff !important;
+      color: #1d70b8;
+      cursor: pointer;
+      transition: 0;
+      transition-delay: 0;
+
+      p {
+        color: #000 !important;
+      }
+    }
+
+    .two-columns .card:hover a {
+      color: #1d70b8 !important;
+    }
+
+    .card {
+      flex-basis: 30% !important;
+    }
+
+    .card:nth-child(3n-1) {
+      margin-left: 3%;
+      margin-right: 3%;
+    }
+  }
+
+  .card {
+    flex-basis: 100%;
+    flex-grow: 0;
+    margin-bottom: 2em;
+    border: 1px solid #dee0e2;
+    font-size: 16px;
+  }
+
+  .card .card-body {
+    padding: 0;
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
+
+  .card .card-body a {
+    display: block;
+    height: calc(100% - 40px);
+    width: calc(100% - 40px);
+    text-decoration: none;
+    padding: 20px;
+
+    h3 {
+      text-decoration: underline;
+      color: #1d70b8;
+    }
+
+    &:focus {
+
+      h3,
+      p {
+        color: #000;
+      }
+    }
+  }
+
+  .card:hover {
+    background-color: #005ea5;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .card .card-body:hover a,
+  .card .card-body:hover p {
+    color: #fff;
+  }
+
+  .card:hover .card-heading,
+  .card.active:hover p {
+    color: #fff;
+  }
+
+  .gem-c-cards__list {
+    display: grid;
+    column-gap: 30px;
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+  }
+
+  .gem-c-cards__list {
+    display: grid;
+    column-gap: 30px;
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+  }
+
+  .gem-c-cards__list-item {
+    border-bottom: 1px solid rgb(177, 180, 182);
+    padding: 5px 0px 20px;
+  }
+
+  .gem-c-cards__list--one-column .gem-c-cards__list-item:first-child {
+    border-top: 0px;
+  }
+
+  .gem-c-cards__list-item-wrapper {
+    padding: 19px 0 4px;
+    position: relative;
+  }
+
+  .gem-c-cards__link::before {
+    border-right: 3px solid #1d70b8;
+    border-top: 3px solid #1d70b8;
+    content: "";
+    display: block;
+    height: 7px;
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    margin-top: 5px;
+    -webkit-transform: translateY(0) rotate(45deg) scale(1);
+    -ms-transform: translateY(0) rotate(45deg) scale(1);
+    transform: translateY(0) rotate(45deg) scale(1);
+    width: 7px;
+  }
+
+  .gem-c-cards__link::after {
+    bottom: 0;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .gem-c-cards__sub-heading {
+    margin: 0 30px 10px 0;
+  }
+
+  .gem-c-cards__description {
+    margin: 0 30px 0 0;
+  }
+</style>
+
+<div class="wrapper" id="wrapper">
+  <div class="govuk-width-container">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+
+        <h1 class="govuk-heading-l">Child arrangements help finder</h1>
+
+        <p>Child arrangements are a written agreement about who your child lives with, spends time with, and how often
+          they have contact with both parents.​</p>
+
+        <div class="flex-container">
+          <div class="card">
+            <div class="card-body">
+              <a class="govuk-link card-link" href="get-help-with-child-arrangements">
+                <h3 class="govuk-heading-s card-heading govuk-!-margin-bottom-3">
+                  Get help with child arrangements
+                </h3>
+                <p>Find the best route for making arrangements or fixing problems​</p>
+              </a>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <a class="govuk-link card-link" href="#">
+                <h3 class="govuk-heading-s card-heading govuk-!-margin-bottom-3">
+                  Propose a child arrangements plan
+                </h3>
+                <p>Use this template to make an agreement you can both stick to</p>
+              </a>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <a class="govuk-link card-link" href="#">
+                <h3 class="govuk-heading-s card-heading govuk-!-margin-bottom-3">
+                  Apply for a court order
+                </h3>
+                <p>Find out costs and apply online​</p>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Start : Useful Information -->
+        <h2 class="govuk-heading-m govuk-!-margin-top-6 govuk-!-margin-bottom-0">Useful information</h2>
+        <div class="gem-c-cards">
+          <ul class="gem-c-cards__list gem-c-cards__list--one-column govuk-!-margin-bottom-9">
+            <li class="gem-c-cards__list-item">
+              <div class="gem-c-cards__list-item-wrapper">
+                <h3 class="gem-c-cards__sub-heading govuk-heading-s">
+                  <a class="govuk-link gem-c-cards__link gem-c-force-print-link-styles" href="#">Making child
+                    arrangements if you divorce or separate​</a>
+                </h3>
+                <p class="govuk-body gem-c-cards__description">A complete guide to child arrangements​
+                </p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <!-- End : Useful Information -->
+
+        <!-- Start : Other help and support -->
+        <h2 class="govuk-heading-m govuk-!-margin-top-9 govuk-!-margin-bottom-4">Other help and support</h2>
+        <div class="flex-container two-columns">
+          <div class="card">
+            <div class="card-body">
+              <a class="govuk-link card-link" href="#">
+                <h3 class="govuk-heading-s card-heading  govuk-!-margin-bottom-3 govuk-!-margin-bottom-0">
+                  Child maintenance
+                </h3>
+                <p class="govuk-body">Solve problems with your child maintenance using these tools and services​​</p>
+              </a>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <a class="govuk-link card-link" href="#">
+                <h3 class="govuk-heading-s card-heading  govuk-!-margin-bottom-3 govuk-!-margin-bottom-0">
+                  Top tips
+                </h3>
+                <p class="govuk-body">CAFCASS has top tips for separated parents​</p>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- End : Other help and support -->
+
+        <!-- Start: Digital Assistant -->
+        <h2 class="govuk-heading-m govuk-!-margin-top-9">Chat with our digital assistant</h2>
+        <p class="govuk-body">Our artificial intelligence (AI) assistant can give you personalised guidance about child
+          arrangements. You
+          can describe your situation and ask for guidance, or ask about specific options.</p>
+
+        <button type="submit" class="govuk-button govuk-!-margin-top-6" data-module="govuk-button">
+          Start chat
+        </button>
+        <!-- End: Digital Assistant -->
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
