@@ -1,0 +1,145 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+Going to court – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<style>
+  .govuk-summary-list__key {
+    width: 60%;
+  }
+</style>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-l">Going to court</h1>
+
+    <p>You'll need to go to court if you've tried other suitable options and still can't agree arrangements, or you're
+      worried about the welfare of you or your children.</p>
+
+    <h2 class="govuk-heading-m">Court:</h2>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>can take a long time</li>
+      <li>can be expensive and stressful</li>
+      <li>often takes more than one court session to get a resolution</li>
+      <li>results in a legal judgement that can be enforced</li>
+    </ul>
+
+    <h2 class="govuk-heading-m">How it works:</h2>
+    <ol class="govuk-list govuk-list--number">
+      <li>Find out if you can get representation.</li>
+      <li>You must attend an initial mediation meeting, known as a Mediation Information and Assessment Meeting (MIAM)
+        before going to court, or <a class="govuk-link"
+          href="https://apply-to-court-about-child-arrangements.service.justice.gov.uk/about/miam_exemptions"
+          target="_blank">complete
+          an exemption form (opens in new tab)</a>.</li>
+      <li>Apply to court</li>
+      <li>Go to court</li>
+    </ol>
+
+    <h2 class="govuk-heading-l govuk-!-margin-top-9">Other options</h2>
+
+    <!-- Start: Arbitration -->
+    <h3 class="govuk-heading-m">Arbitration</h3>
+    <p>In family arbitration, you and the other person choose a qualified, impartial professional to hear both of your
+      views. They will then make a decision that you both have agreed to.</p>
+
+    <p>The other parent will need to agree to arbitration and you’ll need to describe which issues it is you want to
+      resolve.</p>
+
+    <p>You get to choose how you want to participate in arbitration. For example, you can decide for the case to be
+      dealt with on paper, or you can attend telephone or in-person meetings with the arbitrator.</p>
+
+    <p>This approach means that you don't have to deal directly with the other parent if you don’t want to.</p>
+     
+    <p>You can also hire a lawyer to support you as part of the process. The type of lawyer you use is called a
+      solicitor.</p>
+
+    <p>Arbitration: </p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>needs you to be able to agree what the issues are to resolve</li>
+      <li>is usually quicker and more flexible than going to court</li>
+      <li>is expensive</li>
+    </ul>
+
+    <p>The agreement reached will not be legally binding. You can ask your lawyer to submit it to court to make it
+      legally binding if that is what you want. </p>
+
+    <details class="govuk-details">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">
+          Find out more about arbitration
+        </span>
+      </summary>
+      <div class="govuk-details__text">
+        <p>How it works:</p>
+        <ol class="govuk-list govuk-list--number">
+          <li>Both of you have to agree to arbitration.</li>
+          <li><a class="govuk-link" href="https://ifla.org.uk/">Choose an arbitrator</a></li>
+          <li>Both of you complete an application form describing the issues you want to fix and whether you want to
+            attend sessions or handle things with paperwork.</li>
+          <li>Take part in arbitration in the way you want, such as by phone or on paper.</li>
+          <li>Get a decision in writing which you must both follow.</li>
+        </ol>
+
+        <p><a href="https://ifla.org.uk/" class="govuk-link">Find an arbitrator</a></p>
+      </div>
+    </details>
+    <!-- End: Arbitration -->
+
+    <!-- Start: Lawyer negotiation -->
+    <h3 class="govuk-heading-m govuk-!-margin-top-9">Lawyer negotiation</h3>
+    <p>When you resolve your child arrangements using lawyer negotiation, you hire a lawyer to negotiate arrangements
+      for you. The type of lawyer you use is called a solicitor. Often the other parent will also use a lawyer and the
+      two lawyers will speak directly to one another. This approach means that you don't have to deal directly with the
+      other parent if you don’t want to. </p>
+
+    <p>You can still hire a lawyer to negotiate on your behalf even if the other parent chooses not to use one.</p>
+
+    <p>Lawyer negotiation can be a good option if your relationship is difficult and you'd prefer not to meet, or if you
+      don’t trust the other parent. It can be expensive. It may be quicker and less stressful than court.</p>
+
+    <p>Lawyer negotiation:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>means you don’t have to deal with the other parent directly</li>
+      <li>is usually quicker and less stressful than going to court</li>
+      <li>can be expensive</li>
+    </ul>
+
+    <p>The agreement reached will not be legally binding. You can ask your lawyer to submit it to court to make it
+      legally binding if that is what you want.</p>
+
+    <details class="govuk-details">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">
+          Find out more about lawyer negotiation
+        </span>
+      </summary>
+      <div class="govuk-details__text">
+        <p>How it works:</p>
+        <ol class="govuk-list govuk-list--number">
+          <li>Hire a lawyer.</li>
+          <li>Meet with your lawyer to explain what you want to achieve.</li>
+          <li>Continue working with your lawyer as they negotiate with the other parent.</li>
+          <li>Sign an agreement.</li>
+        </ol>
+
+        <p><a href="https://solicitors.lawsociety.org.uk/" class="govuk-link">Find a lawyer</a></p>
+      </div>
+    </details>
+    <!-- End: Lawyer negotiation -->
+
+  </div>
+</div>
+
+{% endblock %}

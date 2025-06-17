@@ -1,0 +1,58 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+Do you think you both would be able to stick to an agreement you made between yourselves? ​– {{ serviceName }} – GOV.UK
+Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+  <div class="govuk-grid-column-two-thirds">
+
+    <form class="form" action="/stick-to-an-agreement" method="post">
+
+      <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset" aria-describedby="stick-to-an-agreement-hint">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+            <h1 class="govuk-fieldset__heading govuk-!-margin-top-6">
+              Do you think you both would be able to stick to an agreement you made between yourselves?
+            </h1>
+          </legend>
+          <div class="govuk-radios" data-module="govuk-radios">
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="stick-to-an-agreement" name="stick-to-an-agreement" type="radio"
+                value="yes">
+              <label class="govuk-label govuk-radios__label" for="stick-to-an-agreement">
+                Yes
+              </label>
+            </div>
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="stick-to-an-agreement-2" name="stick-to-an-agreement" type="radio"
+                value="no">
+              <label class="govuk-label govuk-radios__label" for="stick-to-an-agreement-2">
+                No, there would need to be legal penalties for not sticking to the arrangements
+              </label>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+
+      {{ govukButton({
+      text: "Continue"
+      }) }}
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+Are you and the other parent able to contact each other? ​– {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+  <div class="govuk-grid-column-two-thirds">
+
+    <form class="form" action="/contact-each-other" method="post">
+
+      <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset" aria-describedby="contact-each-other-hint">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+            <h1 class="govuk-fieldset__heading govuk-!-margin-top-6">
+              Are you and the other parent able to contact each other?
+            </h1>
+          </legend>
+          <div id="contact-each-other-hint" class="govuk-hint">
+            For example, if you sent them a text message would they read it?
+          </div>
+          <div class="govuk-radios" data-module="govuk-radios">
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="contact-each-other" name="contact-each-other" type="radio"
+                value="yes">
+              <label class="govuk-label govuk-radios__label" for="contact-each-other">
+                Yes
+              </label>
+            </div>
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="contact-each-other-2" name="contact-each-other" type="radio"
+                value="no">
+              <label class="govuk-label govuk-radios__label" for="contact-each-other-2">
+                No
+              </label>
+            </div>
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="contact-each-other-3" name="contact-each-other" type="radio"
+                value="not sure">
+              <label class="govuk-label govuk-radios__label" for="contact-each-other-3">
+                I don't know
+              </label>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+
+      {{ govukButton({
+      text: "Continue"
+      }) }}
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

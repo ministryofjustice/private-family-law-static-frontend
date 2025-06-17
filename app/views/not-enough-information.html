@@ -1,0 +1,35 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+Not enough information – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-l">Not enough information</h1>
+
+    <p>It's not clear from your answers which is the best way for you to make child arrangements.</p>
+
+    <p>You can try:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>asking the <a href="#" class="govuk-link">chatbot</a>​</li>
+      <li>reading the GOV.UK general guide to <a href="#" class="govuk-link">making child arrangements if you divorce or
+          separate​</a>
+      </li>
+      <li>using the <a href="#" class="govuk-link">Get help with child arrangements</a> service again </li>
+    </ul>
+
+  </div>
+</div>
+
+{% endblock %}

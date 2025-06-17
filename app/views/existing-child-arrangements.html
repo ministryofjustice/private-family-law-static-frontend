@@ -1,0 +1,71 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+What is the situation with your existing child arrangements? ​– {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+<style>
+  @media (min-width: 40.0625em) {
+    .govuk-summary-list__key {
+      width: 60%;
+    }
+  }
+</style>
+
+<div class="govuk-grid-row">
+
+  <div class="govuk-grid-column-two-thirds">
+
+    <form class="form" action="/existing-child-arrangements" method="post">
+
+      <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset" aria-describedby="existing-child-arrangements-hint">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+            <h1 class="govuk-fieldset__heading govuk-!-margin-top-6">
+              What is the situation with your existing child arrangements?​​
+            </h1>
+          </legend>
+          <div class="govuk-radios" data-module="govuk-radios">
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="existing-child-arrangements" name="existing-child-arrangements"
+                type="radio" value="make changes">
+              <label class="govuk-label govuk-radios__label" for="existing-child-arrangements">
+                We need to make changes to our existing child arrangements​
+              </label>
+            </div>
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="existing-child-arrangements-2" name="existing-child-arrangements"
+                type="radio" value="denying">
+              <label class="govuk-label govuk-radios__label" for="existing-child-arrangements-2">
+                The other parent is denying me contact with the children​
+              </label>
+            </div>
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="existing-child-arrangements-3" name="existing-child-arrangements"
+                type="radio" value="dispute">
+              <label class="govuk-label govuk-radios__label" for="existing-child-arrangements-3">
+                There is some other dispute which we are unable to solve
+              </label>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+
+      {{ govukButton({
+      text: "Continue"
+      }) }}
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}
