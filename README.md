@@ -1,167 +1,142 @@
 # MOJ Frontend Docker Container
 
-This README provides instructions for running the MOJ case evaluation frontend container outside of docker-compose.
+This README provides instructions for running the MOJ case evaluation frontend using docker-compose.
 
 ## Prerequisites
 
-- Docker installed on your machine
+- Docker and Docker Compose installed on your machine
 - The MOJ frontend source code
-- Backend service running on port 8000 (if required)
 
 ## Directory Structure
 
 Ensure your directory structure looks like this:
 ```
 .
-├── case-evaluation-frontend/
-│   └── moj/
-│       ├── Dockerfile
-│       ├── src/
-│       ├── public/
-│       └── package.json
-└── docker-compose.yml (reference)
+├── docker-compose.yml
+└── connecting_services/
+    ├── Dockerfile
+    ├── app/
+    └── package.json
 ```
 
-## Running the Container
+## Running the Application
 
-### 1. Build the Docker Image
+### Start the Application
 
-Navigate to the root directory (where docker-compose.yml would normally be) and build the image:
+From the root directory (where docker-compose.yml is located), run:
 
 ```bash
-docker build -t moj-frontend ./case-evaluation-frontend/moj
+docker-compose up
 ```
 
-### 2. Run the Container
-
-#### Linux/macOS:
+To run in detached mode (background):
 
 ```bash
-docker run -it --rm \
-  -p 5173:5173 \
-  -v $(pwd)/case-evaluation-frontend/moj/src:/app/src \
-  -v $(pwd)/case-evaluation-frontend/moj/public:/app/public \
-  -v /app/node_modules \
-  -v /app/client/node_modules \
-  -e CHOKIDAR_USEPOLLING=true \
-  -e WATCHPACK_POLLING=true \
-  -e NODE_ENV=development \
-  -e VITE_APP_BASE_URL=http://localhost:8000 \
-  --name moj-frontend \
-  moj-frontend
+docker-compose up -d
 ```
 
-#### Windows PowerShell:
+### Build and Start (if you've made changes to Dockerfile)
 
-```powershell
-docker run -it --rm `
-  -p 5173:5173 `
-  -v ${PWD}/case-evaluation-frontend/moj/src:/app/src `
-  -v ${PWD}/case-evaluation-frontend/moj/public:/app/public `
-  -v /app/node_modules `
-  -v /app/client/node_modules `
-  -e CHOKIDAR_USEPOLLING=true `
-  -e WATCHPACK_POLLING=true `
-  -e NODE_ENV=development `
-  -e VITE_APP_BASE_URL=http://localhost:8000 `
-  --name moj-frontend `
-  moj-frontend
+```bash
+docker-compose up --build
 ```
-
-#### Windows Command Prompt:
-
-```cmd
-docker run -it --rm ^
-  -p 5173:5173 ^
-  -v %cd%/case-evaluation-frontend/moj/src:/app/src ^
-  -v %cd%/case-evaluation-frontend/moj/public:/app/public ^
-  -v /app/node_modules ^
-  -v /app/client/node_modules ^
-  -e CHOKIDAR_USEPOLLING=true ^
-  -e WATCHPACK_POLLING=true ^
-  -e NODE_ENV=development ^
-  -e VITE_APP_BASE_URL=http://localhost:8000 ^
-  --name moj-frontend ^
-  moj-frontend
-```
-
-## Command Explanation
-
-- **`-it`**: Run in interactive mode with a TTY
-- **`--rm`**: Automatically remove the container when it stops
-- **`-p 5173:5173`**: Map port 5173 from container to host (Vite dev server)
-- **`-v $(pwd)/case-evaluation-frontend/moj/src:/app/src`**: Mount source code for hot-reloading
-- **`-v $(pwd)/case-evaluation-frontend/moj/public:/app/public`**: Mount public assets
-- **`-v /app/node_modules`**: Preserve container's node_modules
-- **`-v /app/client/node_modules`**: Preserve client's node_modules
-- **Environment variables**:
-  - `CHOKIDAR_USEPOLLING=true`: Enable file watching in Docker
-  - `WATCHPACK_POLLING=true`: Enable webpack file watching
-  - `NODE_ENV=development`: Set development environment
-  - `VITE_APP_BASE_URL=http://localhost:8000`: API endpoint URL
-- **`--name moj-frontend`**: Name the container for easy reference
 
 ## Accessing the Application
 
 Once the container is running, you can access the frontend at:
 ```
-http://localhost:5173
+http://localhost:3000
 ```
 
-## Stopping the Container
+Additional port 3001 is also available if needed.
 
-Press `Ctrl+C` in the terminal where the container is running, or in another terminal:
+## Managing the Application
+
+### Stop the Application
 
 ```bash
-docker stop moj-frontend
+docker-compose down
 ```
+
+### View Logs
+
+```bash
+docker-compose logs web
+```
+
+To follow logs in real-time:
+
+```bash
+docker-compose logs -f web
+```
+
+### Restart the Service
+
+```bash
+docker-compose restart web
+```
+
+## Development Features
+
+### Hot Reloading
+
+The application is configured with hot reloading enabled through:
+- `CHOKIDAR_USEPOLLING=true`
+- `WATCHPACK_POLLING=true`
+
+Any changes made to files in the `connecting_services` directory will automatically trigger a reload.
+
+### Environment
+
+The container runs in development mode (`NODE_ENV=development`) with all development tools and features enabled.
 
 ## Troubleshooting
 
 ### Port Already in Use
-If port 5173 is already in use, you can map to a different port:
-```bash
-docker run -it --rm -p 3000:5173 ... # Maps to port 3000 instead
+If ports 3000 or 3001 are already in use, you can modify the ports in your `docker-compose.yml`:
+```yaml
+ports:
+  - "3002:3000"  # Maps to port 3002 instead
+  - "3003:3001"  # Maps to port 3003 instead
 ```
 
-### Volume Mount Issues on Windows
-If you're having issues with volume mounts on Windows, ensure:
-1. Docker Desktop has file sharing enabled for your drive
-2. Use forward slashes in paths, not backslashes
-3. Try using absolute paths if relative paths don't work
+### Volume Mount Issues
+If you're having issues with file changes not being detected:
+1. Ensure Docker Desktop has file sharing enabled for your project directory
+2. Try stopping and restarting the containers: `docker-compose down && docker-compose up`
 
-### Backend Connection Issues
-If the frontend can't connect to the backend:
-1. Ensure the backend is running on port 8000
-2. Check that `VITE_APP_BASE_URL` is correctly set
-3. Verify there are no firewall/security group restrictions
+### Container Won't Start
+If the container fails to start:
+1. Check the logs: `docker-compose logs web`
+2. Ensure the Dockerfile exists in the `connecting_services` directory
+3. Try rebuilding: `docker-compose up --build`
 
 ### Hot Reloading Not Working
 If changes aren't reflected immediately:
-1. Ensure `CHOKIDAR_USEPOLLING` and `WATCHPACK_POLLING` are set to `true`
-2. Check that volume mounts are correctly set up
-3. Try restarting the container
+1. Verify the polling environment variables are set correctly
+2. Check that the volume mount includes your source files
+3. Try restarting the service: `docker-compose restart web`
 
 ## Additional Commands
 
-### View Container Logs
-```bash
-docker logs moj-frontend
-```
-
 ### Enter Container Shell
 ```bash
-docker exec -it moj-frontend sh
+docker-compose exec web sh
 ```
 
-### List Running Containers
+### View Running Services
 ```bash
-docker ps
+docker-compose ps
 ```
 
-### Remove the Image
+### Remove Containers and Volumes
 ```bash
-docker rmi moj-frontend
+docker-compose down -v
+```
+
+### Remove Images
+```bash
+docker-compose down --rmi all
 ```
 
 ## Feature Flags
@@ -191,10 +166,18 @@ window.clearBenefitsFeature();
 
 The feature flag setting persists in your browser's local storage until you clear it or call `clearBenefitsFeature()`.
 
+## Configuration
+
+The current docker-compose configuration:
+- **Ports**: 3000 and 3001 are exposed
+- **Volume**: The entire `connecting_services` directory is mounted to `/app`
+- **Environment**: Development mode with polling enabled for file watching
+- **Build Context**: Uses the Dockerfile in the `connecting_services` directory
+
 ## Notes
 
 - This setup is optimized for development with hot-reloading enabled
-- The container runs with nodemon and development settings
-- Make sure your backend service is accessible at the URL specified in `VITE_APP_BASE_URL`
-- All file changes in `src/` and `public/` directories will trigger automatic reloads
+- The container automatically rebuilds when you make changes to your source code
+- All file changes in the mounted directory will trigger automatic reloads
 - Feature flags are available for controlling application behavior during development
+- No backend URL configuration is needed unless you're connecting to external services
