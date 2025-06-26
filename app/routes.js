@@ -88,83 +88,83 @@ router.post('/stick-to-an-agreement', function(request, response) {
 })
 
 // SMART ANSWERS //
-router.post('/smart-answers/child-safety', function(request, response) {
+router.post('/smart-answer/child-safety', function(request, response) {
 
     var childSafety = request.session.data['child-safety']
     if (childSafety == "yes"){
-        response.redirect("/smart-answers/feel-bullied-or-unsafe")
+        response.redirect("/smart-answer/feel-bullied-or-unsafe")
     } else {
-        response.redirect("/smart-answers/going-to-court")
+        response.redirect("/smart-answer/going-to-court")
     }
 })
 
-router.post('/smart-answers/feel-bullied-or-unsafe', function(request, response) {
+router.post('/smart-answer/feel-bullied-or-unsafe', function(request, response) {
 
     var feelBulliedOrUnsafe = request.session.data['feel-bullied-or-unsafe']
     if (feelBulliedOrUnsafe == "yes"){
-        response.redirect("/smart-answers/going-to-court")
+        response.redirect("/smart-answer/going-to-court")
     } else {
-        response.redirect("/smart-answers/child-arrangements-in-place")
+        response.redirect("/smart-answer/child-arrangements-in-place")
     }
 })
 
-router.post('/smart-answers/child-arrangements-in-place', function(request, response) {
+router.post('/smart-answer/child-arrangements-in-place', function(request, response) {
 
     var childArrangementsInPlace = request.session.data['child-arrangements-in-place']
     if (childArrangementsInPlace == "yes"){
-        response.redirect("/smart-answers/existing-child-arrangements")
+        response.redirect("/smart-answer/existing-child-arrangements")
     } else {
-        response.redirect("/smart-answers/contact-each-other")
+        response.redirect("/smart-answer/contact-each-other")
     }
 })
 
-router.post('/smart-answers/existing-child-arrangements', function(request, response) {
+router.post('/smart-answer/existing-child-arrangements', function(request, response) {
 
     var existingChildArrangements = request.session.data['existing-child-arrangements']
     if (existingChildArrangements == "make changes"){
-        response.redirect("/smart-answers/contact-each-other")
+        response.redirect("/smart-answer/contact-each-other")
     } else if (existingChildArrangements == "denying") {
-        response.redirect("/smart-answers/going-to-court")
+        response.redirect("/smart-answer/going-to-court")
     } else {
-        response.redirect("/smart-answers/contact-each-other")
+        response.redirect("/smart-answer/contact-each-other")
     }
 })
 
-router.post('/smart-answers/contact-each-other', function(request, response) {
+router.post('/smart-answer/contact-each-other', function(request, response) {
 
     var contactEachOther = request.session.data['contact-each-other']
     if (contactEachOther == "yes"){
-        response.redirect("/smart-answers/need-help-from-someone-else")
+        response.redirect("/smart-answer/need-help-from-someone-else")
     } else if (contactEachOther == "no") {
-        response.redirect("/smart-answers/when-you-are-not-in-contact")
+        response.redirect("/smart-answer/when-you-are-not-in-contact")
     } else {
-        response.redirect("/smart-answers/need-help-from-someone-else")
+        response.redirect("/smart-answer/need-help-from-someone-else")
     }
 })
 
-router.post('/smart-answers/need-help-from-someone-else', function(request, response) {
+router.post('/smart-answer/need-help-from-someone-else', function(request, response) {
     
     var contactEachOther = request.session.data['contact-each-other']
     var needHelpFromSomeoneElse = request.session.data['need-help-from-someone-else']
     if (needHelpFromSomeoneElse == "yes"){
-        response.redirect("/smart-answers/stick-to-an-agreement")
+        response.redirect("/smart-answer/stick-to-an-agreement")
     } else if (needHelpFromSomeoneElse == "no") {
-        response.redirect("/smart-answers/make-a-child-arrangements-plan")
+        response.redirect("/smart-answer/make-a-child-arrangements-plan")
     } else if (contactEachOther == "not sure" && needHelpFromSomeoneElse == "not sure") {
-        response.redirect("/smart-answers/not-enough-information")
+        response.redirect("/smart-answer/not-enough-information")
     } else {
-        response.redirect("/smart-answers/mediation")
+        response.redirect("/smart-answer/mediation")
     }
 })
 
-router.post('/smart-answers/stick-to-an-agreement', function(request, response) {
+router.post('/smart-answer/stick-to-an-agreement', function(request, response) {
 
     var needHelpFromSomeoneElse = request.session.data['need-help-from-someone-else']
     var stickToAnAgreement = request.session.data['stick-to-an-agreement']
     if (stickToAnAgreement == "yes"){
-        response.redirect("/smart-answers/mediation")
+        response.redirect("/smart-answer/mediation")
     } else {
-        response.redirect("/smart-answers/arbitration")
+        response.redirect("/smart-answer/arbitration")
     } 
 })
 

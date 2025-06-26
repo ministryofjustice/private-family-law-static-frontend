@@ -1,7 +1,8 @@
 {% extends "layouts/main.html" %}
 
 {% block pageTitle %}
-Are you and the other parent able to contact each other? ​– {{ serviceName }} – GOV.UK Prototype Kit
+Do you think you and the other parent will need help from someone else to make you reach agreement? ​– {{ serviceName }}
+– GOV.UK Prototype Kit
 {% endblock %}
 
 {% block beforeContent %}
@@ -24,37 +25,37 @@ href: "javascript:window.history.back()"
 
   <div class="govuk-grid-column-two-thirds">
 
-    <form class="form" action="/smart-answers/contact-each-other" method="post">
+    <form class="form" action="/smart-answer/need-help-from-someone-else" method="post">
 
       <div class="govuk-form-group">
-        <fieldset class="govuk-fieldset" aria-describedby="contact-each-other-hint">
+        <fieldset class="govuk-fieldset" aria-describedby="need-help-from-someone-else-hint">
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
             <h1 class="govuk-fieldset__heading govuk-!-margin-top-6">
-              Are you and the other parent able to contact each other?
+              Do you think you and the other parent will need help from someone else to make you reach agreement?
             </h1>
           </legend>
-          <div id="contact-each-other-hint" class="govuk-hint">
-            For example, if you sent them a text message would they read it?
+          <div id="need-help-from-someone-else-hint" class="govuk-hint">
+            The other person might be a mediator, lawyer or judge.​
           </div>
           <div class="govuk-radios" data-module="govuk-radios">
             <div class="govuk-radios__item">
-              <input class="govuk-radios__input" id="contact-each-other" name="contact-each-other" type="radio"
-                value="yes">
-              <label class="govuk-label govuk-radios__label" for="contact-each-other">
+              <input class="govuk-radios__input" id="need-help-from-someone-else" name="need-help-from-someone-else"
+                type="radio" value="yes">
+              <label class="govuk-label govuk-radios__label" for="need-help-from-someone-else">
                 Yes
               </label>
             </div>
             <div class="govuk-radios__item">
-              <input class="govuk-radios__input" id="contact-each-other-2" name="contact-each-other" type="radio"
-                value="no">
-              <label class="govuk-label govuk-radios__label" for="contact-each-other-2">
+              <input class="govuk-radios__input" id="need-help-from-someone-else-2" name="need-help-from-someone-else"
+                type="radio" value="no">
+              <label class="govuk-label govuk-radios__label" for="need-help-from-someone-else-2">
                 No
               </label>
             </div>
             <div class="govuk-radios__item">
-              <input class="govuk-radios__input" id="contact-each-other-3" name="contact-each-other" type="radio"
-                value="not sure">
-              <label class="govuk-label govuk-radios__label" for="contact-each-other-3">
+              <input class="govuk-radios__input" id="need-help-from-someone-else-3" name="need-help-from-someone-else"
+                type="radio" value="not sure">
+              <label class="govuk-label govuk-radios__label" for="need-help-from-someone-else-3">
                 I'm not sure
               </label>
             </div>
@@ -71,50 +72,7 @@ href: "javascript:window.history.back()"
     <h2 class="govuk-heading-m govuk-!-margin-top-9">Your answers</h2>
     <p><a href="/get-help-with-child-arrangements" class="govuk-link">Start again</a></p>
 
-
-    {% if (data['child-arrangements-in-place'] == "no") %}
-    <div class="govuk-!-margin-top-6">
-      <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Are the children safe?
-          </dt>
-          <dd class="govuk-summary-list__value">
-            {{data['child-safety']|capitalize}}
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="child-safety">Change<span class="govuk-visually-hidden"> Are the children
-                safe?</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            If you had to talk to the other parent or carer about your child, would you feel bullied or unsafe?
-          </dt>
-          <dd class="govuk-summary-list__value">
-            {{data['feel-bullied-or-unsafe']|capitalize}}
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="feel-bullied-or-unsafe">Change<span class="govuk-visually-hidden"> If you had to
-                talk to the other parent or carer about your child, would you feel bullied or unsafe?</span></a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            Do you have any child arrangements in place at the moment?​
-          </dt>
-          <dd class="govuk-summary-list__value">
-            {{data['child-arrangements-in-place']|capitalize}}
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="child-arrangements-in-place">Change<span class="govuk-visually-hidden"> Do you
-                have any child arrangements in place at the moment?​</span></a>
-          </dd>
-        </div>
-      </dl>
-    </div>
-
-    {% elseif (data['child-arrangements-in-place'] == "yes") %}
+    {% if (data['child-arrangements-in-place'] == "yes") %}
     <div class="govuk-!-margin-top-6">
       <dl class="govuk-summary-list">
         <div class="govuk-summary-list__row">
@@ -164,11 +122,77 @@ href: "javascript:window.history.back()"
             <a class="govuk-link" href="existing-child-arrangements">Change<span class="govuk-visually-hidden">What is
                 the situation with your existing child arrangements?​</span></a>
           </dd>
-        </div>​​
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Are you and the other parent able to contact each other?
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['contact-each-other']|capitalize}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="contact-each-other">Change<span class="govuk-visually-hidden">Are you and the
+                other parent able to contact each other?​</span></a>
+          </dd>
+        </div>
       </dl>
     </div>
-    {% endif %}
 
+    {% elif (data['child-arrangements-in-place'] == "no") %}
+    <div class="govuk-!-margin-top-6">
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Are the children safe?
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['child-safety']|capitalize}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="child-safety">Change<span class="govuk-visually-hidden"> Are the children
+                safe?</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            If you had to talk to the other parent or carer about your child, would you feel bullied or unsafe?
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['feel-bullied-or-unsafe']|capitalize}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="feel-bullied-or-unsafe">Change<span class="govuk-visually-hidden"> If you had to
+                talk to the other parent or carer about your child, would you feel bullied or unsafe?</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Do you have any child arrangements in place at the moment?​
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['child-arrangements-in-place']|capitalize}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="child-arrangements-in-place">Change<span class="govuk-visually-hidden"> Do you
+                have any child arrangements in place at the moment?​</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Are you and the other parent able to contact each other?
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['contact-each-other']|capitalize}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="contact-each-other">Change<span class="govuk-visually-hidden">Are you and the
+                other parent able to contact each other?​</span></a>
+          </dd>
+        </div>
+      </dl>
+    </div>
+
+    {% endif %}
   </div>
 </div>
 

@@ -1,8 +1,8 @@
 {% extends "layouts/main.html" %}
 
 {% block pageTitle %}
-Do you think you and the other parent will need help from someone else to make you reach agreement? ​– {{ serviceName }}
-– GOV.UK Prototype Kit
+Do you think you both would be able to stick to an agreement you made between yourselves? ​– {{ serviceName }} – GOV.UK
+Prototype Kit
 {% endblock %}
 
 {% block beforeContent %}
@@ -25,38 +25,28 @@ href: "javascript:window.history.back()"
 
   <div class="govuk-grid-column-two-thirds">
 
-    <form class="form" action="/smart-answers/need-help-from-someone-else" method="post">
+    <form class="form" action="/smart-answer/stick-to-an-agreement" method="post">
 
       <div class="govuk-form-group">
-        <fieldset class="govuk-fieldset" aria-describedby="need-help-from-someone-else-hint">
+        <fieldset class="govuk-fieldset" aria-describedby="stick-to-an-agreement-hint">
           <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
             <h1 class="govuk-fieldset__heading govuk-!-margin-top-6">
-              Do you think you and the other parent will need help from someone else to make you reach agreement?
+              Do you think you both would be able to stick to an agreement you made between yourselves?
             </h1>
           </legend>
-          <div id="need-help-from-someone-else-hint" class="govuk-hint">
-            The other person might be a mediator, lawyer or judge.​
-          </div>
           <div class="govuk-radios" data-module="govuk-radios">
             <div class="govuk-radios__item">
-              <input class="govuk-radios__input" id="need-help-from-someone-else" name="need-help-from-someone-else"
-                type="radio" value="yes">
-              <label class="govuk-label govuk-radios__label" for="need-help-from-someone-else">
+              <input class="govuk-radios__input" id="stick-to-an-agreement" name="stick-to-an-agreement" type="radio"
+                value="yes">
+              <label class="govuk-label govuk-radios__label" for="stick-to-an-agreement">
                 Yes
               </label>
             </div>
             <div class="govuk-radios__item">
-              <input class="govuk-radios__input" id="need-help-from-someone-else-2" name="need-help-from-someone-else"
-                type="radio" value="no">
-              <label class="govuk-label govuk-radios__label" for="need-help-from-someone-else-2">
-                No
-              </label>
-            </div>
-            <div class="govuk-radios__item">
-              <input class="govuk-radios__input" id="need-help-from-someone-else-3" name="need-help-from-someone-else"
-                type="radio" value="not sure">
-              <label class="govuk-label govuk-radios__label" for="need-help-from-someone-else-3">
-                I'm not sure
+              <input class="govuk-radios__input" id="stick-to-an-agreement-2" name="stick-to-an-agreement" type="radio"
+                value="no">
+              <label class="govuk-label govuk-radios__label" for="stick-to-an-agreement-2">
+                No, there would need to be legal penalties for not sticking to the arrangements
               </label>
             </div>
           </div>
@@ -135,6 +125,18 @@ href: "javascript:window.history.back()"
                 other parent able to contact each other?​</span></a>
           </dd>
         </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Do you think you and the other parent will need help from someone else to make you reach agreement?
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['need-help-from-someone-else']|capitalize}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="need-help-from-someone-else">Change<span class="govuk-visually-hidden">Do you
+                think you and the other parent will need help from someone else to make you reach agreement?​</span></a>
+          </dd>
+        </div>
       </dl>
     </div>
 
@@ -189,10 +191,24 @@ href: "javascript:window.history.back()"
                 other parent able to contact each other?​</span></a>
           </dd>
         </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Do you think you and the other parent will need help from someone else to make you reach agreement?
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['need-help-from-someone-else']|capitalize}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="need-help-from-someone-else">Change<span class="govuk-visually-hidden">Do you
+                think you and the other parent will need help from someone else to make you reach agreement?​</span></a>
+          </dd>
+        </div>
       </dl>
     </div>
 
     {% endif %}
+
+
   </div>
 </div>
 
