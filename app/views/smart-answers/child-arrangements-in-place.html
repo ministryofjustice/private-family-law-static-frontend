@@ -1,0 +1,98 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+​Do you have any child arrangements in place at the moment?– {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<style>
+  @media (min-width: 40.0625em) {
+    .govuk-summary-list__key {
+      width: 60%;
+    }
+  }
+</style>
+
+<div class="govuk-grid-row">
+
+  <div class="govuk-grid-column-two-thirds">
+
+    <form class="form" action="/smart-answers/child-arrangements-in-place" method="post">
+
+      <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset" aria-describedby="child-arrangements-in-place-hint">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+            <h1 class="govuk-fieldset__heading govuk-!-margin-top-6">
+              Do you have any child arrangements in place at the moment?​
+            </h1>
+          </legend>
+          <div class="govuk-radios" data-module="govuk-radios">
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="child-arrangements-in-place" name="child-arrangements-in-place"
+                type="radio" value="yes">
+              <label class="govuk-label govuk-radios__label" for="child-arrangements-in-place">
+                Yes
+              </label>
+            </div>
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="child-arrangements-in-place-2" name="child-arrangements-in-place"
+                type="radio" value="no">
+              <label class="govuk-label govuk-radios__label" for="child-arrangements-in-place-2">
+                No
+              </label>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+
+      {{ govukButton({
+      text: "Continue"
+      }) }}
+
+    </form>
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-9">Your answers</h2>
+    <p><a href="/get-help-with-child-arrangements" class="govuk-link">Start again</a></p>
+
+    <div class="govuk-!-margin-top-6">
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Are the children safe?
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['child-safety']|capitalize}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="child-safety">Change<span class="govuk-visually-hidden"> Are the children
+                safe?</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            If you had to talk to the other parent or carer about your child, would you feel bullied or unsafe?
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['feel-bullied-or-unsafe']|capitalize}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="feel-bullied-or-unsafe">Change<span class="govuk-visually-hidden"> Are the
+                children
+                safe?</span></a>
+          </dd>
+        </div>
+      </dl>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

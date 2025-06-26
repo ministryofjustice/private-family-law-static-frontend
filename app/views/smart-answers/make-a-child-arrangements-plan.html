@@ -1,0 +1,191 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+What to do next -Make a child arrangements plan – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+<style>
+  @media (min-width: 40.0625em) {
+    .govuk-summary-list__key {
+      width: 60%;
+    }
+  }
+</style>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-l">What to do next</h1>
+
+    <p>The best route for you is to agree child arrangements using the <a href="#" class="govuk-link">Make a child
+        arrangements plan service</a>.</p>
+
+    <p>You will create suggestions for your child arrangements and the other parent will be able to respond until you
+      both reach agreement. At the end, you will have a written plan in place that can help give children security and
+      stability. </p>
+
+    <button type="submit" class="govuk-button govuk-!-margin-top-6" data-module="govuk-button"
+      data-govuk-button-init="">
+      Make a plan
+    </button>
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-9">Your answers</h2>
+    <p><a href="/get-help-with-child-arrangements" class="govuk-link">Start again</a></p>
+
+    {% if (data['child-arrangements-in-place'] == "yes") %}
+    <div class="govuk-!-margin-top-6">
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Are the children safe?
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['child-safety']|capitalize}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="child-safety">Change<span class="govuk-visually-hidden"> Are the children
+                safe?</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            If you had to talk to the other parent or carer about your child, would you feel bullied or unsafe?
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['feel-bullied-or-unsafe']|capitalize}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="feel-bullied-or-unsafe">Change<span class="govuk-visually-hidden"> If you had to
+                talk to the other parent or carer about your child, would you feel bullied or unsafe?</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Do you have any child arrangements in place at the moment?​
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['child-arrangements-in-place']|capitalize}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="child-arrangements-in-place">Change<span class="govuk-visually-hidden"> Do you
+                have any child arrangements in place at the moment?​</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            What is the situation with your existing child arrangements?
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['existing-child-arrangements']|capitalize}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="existing-child-arrangements">Change<span class="govuk-visually-hidden">What is
+                the situation with your existing child arrangements?​</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Are you and the other parent able to contact each other?
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['contact-each-other']|capitalize}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="contact-each-other">Change<span class="govuk-visually-hidden">Are you and the
+                other parent able to contact each other?​</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Do you think you and the other parent will need help from someone else to make you reach agreement?
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['need-help-from-someone-else']|capitalize}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="need-help-from-someone-else">Change<span class="govuk-visually-hidden">Do you
+                think you and the other parent will need help from someone else to make you reach agreement?​</span></a>
+          </dd>
+        </div>
+      </dl>
+    </div>
+
+    {% elif (data['child-arrangements-in-place'] == "no") %}
+    <div class="govuk-!-margin-top-6">
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Are the children safe?
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['child-safety']|capitalize}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="child-safety">Change<span class="govuk-visually-hidden"> Are the children
+                safe?</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            If you had to talk to the other parent or carer about your child, would you feel bullied or unsafe?
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['feel-bullied-or-unsafe']|capitalize}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="feel-bullied-or-unsafe">Change<span class="govuk-visually-hidden"> If you had to
+                talk to the other parent or carer about your child, would you feel bullied or unsafe?</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Do you have any child arrangements in place at the moment?​
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['child-arrangements-in-place']|capitalize}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="child-arrangements-in-place">Change<span class="govuk-visually-hidden"> Do you
+                have any child arrangements in place at the moment?​</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Are you and the other parent able to contact each other?
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['contact-each-other']|capitalize}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="contact-each-other">Change<span class="govuk-visually-hidden">Are you and the
+                other parent able to contact each other?​</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Do you think you and the other parent will need help from someone else to make you reach agreement?
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['need-help-from-someone-else']|capitalize}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="need-help-from-someone-else">Change<span class="govuk-visually-hidden">Do you
+                think you and the other parent will need help from someone else to make you reach agreement?​</span></a>
+          </dd>
+        </div>
+      </dl>
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+
+{% endblock %}

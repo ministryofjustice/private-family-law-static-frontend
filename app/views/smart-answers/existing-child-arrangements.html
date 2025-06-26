@@ -1,0 +1,115 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+What is the situation with your existing child arrangements? ​– {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+<style>
+  @media (min-width: 40.0625em) {
+    .govuk-summary-list__key {
+      width: 60%;
+    }
+  }
+</style>
+
+<div class="govuk-grid-row">
+
+  <div class="govuk-grid-column-two-thirds">
+
+    <form class="form" action="/smart-answers/existing-child-arrangements" method="post">
+
+      <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset" aria-describedby="existing-child-arrangements-hint">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+            <h1 class="govuk-fieldset__heading govuk-!-margin-top-6">
+              What is the situation with your existing child arrangements?​​
+            </h1>
+          </legend>
+          <div class="govuk-radios" data-module="govuk-radios">
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="existing-child-arrangements" name="existing-child-arrangements"
+                type="radio" value="make changes">
+              <label class="govuk-label govuk-radios__label" for="existing-child-arrangements">
+                We need to make changes to our existing child arrangements​
+              </label>
+            </div>
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="existing-child-arrangements-2" name="existing-child-arrangements"
+                type="radio" value="denying">
+              <label class="govuk-label govuk-radios__label" for="existing-child-arrangements-2">
+                The other parent is denying me contact with the children​
+              </label>
+            </div>
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="existing-child-arrangements-3" name="existing-child-arrangements"
+                type="radio" value="dispute">
+              <label class="govuk-label govuk-radios__label" for="existing-child-arrangements-3">
+                There is some other dispute which we are unable to solve
+              </label>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+
+      {{ govukButton({
+      text: "Continue"
+      }) }}
+
+    </form>
+
+    <h2 class="govuk-heading-m govuk-!-margin-top-9">Your answers</h2>
+    <p><a href="/get-help-with-child-arrangements" class="govuk-link">Start again</a></p>
+
+    <div class="govuk-!-margin-top-6">
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Are the children safe?
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['child-safety']|capitalize}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="child-safety">Change<span class="govuk-visually-hidden"> Are the children
+                safe?</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            If you had to talk to the other parent or carer about your child, would you feel bullied or unsafe?
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['feel-bullied-or-unsafe']|capitalize}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="feel-bullied-or-unsafe">Change<span class="govuk-visually-hidden"> If you had to
+                talk to the other parent or carer about your child, would you feel bullied or unsafe?</span></a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">
+            Do you have any child arrangements in place at the moment?​
+          </dt>
+          <dd class="govuk-summary-list__value">
+            {{data['child-arrangements-in-place']|capitalize}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="child-arrangements-in-place">Change<span class="govuk-visually-hidden"> Do you
+                have any child arrangements in place at the moment?​</span></a>
+          </dd>
+        </div>
+      </dl>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

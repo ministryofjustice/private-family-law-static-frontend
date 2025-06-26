@@ -1,0 +1,48 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+Get help with child arrangements – {{ serviceName }} – GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-xl">
+      Get help with child arrangements
+    </h1>
+
+    <p>Find out your options for:​</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>making child arrangements​</li>
+      <li>fixing problems with arrangements you already have​</li>
+    </ul>
+
+    <p>This includes problems such as:​</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>if the other parent or carer isn’t sticking to the agreement​</li>
+      <li>finding the cheapest, fastest way to make or change arrangements​</li>
+      <li>solving conflict without going to court​</li>
+    </ul>
+
+
+    <a href="child-safety" role="button" draggable="false" class="govuk-button govuk-button--start govuk-!-margin-top-6"
+      data-module="govuk-button" data-govuk-button-init="">
+      Start now
+      <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19"
+        viewBox="0 0 33 40" aria-hidden="true" focusable="false">
+        <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z"></path>
+      </svg>
+    </a>
+
+  </div>
+
+  {% endblock %}

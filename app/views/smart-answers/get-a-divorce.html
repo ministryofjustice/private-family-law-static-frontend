@@ -1,0 +1,300 @@
+{% extends "govuk-prototype-kit/layouts/govuk-branded.html" %}
+
+{% block pageTitle %}
+Get a divorce: step by step - {{ serviceName }} - GOV.UK Prototype Kit
+{% endblock %}
+
+{% block header %}
+<!-- Blank header with no service name for the start page -->
+{{ govukHeader() }}
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block pageScripts %}
+<script type="text/javascript">
+  var $element = document.querySelector('#step-by-step-navigation')
+  var stepByStepNavigation = new GOVUK.Modules.AppStepNav($element).init()
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-l">
+      Get a divorce: step by step
+    </h1>
+
+    <p>How to file for divorce if you're in England or Wales.</p>
+    <p>There's a different process if you're <a class="govuk-link"
+        href="https://www.gov.uk/respond-divorce-application">responding to a divorce application ('petition')</a> or
+      you're
+      in <a class="govuk-link"
+        href="https://www.scotcourts.gov.uk/taking-action/divorce-and-dissolution-of-civil-partnership">Scotland</a> or
+      <a class="govuk-link"
+        href="https://www.nidirect.gov.uk/articles/getting-divorce-or-dissolving-civil-partnership">Northern
+        Ireland</a>.
+    </p>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <div data-module="appstepnav" id="step-by-step-navigation" class="app-step-nav js-hidden app-step-nav--large"
+      data-show-text="Show" data-hide-text="Hide" data-show-all-text="Show all steps"
+      data-hide-all-text="Hide all steps">
+      <ol class="app-step-nav__steps">
+        <li class="app-step-nav__step js-step" id="get-support-and-advice">
+          <div class="app-step-nav__header js-toggle-panel" data-position="1">
+            <h2 class="app-step-nav__title">
+              <span class="app-step-nav__circle app-step-nav__circle--number">
+                <span class="app-step-nav__circle-inner">
+                  <span class="app-step-nav__circle-background">
+                    <span class="govuk-visually-hidden govuk-!-display-none-print">Step</span> 1<span
+                      class="govuk-visually-hidden govuk-!-display-none-print" aria-hidden="true">:</span>
+                  </span>
+                </span>
+              </span>
+
+              <span class="js-step-title">
+                Get support and advice
+              </span>
+            </h2>
+          </div>
+
+          <div class="app-step-nav__panel js-panel" id="step-panel-get-support-and-advice">
+            <p class="app-step-nav__paragraph">You can get support or counselling to help you through the divorce
+              process.</p>
+
+            <ol class="app-step-nav__list " data-length="2">
+              <li class="app-step-nav__list-item js-list-item ">
+                <a data-position="1.1" class="app-step-nav__link js-link" href="#">Get support and advice from
+                  Relate</a>
+              </li>
+              <li class="app-step-nav__list-item js-list-item ">
+                <a data-position="1.2" class="app-step-nav__link js-link" href="#">Find a counsellor on Counselling
+                  Directory</a>
+              </li>
+            </ol>
+          </div>
+
+        </li>
+
+        <li class="app-step-nav__step js-step" id="check-if-you-can-get-divorced">
+          <div class="app-step-nav__header js-toggle-panel" data-position="2">
+            <h2 class="app-step-nav__title">
+              <span class="app-step-nav__circle app-step-nav__circle--number">
+                <span class="app-step-nav__circle-inner">
+                  <span class="app-step-nav__circle-background">
+                    <span class="govuk-visually-hidden govuk-!-display-none-print">Step</span> 2<span
+                      class="govuk-visually-hidden govuk-!-display-none-print" aria-hidden="true">:</span>
+                  </span>
+                </span>
+              </span>
+
+              <span class="js-step-title">
+                Check if you can get divorced
+              </span>
+            </h2>
+          </div>
+
+          <div class="app-step-nav__panel js-panel" id="step-panel-check-if-you-can-get-divorced">
+            <ol class="app-step-nav__list " data-length="2">
+              <li class="app-step-nav__list-item js-list-item ">
+                <a data-position="2.1" class="app-step-nav__link js-link" href="#">Check if you can get a divorce</a>
+              </li>
+              <li class="app-step-nav__list-item js-list-item ">
+                <a data-position="2.1" class="app-step-nav__link js-link" href="#">Get legal advice if you want help
+                  with the divorce process</a>
+              </li>
+            </ol>
+          </div>
+
+        </li>
+
+        <li class="app-step-nav__step js-step" id="make-arrangements-for-children-money-and-property">
+          <div class="app-step-nav__header js-toggle-panel" data-position="3">
+            <h2 class="app-step-nav__title">
+              <span class="app-step-nav__circle app-step-nav__circle--number">
+                <span class="app-step-nav__circle-inner">
+                  <span class="app-step-nav__circle-background">
+                    <span class="govuk-visually-hidden govuk-!-display-none-print">Step</span> 3<span
+                      class="govuk-visually-hidden govuk-!-display-none-print" aria-hidden="true">:</span>
+                  </span>
+                </span>
+              </span>
+
+              <span class="js-step-title">
+                Make arrangements for children, money and property
+              </span>
+            </h2>
+          </div>
+
+          <div class="app-step-nav__panel js-panel" id="step-panel-make-arrangements-for-children-money-and-property">
+            <ol class="app-step-nav__list " data-length="3">
+              <li class="app-step-nav__list-item js-list-item ">
+                <a data-position="3.1" class="app-step-nav__link js-link" href="child-arrangements-help-finder">Child
+                  arrangements help finder</a>
+              </li>
+              <li class="app-step-nav__list-item js-list-item ">
+                <a data-position="3.2" class="app-step-nav__link js-link" href="looking-after-children-divorce">Make
+                  arrangements for your
+                  children</a>
+              </li>
+              <li class="app-step-nav__list-item js-list-item ">
+                <a data-position="3.3" class="app-step-nav__link js-link" href="#">Divide your money and property</a>
+              </li>
+              <li class="app-step-nav__list-item js-list-item ">
+                <a data-position="3.4" class="app-step-nav__link js-link" href="#">Check if your divorce will affect
+                  whether you can live in your current home</a>
+              </li>
+            </ol>
+          </div>
+
+        </li>
+
+        <li class="app-step-nav__step js-step" id="apply-for-a-divorce">
+          <div class="app-step-nav__header js-toggle-panel" data-position="4">
+            <h2 class="app-step-nav__title">
+              <span class="app-step-nav__circle app-step-nav__circle--number">
+                <span class="app-step-nav__circle-inner">
+                  <span class="app-step-nav__circle-background">
+                    <span class="govuk-visually-hidden govuk-!-display-none-print">Step</span> 4<span
+                      class="govuk-visually-hidden govuk-!-display-none-print" aria-hidden="true">:</span>
+                  </span>
+                </span>
+              </span>
+
+              <span class="js-step-title">
+                Apply for a divorce
+              </span>
+            </h2>
+          </div>
+
+          <div class="app-step-nav__panel js-panel" id="step-panel-apply-for-a-divorce">
+            <ol class="app-step-nav__list " data-length="4">
+              <li class="app-step-nav__list-item js-list-item ">
+                <a data-position="4.1" class="app-step-nav__link js-link" href="#">Apply for a divorce online or by post
+                  <span class="app-step-nav__context">£612</span></a>
+              </li>
+              <li class="app-step-nav__list-item js-list-item ">
+                <a data-position="4.2" class="app-step-nav__link js-link" href="#">Get help with court fees</a>
+              </li>
+              <li class="app-step-nav__list-item js-list-item ">
+                <a data-position="4.3" class="app-step-nav__link js-link" href="#">Get legal advice</a>
+              </li>
+              <li class="app-step-nav__list-item js-list-item ">
+                <a data-position="4.4" class="app-step-nav__link js-link" href="#">Get help if your husband or wife
+                  cannot make decisions for themselves</a>
+              </li>
+            </ol>
+          </div>
+
+        </li>
+
+        <li class="app-step-nav__step js-step" id="apply-for-a-conditional-order">
+          <div class="app-step-nav__header js-toggle-panel" data-position="5">
+            <h2 class="app-step-nav__title">
+              <span class="app-step-nav__circle app-step-nav__circle--number">
+                <span class="app-step-nav__circle-inner">
+                  <span class="app-step-nav__circle-background">
+                    <span class="govuk-visually-hidden govuk-!-display-none-print">Step</span> 5<span
+                      class="govuk-visually-hidden govuk-!-display-none-print" aria-hidden="true">:</span>
+                  </span>
+                </span>
+              </span>
+
+              <span class="js-step-title">
+                Apply for a 'conditional order' or 'decree nisi'
+              </span>
+            </h2>
+          </div>
+
+          <div class="app-step-nav__panel js-panel" id="step-panel-apply-for-a-conditional-order">
+            <ol class="app-step-nav__list " data-length="1">
+              <li class="app-step-nav__list-item js-list-item ">
+                <a data-position="5.1" class="app-step-nav__link js-link" href="#">Apply for a ‘conditional order’ or
+                  'decree nisi'</a>
+              </li>
+            </ol>
+          </div>
+
+        </li>
+
+        <li class="app-step-nav__step js-step" id="finalise-your-divorce">
+          <div class="app-step-nav__header js-toggle-panel" data-position="6">
+            <h2 class="app-step-nav__title">
+              <span class="app-step-nav__circle app-step-nav__circle--number">
+                <span class="app-step-nav__circle-inner">
+                  <span class="app-step-nav__circle-background">
+                    <span class="govuk-visually-hidden govuk-!-display-none-print">Step</span> 6<span
+                      class="govuk-visually-hidden govuk-!-display-none-print" aria-hidden="true">:</span>
+                  </span>
+                </span>
+              </span>
+
+              <span class="js-step-title">
+                Finalise your divorce
+              </span>
+            </h2>
+          </div>
+
+          <div class="app-step-nav__panel js-panel" id="step-panel-finalise-your-divorce">
+            <ol class="app-step-nav__list " data-length="1">
+              <li class="app-step-nav__list-item js-list-item ">
+                <a data-position="7.1" class="app-step-nav__link js-link" href="#">Apply for a ‘final order’ or 'decree
+                  absolute'</a>
+              </li>
+            </ol>
+          </div>
+
+        </li>
+
+        <li class="app-step-nav__step js-step" id="report-that-your-circumstances-have-changed">
+          <div class="app-step-nav__header js-toggle-panel" data-position="7">
+            <h2 class="app-step-nav__title">
+              <span class="app-step-nav__circle app-step-nav__circle--number">
+                <span class="app-step-nav__circle-inner">
+                  <span class="app-step-nav__circle-background">
+                    <span class="govuk-visually-hidden govuk-!-display-none-print">Step</span> 7<span
+                      class="govuk-visually-hidden govuk-!-display-none-print" aria-hidden="true">:</span>
+                  </span>
+                </span>
+              </span>
+
+              <span class="js-step-title">
+                Report that your circumstances have changed
+              </span>
+            </h2>
+          </div>
+
+          <div class="app-step-nav__panel js-panel" id="step-panel-report-that-your-circumstances-have-changed">
+            <p class="app-step-nav__paragraph">You also have to tell other government organisations that you're getting
+              divorced if:</p>
+            <ol class="app-step-nav__list " data-length="2">
+              <li class="app-step-nav__list-item js-list-item ">
+                <a data-position="7.1" class="app-step-nav__link js-link" href="#">you get benefits</a>
+              </li>
+              <li class="app-step-nav__list-item js-list-item ">
+                <a data-position="7.2" class="app-step-nav__link js-link" href="#">your visa is based on your
+                  marriage</a>
+              </li>
+            </ol>
+          </div>
+
+        </li>
+      </ol>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

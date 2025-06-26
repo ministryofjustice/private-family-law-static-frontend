@@ -1,0 +1,131 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+If you had to talk to the other parent or carer about your child, would you feel bullied or unsafe?​ – {{ serviceName }}
+– GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<style>
+  @media (min-width: 40.0625em) {
+    .govuk-summary-list__key {
+      width: 60%;
+    }
+  }
+</style>
+
+<div class="govuk-width-container">
+  <main class="govuk-main-wrapper " id="main-content" role="main">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds-from-desktop">
+        <h1 class="govuk-heading-xl">Check your answers</h1>
+        <dl class="govuk-summary-list govuk-!-margin-bottom-9">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Are the children safe?
+            </dt>
+            <dd class="govuk-summary-list__value">
+              {{data['child-safety']|capitalize}}
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="child-safety">Change<span class="govuk-visually-hidden"> Are the children
+                  safe?</span></a>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              If you had to talk to the other parent or carer about your child, would you feel bullied or unsafe?
+            </dt>
+            <dd class="govuk-summary-list__value">
+              {{data['feel-bullied-or-unsafe']|capitalize}}
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="feel-bullied-or-unsafe">Change<span class="govuk-visually-hidden"> Are the
+                  children
+                  safe?</span></a>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Do you have any child arrangements in place at the moment?​
+            </dt>
+            <dd class="govuk-summary-list__value">
+              {{data['child-arrangements-in-place']|capitalize}}
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="child-arrangements-in-place">Change<span class="govuk-visually-hidden">Do you
+                  have any child arrangements in place at the moment?​</span></a>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              What is the situation with your existing child arrangements?​​
+            </dt>
+            <dd class="govuk-summary-list__value">
+              {{data['existing-child-arrangements']|capitalize}}
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="existing-child-arrangements">Change<span class="govuk-visually-hidden">What is
+                  the situation with your existing child arrangements?​​</span></a>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Are you and the other parent able to contact each other?
+            </dt>
+            <dd class="govuk-summary-list__value">
+              {{data['contact-each-other']|capitalize}}
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="contact-each-other">Change<span class="govuk-visually-hidden">Are you and the
+                  other parent able to contact each other?</span></a>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Do you think you and the other parent will need help from someone else to make you reach agreement?
+            </dt>
+            <dd class="govuk-summary-list__value">
+              {{data['need-help-from-someone-else']|capitalize}}
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="need-help-from-someone-else">Change<span class="govuk-visually-hidden">Do you
+                  think
+                  you and the other parent will need help from someone else to make you reach agreement?</span></a>
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Do you think you both would be able to stick to an agreement you made between yourselves?
+            </dt>
+            <dd class="govuk-summary-list__value">
+              {{data['stick-to-an-agreement']|capitalize}}
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="stick-to-an-agreement">Change<span class="govuk-visually-hidden">Do you think
+                  you both would be able to stick to an agreement you made between yourselves?</span></a>
+            </dd>
+          </div>
+        </dl>
+        <h2 class="govuk-heading-m">Now check your options</h2>
+        <p class="govuk-body">Click to find the results</p>
+        <form action="/form-handler" method="post" novalidate>
+          <input type="hidden" name="answers-checked" value="true">
+          <button type="submit" class="govuk-button" data-module="govuk-button">
+            Continue
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>
+
+{% endblock %}

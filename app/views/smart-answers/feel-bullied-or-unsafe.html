@@ -1,0 +1,96 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+If you had to talk to the other parent or carer about your child, would you feel bullied or unsafe?​ – {{ serviceName }}
+– GOV.UK Prototype Kit
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+text: "Back",
+href: "javascript:window.history.back()"
+}) }}
+{% endblock %}
+
+{% block content %}
+
+<style>
+  @media (min-width: 40.0625em) {
+    .govuk-summary-list__key {
+      width: 60%;
+    }
+  }
+</style>
+
+<div class="govuk-grid-row">
+
+  <div class="govuk-exit-this-page govuk-!-margin-right-3" data-module="govuk-exit-this-page">
+    <a href="child-arrangements-help-finder" role="button" draggable="false"
+      class="govuk-button govuk-button--warning govuk-exit-this-page__button govuk-js-exit-this-page-button"
+      data-module="govuk-button" rel="nofollow noreferrer">
+      <span class="govuk-visually-hidden">Emergency</span> Exit this page
+    </a>
+  </div>
+
+  <div class="govuk-grid-column-two-thirds">
+
+    <form class="form" action="/smart-answers/feel-bullied-or-unsafe" method="post">
+
+      <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset" aria-describedby="feel-bullied-or-unsafe-hint">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+            <h1 class="govuk-fieldset__heading govuk-!-margin-top-6">
+              If you had to talk to the other parent or carer about your child, would you feel bullied or unsafe?​
+            </h1>
+          </legend>
+          <div class="govuk-radios" data-module="govuk-radios">
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="feel-bullied-or-unsafe" name="feel-bullied-or-unsafe" type="radio"
+                value="yes">
+              <label class="govuk-label govuk-radios__label" for="feel-bullied-or-unsafe">
+                Yes
+              </label>
+            </div>
+            <div class="govuk-radios__item">
+              <input class="govuk-radios__input" id="feel-bullied-or-unsafe-2" name="feel-bullied-or-unsafe"
+                type="radio" value="no">
+              <label class="govuk-label govuk-radios__label" for="feel-bullied-or-unsafe-2">
+                No
+              </label>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+
+      {{ govukButton({
+      text: "Continue"
+      }) }}
+
+    </form>
+
+    <div class="cya">
+      <h2 class="govuk-heading-m govuk-!-margin-top-9">Your answers</h2>
+      <p><a href="/get-help-with-child-arrangements" class="govuk-link">Start again</a></p>
+
+      <div class="govuk-!-margin-top-6">
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              Are the children safe?
+            </dt>
+            <dd class="govuk-summary-list__value">
+              {{data['child-safety']|capitalize}}
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="child-safety">Change<span class="govuk-visually-hidden"> Are the children
+                  safe?</span></a>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
